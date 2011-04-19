@@ -1,0 +1,123 @@
+﻿' ///////////////////////////////////////////////////////////////
+' This is generated code. 
+' //////////////////////////////////////////////////////////////
+' Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+' Code is generated on: <[Time]>
+' Code is generated using templates: <[TemplateName]>
+' Templates vendor: Solutions Design.
+' Templates version: <[TemplateVersion]>
+' //////////////////////////////////////////////////////////////
+Imports System
+Imports System.Xml.Serialization
+Imports System.Xml.Schema
+Imports System.Xml
+Imports System.IO
+
+Imports <[RootNamespace]>
+Imports <[RootNamespace]>.HelperClasses
+Imports <[RootNamespace]>.FactoryClasses
+Imports <[RootNamespace]>.RelationClasses
+
+Imports SD.LLBLGen.Pro.ORMSupportClasses
+
+#Region "Entity Classes"
+
+Namespace <[RootNamespace]>.EntityClasses
+<[Foreach Entity]>
+    <XmlSchemaProvider("GetEntitySchema")> _
+    Public Partial Class <[CurrentEntityName]>Entity
+        ''' <summary>
+        ''' Method which provides a schema for IXmlSerializable implementation so no proxies are generated.
+        ''' </summary>
+        ''' <param name="schemaSet">schema set which is the current schema for the type to produce</param>
+        ''' <returns></returns>
+        Public <[If IsSubType]>Shadows<[EndIf]> Shared Function GetEntitySchema(schemaSet As XmlSchemaSet ) As XmlQualifiedName
+            Dim namespaceToUse As String = "http://<[RootNamespace]>/xml/serialization"
+            Dim xs As XmlSchema = XmlSchema.Read( _
+                New StringReader( _
+                    String.Format("<xs:schema id='<[CurrentEntityName]>EntitySchema' targetNamespace='{0}' elementFormDefault='qualified' xmlns='{0}' xmlns:mstns='{0}' xmlns:xs='http://www.w3.org/2001/XMLSchema'><xs:complexType name='<[CurrentEntityName]>Entity'><xs:sequence><xs:any minOccurs='0'/></xs:sequence></xs:complexType></xs:schema>", _
+                        namespaceToUse)), Nothing)
+            schemaSet.XmlResolver = New XmlUrlResolver()
+            schemaSet.Add(xs)
+            Return New XmlQualifiedName("<[CurrentEntityName]>Entity", namespaceToUse)
+        End Function
+    End Class
+<[NextForeach]>
+End Namespace
+#End Region
+
+#Region "EntityCollection"
+Namespace <[RootNamespace]>.HelperClasses
+	<XmlSchemaProvider("GetEntityCollectionSchema")> _
+	Public Partial Class EntityCollection
+		Public Shared Function GetEntityCollectionSchema(schemaSet As XmlSchemaSet ) As XmlQualifiedName 
+			Dim namespaceToUse As String = "http://<[RootNamespace]>/xml/serialization"
+			Dim xs As XmlSchema = XmlSchema.Read( _
+				New StringReader( _
+					String.Format("<xs:schema id='EntityCollectionSchema' targetNamespace='{0}' elementFormDefault='qualified' xmlns='{0}' xmlns:mstns='{0}' xmlns:xs='http://www.w3.org/2001/XMLSchema'><xs:complexType name='EntityCollection'></xs:complexType></xs:schema>", _
+						namespaceToUse)), Nothing)
+			schemaSet.XmlResolver = New XmlUrlResolver()
+			schemaSet.Add(xs)
+			Return New XmlQualifiedName("EntityCollection", namespaceToUse)
+		End Function
+	End Class
+End Namespace
+#End Region
+
+#Region "TypedView Classes"
+Namespace <[RootNamespace]>.TypedViewClasses
+<[Foreach TypedView CrLf]>
+    <XmlSchemaProvider("GetTypedViewSchema")> _
+    Public Partial Class <[CurrentTypedViewName]>TypedView 
+
+        ''' <summary>
+        ''' Method which provides a schema for IXmlSerializable implementation so no proxies are generated.
+        ''' </summary>
+        ''' <param name="schemaSet">schema set which is the current schema for the type to produce</param>
+        ''' <returns></returns>
+        Public Shared Function GetTypedViewSchema(schemaSet As XmlSchemaSet) As XmlQualifiedName 
+            Dim namespaceToUse As String = "http://<[RootNamespace]>/xml/serialization"
+            Dim xs As XmlSchema = XmlSchema.Read( _
+                New StringReader( _
+                    string.Format("<xs:schema id='<[CurrentTypedViewName]>TypedViewSchema' targetNamespace='{0}' elementFormDefault='qualified' xmlns='{0}' xmlns:mstns='{0}' xmlns:xs='http://www.w3.org/2001/XMLSchema'><xs:complexType name='<[CurrentTypedViewName]>TypedView'><xs:sequence><xs:any minOccurs='0'/></xs:sequence></xs:complexType></xs:schema>", _
+                        namespaceToUse)), Nothing)
+            schemaSet.XmlResolver = New XmlUrlResolver()
+            schemaSet.Add(xs)
+            Return New XmlQualifiedName("<[CurrentTypedViewName]>TypedView", namespaceToUse)
+        End Function
+
+        Protected Overrides Function GetSchema() As System.Xml.Schema.XmlSchema 
+            Return Nothing
+        End Function
+    End Class<[NextForeach]>
+End Namespace
+#End Region
+
+#Region "TypedList Classes"
+Namespace <[RootNamespace]>.TypedListClasses
+<[Foreach TypedList CrLf]>
+    <XmlSchemaProvider("GetTypedListSchema")> _
+    Public Partial Class <[CurrentTypedListName]>TypedList 
+
+        ''' <summary>
+        ''' Method which provides a schema for IXmlSerializable implementation so no proxies are generated.
+        ''' </summary>
+        ''' <param name="schemaSet">schema set which is the current schema for the type to produce</param>
+        ''' <returns></returns>
+        Public Shared Function GetTypedListSchema(schemaSet As XmlSchemaSet) As XmlQualifiedName 
+            Dim namespaceToUse As String = "http://<[RootNamespace]>/xml/serialization"
+            Dim xs As XmlSchema = XmlSchema.Read( _
+                New StringReader( _
+                    string.Format("<xs:schema id='<[CurrentTypedListName]>TypedListSchema' targetNamespace='{0}' elementFormDefault='qualified' xmlns='{0}' xmlns:mstns='{0}' xmlns:xs='http://www.w3.org/2001/XMLSchema'><xs:complexType name='<[CurrentTypedListName]>TypedList'><xs:sequence><xs:any minOccurs='0'/></xs:sequence></xs:complexType></xs:schema>", _
+                        namespaceToUse)), Nothing)
+            schemaSet.XmlResolver = New XmlUrlResolver()
+            schemaSet.Add(xs)
+            Return New XmlQualifiedName("<[CurrentTypedListName]>TypedList", namespaceToUse)
+        End Function
+
+        Protected Overrides Function GetSchema() As System.Xml.Schema.XmlSchema 
+            Return Nothing
+        End Function
+    End Class<[NextForeach]>
+End Namespace
+#End Region

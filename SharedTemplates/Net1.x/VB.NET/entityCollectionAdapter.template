@@ -1,0 +1,67 @@
+﻿' ///////////////////////////////////////////////////////////////
+' // This is generated code. 
+' //////////////////////////////////////////////////////////////
+' // Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+' // Code is generated on: <[Time]>
+' // Code is generated using templates: <[TemplateName]>
+' // Templates vendor: Solutions Design.
+' // Templates version: <[TemplateVersion]>
+' //////////////////////////////////////////////////////////////
+Imports System
+Imports System.Collections
+Imports System.ComponentModel
+Imports System.Runtime.Serialization
+
+Imports <[RootNamespace]>.EntityClasses
+
+Imports SD.LLBLGen.Pro.ORMSupportClasses
+<[ UserCodeRegion "AdditionalNamespaces" ]>
+' __LLBLGENPRO_USER_CODE_REGION_START AdditionalNamespaces
+' __LLBLGENPRO_USER_CODE_REGION_END
+<[ EndUserCodeRegion ]>
+Namespace <[RootNamespace]>.HelperClasses
+	''' <summary>
+	''' Generic Collection class for storing collections of entities of the same type.
+	''' </summary>
+	<Serializable()> _
+	Public Class EntityCollection 
+		Inherits EntityCollectionBase2
+
+		''' <summary>
+		''' CTor
+		''' </summary>
+		Public Sub New()
+		End Sub
+
+
+		''' <summary>
+		''' CTor
+		''' </summary>
+		''' <param name="entityFactoryToUse">The entity factory object to use when this collection has to construct new objects.
+		''' This is the case when the collection is bound to a grid-like control for example.</param>
+		Public Sub New(entityFactoryToUse As IEntityFactory2)
+			MyBase.New(entityFactoryToUse)
+		End Sub
+
+
+		''' <summary>
+		''' Private CTor for deserialization
+		''' </summary>
+		''' <param name="info"></param>
+		''' <param name="context"></param>
+		Private Sub New(info As SerializationInfo, context As StreamingContext)
+			MyBase.New(info, context)
+		End Sub
+
+#Region "Custom EntityCollection code"
+		<[ UserCodeRegion "CustomEntityCollectionCode" ]>
+		' __LLBLGENPRO_USER_CODE_REGION_START CustomEntityCollectionCode
+		' __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>
+#End Region
+
+#Region "Included Code"
+<# Custom_EntityCollectionAdapterTemplate #>
+#End Region
+	End Class
+End Namespace

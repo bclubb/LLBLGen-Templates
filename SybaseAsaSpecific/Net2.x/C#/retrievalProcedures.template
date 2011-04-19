@@ -1,0 +1,102 @@
+﻿///////////////////////////////////////////////////////////////
+// This is generated code. 
+//////////////////////////////////////////////////////////////
+// Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+// Code is generated on: <[Time]>
+// Code is generated using templates: <[TemplateName]>
+// Templates vendor: Solutions Design.
+// Templates version: <[TemplateVersion]>
+//////////////////////////////////////////////////////////////
+using System;
+using System.Data;
+using iAnywhere.Data.SQLAnywhere;
+
+using <[RootNamespace]>.HelperClasses;
+
+using SD.LLBLGen.Pro.ORMSupportClasses;
+
+namespace <[RootNamespace]>.StoredProcedureCallerClasses
+{
+	/// <summary>
+	/// Class which contains the static logic to execute retrieval stored procedures in the database.
+	/// </summary>
+	public <[If UsePartialClasses]>partial <[EndIf]>class RetrievalProcedures
+	{
+		/// <summary>
+		/// private CTor so no instance can be created.
+		/// </summary>
+		private RetrievalProcedures()
+		{
+		}
+
+	<[Foreach RetrievalStoredProcedureCall CrLf]>
+		/// <summary>
+		/// Calls stored procedure '<[ActualStoredProcedureName]>'.<br/><br/>
+		/// <[Foreach CustomProperty RetrievalStoredProcedureCall]>
+		/// <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+		/// </summary>
+<[If HasParameter]><[Foreach Parameter CrLf]>		/// <param name="<[CaseCamel CurrentParameterName]>"><[CurrentParameterDirection]> parameter of stored procedure</param><[NextForeach]>
+<[EndIf]>		/// <returns>Filled DataSet with resultset(s) of stored procedure</returns>
+		public static DataSet <[CurrentSPCallName]>(<[Foreach InputParameter Comma]><[If IsNullable]><[If IsValueType]>Nullable<<[TypeOfParameter]>><[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]> <[CaseCamel CurrentParameterName]><[NextForeach]><[If HasInputAndOutputParameters]>, <[EndIf]><[Foreach OutputParameter Comma]>ref <[If IsNullable]><[If IsValueType]>Nullable<<[TypeOfParameter]>><[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]> <[CaseCamel CurrentParameterName]><[NextForeach]>)
+		{
+			// create parameters
+			SAParameter[] parameters = new SAParameter[<[AmountOfParameters]>];
+<[Foreach InputParameter CrLf]>			parameters[<[ParameterIndex]>] = new SAParameter("<[ActualParameterName]>", SADbType.<[TypeOfActualParameter]>, <[ParameterSize]>, ParameterDirection.<[CurrentParameterDirection]>, true, <[ParameterPrecision]>, <[ParameterScale]>, "",  DataRowVersion.Current, <[CaseCamel CurrentParameterName]>);<[NextForeach]>
+<[Foreach OutputParameter CrLf]>			parameters[<[ParameterIndex]>] = new SAParameter("<[ActualParameterName]>", SADbType.<[TypeOfActualParameter]>, <[ParameterSize]>, ParameterDirection.<[CurrentParameterDirection]>, true, <[ParameterPrecision]>, <[ParameterScale]>, "",  DataRowVersion.Current, <[CaseCamel CurrentParameterName]>);<[NextForeach]>
+			// Call the stored proc.
+			DataSet toReturn = new DataSet();
+			bool hasSucceeded = DbUtils.CallRetrievalStoredProcedure("[<[SourceSchemaName]>].[<[ActualStoredProcedureName]>]", parameters, toReturn, null);
+<[Foreach OutputParameter CrLf]>			if(parameters[<[ParameterIndex]>].Value!=System.DBNull.Value)
+			{
+				<[CaseCamel CurrentParameterName]> = (<[If IsNullable]><[If IsValueType]>Nullable<<[TypeOfParameter]>><[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]>)parameters[<[ParameterIndex]>].Value;
+			}<[NextForeach]>
+			return toReturn;
+		}
+
+
+		/// <summary>
+		/// Calls stored procedure '<[ActualStoredProcedureName]>'.<br/><br/>
+		/// <[Foreach CustomProperty RetrievalStoredProcedureCall]>
+		/// <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+		/// </summary>
+<[If HasParameter]><[Foreach Parameter CrLf]>		/// <param name="<[CaseCamel CurrentParameterName]>"><[CurrentParameterDirection]> parameter of stored procedure</param><[NextForeach]>
+<[EndIf]>		/// <param name="transactionToUse">the transaction to use, or null if no transaction is available.</param>
+		/// <returns>Filled DataSet with resultset(s) of stored procedure</returns>
+		public static DataSet <[CurrentSPCallName]>(<[Foreach InputParameter Comma]><[If IsNullable]><[If IsValueType]>Nullable<<[TypeOfParameter]>><[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]> <[CaseCamel CurrentParameterName]><[NextForeach]><[If HasInputAndOutputParameters]>, <[EndIf]><[Foreach OutputParameter Comma]>ref <[If IsNullable]><[If IsValueType]>Nullable<<[TypeOfParameter]>><[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]> <[CaseCamel CurrentParameterName]><[NextForeach]><[If HasParameter]>, <[EndIf]> ITransaction transactionToUse)
+		{
+			// create parameters
+			SAParameter[] parameters = new SAParameter[<[AmountOfParameters]>];
+<[Foreach InputParameter CrLf]>			parameters[<[ParameterIndex]>] = new SAParameter("<[ActualParameterName]>", SADbType.<[TypeOfActualParameter]>, <[ParameterSize]>, ParameterDirection.<[CurrentParameterDirection]>, true, <[ParameterPrecision]>, <[ParameterScale]>, "",  DataRowVersion.Current, <[CaseCamel CurrentParameterName]>);<[NextForeach]>
+<[Foreach OutputParameter CrLf]>			parameters[<[ParameterIndex]>] = new SAParameter("<[ActualParameterName]>", SADbType.<[TypeOfActualParameter]>, <[ParameterSize]>, ParameterDirection.<[CurrentParameterDirection]>, true, <[ParameterPrecision]>, <[ParameterScale]>, "",  DataRowVersion.Current, <[CaseCamel CurrentParameterName]>);<[NextForeach]>
+			// Call the stored proc.
+			DataSet toReturn = new DataSet();
+			bool hasSucceeded = DbUtils.CallRetrievalStoredProcedure("[<[SourceSchemaName]>].[<[ActualStoredProcedureName]>]", parameters, toReturn, transactionToUse);
+<[Foreach OutputParameter CrLf]>			if(parameters[<[ParameterIndex]>].Value!=System.DBNull.Value)
+			{
+				<[CaseCamel CurrentParameterName]> = (<[If IsNullable]><[If IsValueType]>Nullable<<[TypeOfParameter]>><[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]>)parameters[<[ParameterIndex]>].Value;
+			}<[NextForeach]>
+			return toReturn;
+		}
+
+		/// <summary>Creates an IRetrievalQuery object for a call to the procedure '<[ActualStoredProcedureName]>'.
+		/// <[Foreach CustomProperty RetrievalStoredProcedureCall]>
+		/// <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+		/// </summary>
+<[If HasParameter InputParameter]><[Foreach InputParameter CrLf]>		/// <param name="<[CaseCamel CurrentParameterName]>"><[CurrentParameterDirection]> parameter of stored procedure</param><[NextForeach]>
+<[EndIf]>		/// <returns>IRetrievalQuery object which is ready to use for datafetching</returns>
+		public static IRetrievalQuery Get<[CurrentSPCallName]>CallAsQuery( <[Foreach InputParameter Comma]><[If IsNullable]><[If IsValueType]>Nullable<<[TypeOfParameter]>><[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]> <[CaseCamel CurrentParameterName]><[NextForeach]>)
+		{
+			string procName = SD.LLBLGen.Pro.DQE.SybaseAsa.DynamicQueryEngine.GetNewStoredProcedureName("[<[SourceSchemaName]>].[<[ActualStoredProcedureName]>]");
+			RetrievalQuery toReturn = new RetrievalQuery( new SACommand(procName) );
+<[Foreach InputParameter CrLf]>			toReturn.Parameters.Add(new SAParameter("<[ActualParameterName]>", SADbType.<[TypeOfActualParameter]>, <[ParameterSize]>, ParameterDirection.<[CurrentParameterDirection]>, true, <[ParameterPrecision]>, <[ParameterScale]>, "",  DataRowVersion.Current, <[CaseCamel CurrentParameterName]>));<[NextForeach]>
+<[Foreach OutputParameter CrLf]>			toReturn.Parameters.Add(new SAParameter("<[ActualParameterName]>", SADbType.<[TypeOfActualParameter]>, <[ParameterSize]>, ParameterDirection.<[CurrentParameterDirection]>, true, <[ParameterPrecision]>, <[ParameterScale]>, "",  DataRowVersion.Current, null));<[NextForeach]>
+			toReturn.Command.CommandType = CommandType.StoredProcedure;
+			return toReturn;
+		}
+	<[NextForeach]>
+
+		#region Included Code
+<# Custom_RetrievalProceduresTemplate #>
+		#endregion
+	}
+}

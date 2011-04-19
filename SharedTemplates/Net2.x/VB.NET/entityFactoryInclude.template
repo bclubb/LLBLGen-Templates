@@ -1,0 +1,6 @@
+﻿			Dim toReturn As IEntity = New <[CurrentEntityName]>Entity()
+			<[ UserCodeRegion CurrentEntityName "CreateNew($VALUE)" ]>
+			' __LLBLGENPRO_USER_CODE_REGION_START <[ UserCodeRegionName ]>
+			' __LLBLGENPRO_USER_CODE_REGION_END
+			<[ EndUserCodeRegion ]>		
+			Return toReturn

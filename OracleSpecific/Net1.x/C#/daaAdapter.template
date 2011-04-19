@@ -1,0 +1,588 @@
+﻿///////////////////////////////////////////////////////////////
+// This is generated code. 
+//////////////////////////////////////////////////////////////
+// Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+// Code is generated on: <[Time]>
+// Code is generated using templates: <[TemplateName]>
+// Templates vendor: Solutions Design.
+// Templates version: <[TemplateVersion]>
+//////////////////////////////////////////////////////////////
+using System;
+using System.Configuration;
+using System.Collections;
+using System.Data;
+using System.Data.Common;
+using System.EnterpriseServices;
+
+using Oracle.DataAccess.Client;
+using Oracle.DataAccess.Types;
+
+using SD.LLBLGen.Pro.ORMSupportClasses;
+using SD.LLBLGen.Pro.DQE.Oracle;
+
+namespace <[RootNamespace]><[DbSpecificNamespaceSuffix]>
+{
+	<[ UserCodeRegion "AdditionalNamespaces" ]>
+	// __LLBLGENPRO_USER_CODE_REGION_START AdditionalNamespaces
+	// __LLBLGENPRO_USER_CODE_REGION_END
+	<[ EndUserCodeRegion ]>
+
+
+	/// <summary>
+	/// Data access adapter class, which controls the complete database interaction with the database for all objects.
+	/// Oracle specific.
+	/// </summary>
+	/// <remarks>
+	/// Use a DataAccessAdapter object solely per thread, and per connection. A DataAccessAdapter object contains 1 active connection 
+	/// and no thread-access scheduling code. This means that you need to create a new DataAccessAdapter object if you want to utilize
+	/// in another thread a new connection and a new transaction or want to open a new connection.
+	/// </remarks>
+	public <[If UsePartialClasses]>partial <[EndIf]>class DataAccessAdapter : DataAccessAdapterBase
+	{
+		#region Public static members
+		/// <summary>
+		/// The name of the key in the *.config file of the executing application which contains the connection string.
+		/// </summary>
+		/// <remarks>Default: the value set in the LLBLGen Pro project properties</remarks>
+		public static string ConnectionStringKeyName="<[ConnectionStringKeyName]>";
+		#endregion
+
+		#region Class Member Declarations
+		// Oracle specific information about schema name usage
+		private SchemaNameOverwriteHashtable _schemaNameOverwrites;
+		#endregion
+
+		#region Constructors
+		/// <summary>
+		/// CTor
+		/// </summary>
+		public DataAccessAdapter() : base(PersistenceInfoProviderSingleton.GetInstance())
+		{
+			InitClass(ReadConnectionStringFromConfig(), false, SchemaNameUsage.Default, String.Empty, null);
+		}
+
+
+		/// <summary>
+		/// CTor
+		/// </summary>
+		/// <param name="comPlusContextHost">the COM+ context host for this adapter instance.</param>
+		/// <remarks>do not call this from your code</remarks>
+		public DataAccessAdapter(IComPlusAdapterContext comPlusContextHost) : base(comPlusContextHost, PersistenceInfoProviderSingleton.GetInstance())
+		{
+			InitClass(ReadConnectionStringFromConfig(), false, SchemaNameUsage.Default, String.Empty, null);
+		}
+
+
+		/// <summary>
+		/// CTor
+		/// </summary>
+		/// <param name="comPlusContextHost">the COM+ context host for this adapter instance.</param>
+		/// <param name="connectionString">The connection string to use when connecting to the database.</param>
+		/// <remarks>do not call this from your code</remarks>
+		public DataAccessAdapter(IComPlusAdapterContext comPlusContextHost, string connectionString) : base(comPlusContextHost, PersistenceInfoProviderSingleton.GetInstance())
+		{
+			InitClass(connectionString, false, SchemaNameUsage.Default, String.Empty, null);
+		}
+		
+
+		/// <summary>
+		/// CTor
+		/// </summary>
+		/// <param name="keepConnectionOpen">when true, the DataAccessAdapter will not close an opened connection. Use this for multi action usage.</param>
+		public DataAccessAdapter(bool keepConnectionOpen):base(PersistenceInfoProviderSingleton.GetInstance())
+		{
+			InitClass(ReadConnectionStringFromConfig(), keepConnectionOpen, SchemaNameUsage.Default, String.Empty, null);
+		}
+
+
+		/// <summary>
+		/// CTor
+		/// </summary>
+		/// <param name="connectionString">The connection string to use when connecting to the database.</param>
+		public DataAccessAdapter(string connectionString):base(PersistenceInfoProviderSingleton.GetInstance())
+		{
+			InitClass(connectionString, false, SchemaNameUsage.Default, String.Empty, null);
+		}
+
+
+		/// <summary>
+		/// CTor
+		/// </summary>
+		/// <param name="connectionString">The connection string to use when connecting to the database.</param>
+		/// <param name="keepConnectionOpen">when true, the DataAccessAdapter will not close an opened connection. Use this for multi action usage.</param>
+		public DataAccessAdapter(string connectionString, bool keepConnectionOpen):base(PersistenceInfoProviderSingleton.GetInstance())
+		{
+			InitClass(connectionString, keepConnectionOpen, SchemaNameUsage.Default, String.Empty, null);
+		}
+		
+		
+		/// <summary>
+		/// CTor. Oracle specific
+		/// </summary>
+		/// <param name="connectionString">The connection string to use when connecting to the database.</param>
+		/// <param name="keepConnectionOpen">when true, the DataAccessAdapter will not close an opened connection. Use this for multi action usage.</param>
+		/// <param name="schemaNameUsageSetting">Oracle specific. Configures this data access adapter object how to threat schema names in 
+		/// persistence information.</param>
+		/// <param name="schemaNameToUse">Oracle specific. The name to use if schemaNameUsageSetting is set to ForceName. Ignored otherwise.</param>
+		public DataAccessAdapter(string connectionString, bool keepConnectionOpen, SchemaNameUsage schemaNameUsageSetting, string schemaNameToUse)
+			:base(PersistenceInfoProviderSingleton.GetInstance())
+		{
+			InitClass(connectionString, keepConnectionOpen, schemaNameUsageSetting, schemaNameToUse, null);
+		}
+		
+		
+		/// <summary>
+		/// CTor. Oracle specific
+		/// </summary>
+		/// <param name="connectionString">The connection string to use when connecting to the database.</param>
+		/// <param name="keepConnectionOpen">when true, the DataAccessAdapter will not close an opened connection. Use this for multi action usage.</param>
+		/// <param name="schemaNameOverwrites">Oracle specific. The from-to name value pairs and setting for the overwriting of schema names.
+		/// Can be null.</param>
+		public DataAccessAdapter(string connectionString, bool keepConnectionOpen, SchemaNameOverwriteHashtable schemaNameOverwrites)
+			:base(PersistenceInfoProviderSingleton.GetInstance())
+		{
+			InitClass(connectionString, keepConnectionOpen, SchemaNameUsage.Default, String.Empty, schemaNameOverwrites);
+		}
+
+
+		#endregion
+
+		#region Stored Procedure related routines
+		/// <summary>
+		/// Calls the specified action stored procedure in the Oracle database. If a transaction is in progress, it will participate in
+		/// that transaction.
+		/// </summary>
+		/// <param name="storedProcedureToCall">Stored procedure to call</param>
+		/// <param name="parameters">array of parameters to specify</param>
+		/// <returns>the amount of rows affected. This value will be -1 if rowcounting has been switched off in the RDBMS or stored procedure.</returns>
+		public virtual int CallActionStoredProcedure(string storedProcedureToCall, OracleParameter[] parameters)
+		{
+			OracleCommand command = new OracleCommand(CreateCorrectStoredProcedureName(storedProcedureToCall));
+			command.Connection = (OracleConnection)base.GetActiveConnection();
+			if(base.IsTransactionInProgress)
+			{
+				((IDbCommand)command).Transaction = (OracleTransaction)base.PhysicalTransaction;
+			}
+			command.CommandType = CommandType.StoredProcedure;
+			command.CommandTimeout = base.CommandTimeOut;
+
+			int toReturn = -1;
+			try
+			{
+				for(int i=0;i<parameters.Length;i++)
+				{
+					command.Parameters.Add(parameters[i]);
+				}
+
+				base.OpenConnection();
+				toReturn = command.ExecuteNonQuery();
+			}
+			finally
+			{
+				command.Dispose();
+				// clean up a dangling automaticly opened connection if needed.
+				if(!(base.KeepConnectionOpen || base.IsTransactionInProgress))
+				{
+					base.CloseConnection();
+				}
+			}
+			return toReturn;
+		}
+
+
+		/// <summary>
+		/// Calls the specified retrieval stored procedure in the Oracle database. Fills the
+		/// specified DataSet. Will participate in the transaction if a transaction is in progress.
+		/// </summary>
+		/// <param name="storedProcedureToCall">Stored procedure to call</param>
+		/// <param name="parameters">array of parameters to specify</param>
+		/// <param name="dataSetToFill">DataSet to fill by the stored procedure</param>
+		/// <returns>true if succeeded, false otherwise</returns>
+		public virtual bool CallRetrievalStoredProcedure(string storedProcedureToCall, OracleParameter[] parameters, DataSet dataSetToFill)
+		{
+			OracleCommand command = new OracleCommand(CreateCorrectStoredProcedureName(storedProcedureToCall));
+			command.Connection = (OracleConnection)base.GetActiveConnection();
+			if(base.IsTransactionInProgress)
+			{
+				((IDbCommand)command).Transaction = (OracleTransaction)base.PhysicalTransaction;
+			}
+			command.CommandType = CommandType.StoredProcedure;
+			command.CommandTimeout = base.CommandTimeOut;
+
+			for(int i=0;i<parameters.Length;i++)
+			{
+				command.Parameters.Add(parameters[i]);
+			}
+			
+			try
+			{
+				base.OpenConnection();
+				command.ExecuteNonQuery();
+
+				// for each cursor parameter, create a datatable in dataset and fill it. 
+				using(OracleDataAdapter adapter = (OracleDataAdapter)CreateNewPhysicalDataAdapter())
+				{
+					for (int i = 0; i < parameters.Length; i++)
+					{
+						if(parameters[i].OracleDbType == OracleDbType.RefCursor)
+						{
+							DataTable tableToFill = dataSetToFill.Tables.Add(parameters[i].ParameterName);
+							adapter.Fill(tableToFill, (OracleRefCursor)parameters[i].Value);
+						}
+					}
+				}
+			}
+			finally
+			{
+				command.Dispose();
+				// clean up a dangling automaticly opened connection if needed.
+				if(!(base.KeepConnectionOpen || base.IsTransactionInProgress))
+				{
+					base.CloseConnection();
+				}
+			}
+
+			return true;
+		}
+		#endregion
+
+
+		/// <summary>
+		/// Executes the passed in retrievalquery and returns an open, ready to use IDataReader. The datareader's command behavior is set to the
+		/// readerBehavior passed in. If a transaction is in progress, the command is wired to the transaction.
+		/// </summary>
+		/// <param name="queryToExecute">The query to execute.</param>
+		/// <param name="readerBehavior">The reader behavior to set.</param>
+		/// <returns>Open, ready to use IDataReader</returns>
+		/// <remarks>Advanced functionality: be aware that the datareader returned is open, and the dataaccessadapter's connection is also open</remarks>
+		public override IDataReader FetchDataReader(IRetrievalQuery queryToExecute, CommandBehavior readerBehavior)
+		{
+			if(queryToExecute.Command.CommandType == CommandType.StoredProcedure)
+			{
+				queryToExecute.Command.CommandText = CreateCorrectStoredProcedureName(queryToExecute.Command.CommandText);
+			}
+			return base.FetchDataReader(queryToExecute, readerBehavior);
+		}
+
+		/// <summary>
+		/// Inserts in each predicate expression element the persistence info object for the field used. If there is already a fieldpersistenceinfo 
+		/// element for a given field, it is skipped. 
+		/// </summary>
+		/// <param name="expression">IPredicateExpression object which has predicate elements whose persistence info objects have to be
+		/// set to a value.</param>
+		protected override void InsertPersistenceInfoObjects(IPredicateExpression expression)
+		{
+			if(expression == null)
+			{
+				return;
+			}
+
+			for (int i = 0; i < expression.Count; i++)
+			{
+				if(expression[i].Type!=PredicateExpressionElementType.Predicate)
+				{
+					continue;
+				}
+
+				IPredicate currentPredicate = (IPredicate)expression[i].Contents;
+				switch((PredicateType)currentPredicate.InstanceType)
+				{
+					case PredicateType.Undefined:
+						continue;
+					case PredicateType.PredicateExpression:
+						// recurse
+						InsertPersistenceInfoObjects((IPredicateExpression)expression[i].Contents);
+						break;
+					case PredicateType.FieldBetweenPredicate:
+						FieldBetweenPredicate betweenPredicate = (FieldBetweenPredicate)currentPredicate;
+						if(betweenPredicate.PersistenceInfo==null)
+						{
+							betweenPredicate.PersistenceInfo = GetFieldPersistenceInfo((IEntityField2)betweenPredicate.FieldCore);
+						}
+						if(betweenPredicate.BeginIsField && (betweenPredicate.PersistenceInfoBegin==null))
+						{
+							betweenPredicate.PersistenceInfoBegin = GetFieldPersistenceInfo((IEntityField2)betweenPredicate.FieldBeginCore);
+						}
+						if(betweenPredicate.EndIsField && (betweenPredicate.PersistenceInfoEnd==null))
+						{
+							betweenPredicate.PersistenceInfoEnd = GetFieldPersistenceInfo((IEntityField2)betweenPredicate.FieldEndCore);
+						}
+						break;
+					case PredicateType.FieldCompareNullPredicate:
+						FieldCompareNullPredicate compareNullPredicate = (FieldCompareNullPredicate)currentPredicate;
+						if(compareNullPredicate.PersistenceInfo==null)
+						{
+							compareNullPredicate.PersistenceInfo = GetFieldPersistenceInfo((IEntityField2)compareNullPredicate.FieldCore);
+						}
+						break;
+					case PredicateType.FieldCompareValuePredicate:
+						FieldCompareValuePredicate compareValuePredicate = (FieldCompareValuePredicate)currentPredicate;
+						if(compareValuePredicate.PersistenceInfo==null)
+						{
+							compareValuePredicate.PersistenceInfo = GetFieldPersistenceInfo((IEntityField2)compareValuePredicate.FieldCore);
+						}
+						break;
+					case PredicateType.FieldLikePredicate:
+						FieldLikePredicate likePredicate = (FieldLikePredicate)currentPredicate;
+						if(likePredicate.PersistenceInfo==null)
+						{
+							likePredicate.PersistenceInfo = GetFieldPersistenceInfo((IEntityField2)likePredicate.FieldCore);
+						}
+						break;
+					case PredicateType.FieldCompareRangePredicate:
+						FieldCompareRangePredicate compareRangePredicate = (FieldCompareRangePredicate)currentPredicate;
+						if(compareRangePredicate.PersistenceInfo==null)
+						{
+							compareRangePredicate.PersistenceInfo = GetFieldPersistenceInfo((IEntityField2)compareRangePredicate.FieldCore);
+						}
+						break;
+					case PredicateType.FieldCompareExpressionPredicate:
+						FieldCompareExpressionPredicate expressionPredicate = (FieldCompareExpressionPredicate)currentPredicate;
+						if(expressionPredicate.PersistenceInfo==null)
+						{
+							expressionPredicate.PersistenceInfo = GetFieldPersistenceInfo((IEntityField2)expressionPredicate.FieldCore);
+						}
+						if(expressionPredicate.ExpressionToCompareWith!=null)
+						{
+							InsertPersistenceInfoObjects(expressionPredicate.ExpressionToCompareWith);
+						}
+						break;
+					case PredicateType.FieldFullTextSearchPredicate:
+						FieldFullTextSearchPredicate fullTextSearchPredicate = (FieldFullTextSearchPredicate)currentPredicate;
+						if(fullTextSearchPredicate.PersistenceInfo==null)
+						{
+							fullTextSearchPredicate.PersistenceInfo = GetFieldPersistenceInfo((IEntityField2)fullTextSearchPredicate.FieldCore);
+						}
+						break;
+					case PredicateType.FieldCompareSetPredicate:
+						FieldCompareSetPredicate compareSetPredicate = (FieldCompareSetPredicate)currentPredicate;
+						if((compareSetPredicate.PersistenceInfoField==null)&&(compareSetPredicate.FieldCore!=null))
+						{
+							compareSetPredicate.PersistenceInfoField = GetFieldPersistenceInfo((IEntityField2)compareSetPredicate.FieldCore);
+						}
+						if(compareSetPredicate.PersistenceInfoSetField==null)
+						{
+							compareSetPredicate.PersistenceInfoSetField = GetFieldPersistenceInfo((IEntityField2)compareSetPredicate.SetFieldCore);
+						}
+						InsertPersistenceInfoObjects(compareSetPredicate.SetFilterAsPredicateExpression);
+						InsertPersistenceInfoObjects(compareSetPredicate.SetRelations);
+						InsertPersistenceInfoObjects(compareSetPredicate.SetSorter);
+						InsertPersistenceInfoObjects(compareSetPredicate.GroupByClause);
+						break;
+					default:
+						<[ UserCodeRegion "InsertPersistenceInfoObjectsPredicate" ]>
+						// __LLBLGENPRO_USER_CODE_REGION_START InsertPersistenceInfoObjectsPredicate
+						// __LLBLGENPRO_USER_CODE_REGION_END
+						<[ EndUserCodeRegion ]>
+						OnInsertPersistenceObjects(currentPredicate);
+						break;
+				}
+			}
+		}
+
+
+		/// <summary>
+		/// Creates a new Dynamic Query engine object and passes in the defined catalog/schema overwrite hashtables.
+		/// </summary>
+		protected override DynamicQueryEngineBase CreateDynamicQueryEngine()
+		{
+			DynamicQueryEngine toReturn = new DynamicQueryEngine();
+			toReturn.PerCallSchemaNameOverwrites = _schemaNameOverwrites;
+			return (DynamicQueryEngineBase)toReturn;
+		}
+
+		
+		/// <summary>
+		/// Creates a new physical connection object.
+		/// </summary>
+		/// <param name="connectionString">Connectionstring to use for the new connection object</param>
+		/// <returns>IDbConnection implementing connection object.</returns>
+		protected override IDbConnection CreateNewPhysicalConnection(string connectionString)
+		{
+			return new OracleConnection(connectionString);
+		}
+
+
+		/// <summary>
+		/// Creates a new physical transaction object over the created connection. The connection is assumed to be open.
+		/// </summary>
+		/// <returns>a physical transaction object, like an instance of OracleTransaction.</returns>
+		protected override IDbTransaction CreateNewPhysicalTransaction()
+		{
+			return ((OracleConnection)base.GetActiveConnection()).BeginTransaction(base.TransactionIsolationLevel);
+		}
+
+
+		/// <summary>
+		/// Creates a new .NET DataAdapter for the database system this DataAccessAdapter object is targeting. 
+		/// </summary>
+		/// <returns>New .NET DataAdapter object</returns>
+		protected override DbDataAdapter CreateNewPhysicalDataAdapter()
+		{
+			return new OracleDataAdapter();
+		}
+
+
+		/// <summary>
+		/// Initializes the class.
+		/// </summary>
+		/// <param name="connectionString"></param>
+		/// <param name="keepConnectionOpen"></param>
+		/// <param name="schemaNameUsageSetting"></param>
+		/// <param name="schemaNameToUse"></param>
+		/// <param name="schemaNameOverwrites"></param>
+		private void InitClass(string connectionString, bool keepConnectionOpen, SchemaNameUsage schemaNameUsageSetting, string schemaNameToUse, SchemaNameOverwriteHashtable schemaNameOverwrites)
+		{
+			base.ConnectionString = connectionString;
+			base.KeepConnectionOpen = keepConnectionOpen;
+			if(schemaNameOverwrites == null)
+			{
+				_schemaNameOverwrites = new SchemaNameOverwriteHashtable(schemaNameUsageSetting);
+				if(schemaNameUsageSetting!=SchemaNameUsage.Default)
+				{
+					_schemaNameOverwrites.Add("*", schemaNameToUse);
+				}
+				else
+				{
+					base.ReadHandleSchemaNameSettingFromConfig(_schemaNameOverwrites);
+				}
+			}
+		}
+
+
+		/// <summary>
+		/// Reads the value of the setting with the key ConnectionStringKeyName from the *.config file and stores that value as the
+		/// active connection string to use for this object.
+		/// </summary>
+		/// <returns>connection string read</returns>
+		private string ReadConnectionStringFromConfig()
+		{
+			// read the connection string from the *.config file.
+			AppSettingsReader configReader = new AppSettingsReader();
+			return configReader.GetValue(DataAccessAdapter.ConnectionStringKeyName, typeof(string)).ToString();
+		}
+		
+		
+		/// <summary>
+		/// Creates the correct name of the stored procedure to call, thus with schema/catalog name overwrites. 
+		/// </summary>
+		/// <param name="storedProcedureName">Name of the stored procedure.</param>
+		/// <returns>stored procedure name with the catalog/schema name overwritten, if applicable</returns>
+		private string CreateCorrectStoredProcedureName(string storedProcedureName)
+		{
+			DynamicQueryEngine dqe = (DynamicQueryEngine)CreateDynamicQueryEngine();
+			string procName = dqe.GetNewPerCallStoredProcedureName(storedProcedureName);
+			return DynamicQueryEngine.GetNewStoredProcedureName(procName);
+		}
+
+		
+		#region Class Property Declarations
+		/// <summary>
+		/// Oracle specific. Configures this data access adapter object how to threat schema names in persistence information.
+		/// </summary>
+		/// <remarks>For backwards compatibility.</remarks>
+		public SchemaNameUsage SchemaNameUsageSetting
+		{
+			get
+			{
+				if(_schemaNameOverwrites!=null)
+				{
+					return _schemaNameOverwrites.SchemaNameUsageSetting;
+				}
+				else
+				{
+					return SchemaNameUsage.Default;
+				}
+			}
+			set
+			{
+				if(_schemaNameOverwrites!=null)
+				{
+					_schemaNameOverwrites.SchemaNameUsageSetting = value;
+				}
+			}
+		}
+		
+		/// <summary>
+		/// Oracle specific. The name to use if schemaNameUsageSetting is set to ForceName. Ignored otherwise.
+		/// </summary>
+		/// <remarks>For backwards compatibility.</remarks>
+		public string SchemaNameToUse
+		{
+			get
+			{
+				if((_schemaNameOverwrites!=null)&&(_schemaNameOverwrites.ContainsKey("*")))
+				{
+					return (string)_schemaNameOverwrites["*"];
+				}
+				else
+				{
+					return string.Empty;
+				}
+			}
+			set
+			{
+				if(_schemaNameOverwrites!=null)
+				{
+					if(_schemaNameOverwrites.ContainsKey("*"))
+					{
+						_schemaNameOverwrites["*"] = value;
+					}
+					else
+					{
+						_schemaNameOverwrites.Add("*", value);
+					}
+				}
+			}
+		}
+		
+		/// <summary>
+		/// Oracle specific. The from-to name value pairs and setting for the overwriting of schema names.
+		/// </summary>
+		public SchemaNameOverwriteHashtable SchemaNameOverwrites
+		{
+			get { return _schemaNameOverwrites; }
+			set { _schemaNameOverwrites = value; }
+		}
+		#endregion
+
+		#region Custom DataAccessAdapter code.
+		<[ UserCodeRegion "CustomDataAccessAdapterCode" ]>
+		// __LLBLGENPRO_USER_CODE_REGION_START CustomDataAccessAdapterCode
+		// __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>
+		#endregion
+		
+		#region Included Code
+<# Custom_DataAccessAdapterTemplate #>
+		#endregion
+	}
+
+
+	/// <summary>
+	/// ComPlusAdapterContext class which is used in Adapter for hosting a COM+ aware DataAccessAdapter class. 
+	/// Use the hosted DataAccessAdapter class to start a new COM+ transaction.
+	/// </summary>
+	public <[If UsePartialClasses]>partial <[EndIf]>class ComPlusAdapterContext : ComPlusAdapterContextBase
+	{
+		/// <summary>
+		/// CTor
+		/// </summary>
+		public ComPlusAdapterContext()
+		{
+			base.SetAdapter(new DataAccessAdapter(this));
+		}
+
+
+
+		/// <summary>
+		/// Creates the physical connection object
+		/// </summary>
+		/// <param name="connectionString">connection string to use</param>
+		/// <returns>Usable connection object (closed)</returns>
+		protected override IDbConnection CreateDatabaseConnection(string connectionString)
+		{
+			return new OracleConnection(connectionString);
+		}
+	}
+}

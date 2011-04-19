@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<templateBindings xmlns="http://sd/llblgen/pro/templateBindingsDefinition.xsd" name="SD.TemplateBindings.FirebirdSpecific.NET1x"
+				  description ="Template bindings for the templates which are specific for Firebird based databases. For .NET 1.x based platforms"
+				  databaseDriverID="BCF16BE3-7E29-4E07-AC27-9FBF79D3CA7A" precedenceLevel="10">
+	<supportedPlatforms>
+		<platform name=".NET 1.0"/>
+		<platform name=".NET 1.1"/>
+	</supportedPlatforms>
+
+	<language name="C#">
+		<!-- DB Specific template bindings -->
+		<templateBinding templateID="SD_ActionProceduresAdapterTemplate" filename="FirebirdSpecific\Net1.x\C#\actionProceduresAdapter.template" />
+		<templateBinding templateID="SD_ActionProceduresTemplate" filename="FirebirdSpecific\Net1.x\C#\actionProcedures.template" />
+		<templateBinding templateID="SD_DataAccessAdapterTemplate" filename="FirebirdSpecific\Net1.x\C#\daaAdapter.template" />
+		<templateBinding templateID="SD_DbUtilsTemplate" filename="FirebirdSpecific\Net1.x\C#\dbUtils.template" />
+		<templateBinding templateID="SD_DbUtilsComPlusTemplate" filename="FirebirdSpecific\Net1.x\C#\dbUtilsComPlus.template" />
+		<templateBinding templateID="SD_PersistenceInfoProviderTemplate" filename="FirebirdSpecific\Net1.x\C#\persistenceInfoProvider.template" />
+		<templateBinding templateID="SD_PersistenceInfoProviderAdapterTemplate" filename="FirebirdSpecific\Net1.x\C#\persistenceInfoProviderAdapter.template" />
+		<templateBinding templateID="SD_RetrievalProceduresAdapterTemplate" filename="FirebirdSpecific\Net1.x\C#\retrievalProceduresAdapter.template" />
+		<templateBinding templateID="SD_RetrievalProceduresTemplate" filename="FirebirdSpecific\Net1.x\C#\retrievalProcedures.template" />
+		<templateBinding templateID="SD_VsNet2002Template" filename="FirebirdSpecific\Net1.x\C#\vsnet2002ProjectFile.template" />
+		<templateBinding templateID="SD_VsNet2003Template" filename="FirebirdSpecific\Net1.x\C#\vsnet2003ProjectFile.template" />
+		<templateBinding templateID="SD_VsNet2002DBSpecificAdapterTemplate" filename="FirebirdSpecific\Net1.x\C#\vsnet2002DBSpecificProjectFileAdapter.template" />
+		<templateBinding templateID="SD_VsNet2003DBSpecificAdapterTemplate" filename="FirebirdSpecific\Net1.x\C#\vsnet2003DBSpecificProjectFileAdapter.template" />
+		<!-- DB Specific include template bindings -->
+		<templateBinding templateID="SD_DAOIncludeTemplate" filename="FirebirdSpecific\Net1.x\C#\daoInclude.template" />
+	</language>
+	<language name="VB.NET">
+		<!-- DB Specific template bindings -->
+		<templateBinding templateID="SD_ActionProceduresAdapterTemplate" filename="FirebirdSpecific\Net1.x\VB.NET\actionProceduresAdapter.template" />
+		<templateBinding templateID="SD_ActionProceduresTemplate" filename="FirebirdSpecific\Net1.x\VB.NET\actionProcedures.template" />
+		<templateBinding templateID="SD_DataAccessAdapterTemplate" filename="FirebirdSpecific\Net1.x\VB.NET\daaAdapter.template" />
+		<templateBinding templateID="SD_DbUtilsTemplate" filename="FirebirdSpecific\Net1.x\VB.NET\dbUtils.template" />
+		<templateBinding templateID="SD_DbUtilsComPlusTemplate" filename="FirebirdSpecific\Net1.x\VB.NET\dbUtilsComPlus.template" />
+		<templateBinding templateID="SD_PersistenceInfoProviderTemplate" filename="FirebirdSpecific\Net1.x\VB.NET\persistenceInfoProvider.template" />
+		<templateBinding templateID="SD_PersistenceInfoProviderAdapterTemplate" filename="FirebirdSpecific\Net1.x\VB.NET\persistenceInfoProviderAdapter.template" />
+		<templateBinding templateID="SD_RetrievalProceduresAdapterTemplate" filename="FirebirdSpecific\Net1.x\VB.NET\retrievalProceduresAdapter.template" />
+		<templateBinding templateID="SD_RetrievalProceduresTemplate" filename="FirebirdSpecific\Net1.x\VB.NET\retrievalProcedures.template" />
+		<templateBinding templateID="SD_VsNet2002Template" filename="FirebirdSpecific\Net1.x\VB.NET\vsnet2002ProjectFile.template" />
+		<templateBinding templateID="SD_VsNet2003Template" filename="FirebirdSpecific\Net1.x\VB.NET\vsnet2003ProjectFile.template" />
+		<templateBinding templateID="SD_VsNet2002DBSpecificAdapterTemplate" filename="FirebirdSpecific\Net1.x\VB.NET\vsnet2002DBSpecificProjectFileAdapter.template" />
+		<templateBinding templateID="SD_VsNet2003DBSpecificAdapterTemplate" filename="FirebirdSpecific\Net1.x\VB.NET\vsnet2003DBSpecificProjectFileAdapter.template" />
+		<!-- DB Specific include template bindings -->
+		<templateBinding templateID="SD_DAOIncludeTemplate" filename="FirebirdSpecific\Net1.x\VB.NET\daoInclude.template" />
+	</language>
+</templateBindings>

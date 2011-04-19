@@ -1,0 +1,148 @@
+﻿' ///////////////////////////////////////////////////////////////
+' // This is generated code. 
+' //////////////////////////////////////////////////////////////
+' // Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+' // Code is generated on: <[Time]>
+' // Code is generated using templates: <[TemplateName]>
+' // Templates vendor: Solutions Design.
+' // Templates version: <[TemplateVersion]>
+' //////////////////////////////////////////////////////////////
+Imports System
+Imports System.Collections.Generic
+
+Imports <[RootNamespace]>.EntityClasses
+Imports <[RootNamespace]>.HelperClasses
+
+Imports SD.LLBLGen.Pro.ORMSupportClasses
+<[ UserCodeRegion "AdditionalNamespaces" ]>
+' __LLBLGENPRO_USER_CODE_REGION_START AdditionalNamespaces
+' __LLBLGENPRO_USER_CODE_REGION_END
+<[ EndUserCodeRegion ]>
+Namespace <[RootNamespace]>.FactoryClasses
+
+<[Foreach Entity CrLf]>	
+	''' <summary>
+	''' Factory to create new, empty My<[CurrentEntityName]>Entity objects.
+	''' </summary>
+	<Serializable()> _
+	Public Class My<[CurrentEntityName]>EntityFactory 
+		Inherits <[CurrentEntityName]>EntityFactory
+
+		''' <summary>CTor</summary>
+		Public Sub New()
+		End Sub
+
+		''' <summary>Creates a new, empty My<[CurrentEntityName]>Entity object.</summary>
+		''' <returns>A new, empty My<[CurrentEntityName]>Entity object.</returns>
+		Public Overrides Overloads Function Create() As IEntity2
+			Dim toReturn As IEntity2 = New My<[CurrentEntityName]>Entity()
+			<[ UserCodeRegion CurrentEntityName "CreateNew($VALUE)" ]>
+			' __LLBLGENPRO_USER_CODE_REGION_START <[ UserCodeRegionName ]>
+			' __LLBLGENPRO_USER_CODE_REGION_END
+			<[ EndUserCodeRegion ]>		
+			Return toReturn
+		End Function
+		
+		
+		''' <summary>Creates a new My<[CurrentEntityName]>Entity instance but uses a special constructor which will set the Fields object of the new
+		''' IEntity2 instance to the passed in fields object. Implement this method to support multi-type in single table inheritance.</summary>
+		''' <param name="fields">Populated IEntityFields2 object for the new IEntity2 to create</param>
+		''' <returns>Fully created and populated (due to the IEntityFields2 object) IEntity2 object</returns>
+		Public Overrides Overloads Function Create(fields As IEntityFields2) As IEntity2
+			Dim toReturn As IEntity2 = New My<[CurrentEntityName]>Entity(fields)
+			<[ UserCodeRegion CurrentEntityName "CreateNew($VALUE)UsingFields" ]>
+			' __LLBLGENPRO_USER_CODE_REGION_START <[ UserCodeRegionName ]>
+			' __LLBLGENPRO_USER_CODE_REGION_END
+			<[ EndUserCodeRegion ]>		
+			Return toReturn
+		End Function
+				
+		''' <summary>Creates a new generic EntityCollection(Of T) for the entity to which this factory belongs.</summary>
+		''' <returns>ready to use generic EntityCollection(Of T) with this factory set as the factory</returns>
+		Public Overrides Function CreateEntityCollection() As IEntityCollection2 
+			Return New EntityCollection(Of My<[CurrentEntityName]>Entity)(Me)
+		End Function
+	End Class
+<[NextForeach]>
+<[If HasEntity]>
+	''' <summary>Factory to create new, empty Entity objects based on the entity type specified. Uses entity specific factory objects</summary>
+	Public Partial Class GeneralEntityFactory
+		''' <summary>Creates a new, empty Entity object of the type specified</summary>
+		''' <param name="entityTypeToCreate">The entity type to create.</param>
+		''' <returns>A new, empty Entity object.</returns>
+		Public Shared Function CreateMy(entityTypeToCreate As <[RootNamespace]>.EntityType) As IEntity2 
+			Dim factoryToUse As IEntityFactory2 = Nothing
+			Select Case entityTypeToCreate
+<[Foreach Entity CrLf]>				Case <[RootNamespace]>.EntityType.<[CurrentEntityName]>Entity
+					factoryToUse = New My<[CurrentEntityName]>EntityFactory()<[NextForeach]>
+			End Select
+			Dim toReturn As IEntity2 = Nothing
+			If Not factoryToUse Is Nothing Then
+				toReturn = factoryToUse.Create()
+			End If
+			Return toReturn
+		End Function		
+	End Class
+	
+	''' <summary>Class which Is used To obtain the entity factory based On the .NET type of the entity. </summary>
+	<Serializable()> _
+	Public Class MyEntityFactoryFactory
+#If CF Then
+		''' <summary>Gets the factory of the entity With the <[RootNamespace]>.EntityType specified</summary>
+		''' <param name="typeOfEntity">The type of entity.</param>
+		''' <returns>factory To use Or null If Not found</returns>
+		Public Shared Function GetFactory(typeOfEntity As <[RootNamespace]>.EntityType) As IEntityFactory2
+			Return GeneralEntityFactory.CreateMy(typeOfEntity).GetEntityFactory()
+		End Function
+#Else
+		Private Shared _factoryPerType As Dictionary(Of Type, IEntityFactory2) = New Dictionary(Of Type, IEntityFactory2)()
+
+		''' <summary>Initializes the <see cref="EntityFactoryFactory"/> Class.</summary>
+		Shared Sub New()
+			Dim entityTypeValues As Array = [Enum].GetValues(GetType(<[RootNamespace]>.EntityType))
+			For Each entityTypeValue As Integer In entityTypeValues
+				Dim dummy As IEntity2 = GeneralEntityFactory.CreateMy(CType(entityTypeValue, <[RootNamespace]>.EntityType))
+				_factoryPerType.Add(CType(dummy, Object).GetType(), dummy.GetEntityFactory())
+			Next
+		End Sub
+
+		''' <summary>Gets the factory of the entity With the .NET type specified</summary>
+		''' <param name="typeOfEntity">The type of entity.</param>
+		''' <returns>factory To use Or null If Not found</returns>
+		Public Shared Function GetFactory(typeOfEntity As Type) As IEntityFactory2
+			Dim toReturn As IEntityFactory2  = Nothing
+			_factoryPerType.TryGetValue(typeOfEntity, toReturn)
+			Return toReturn
+		End Function
+
+		''' <summary>Gets the factory of the entity With the <[RootNamespace]>.EntityType specified</summary>
+		''' <param name="typeOfEntity">The type of entity.</param>
+		''' <returns>factory To use Or null If Not found</returns>
+		Public Shared Function GetFactory(typeOfEntity As <[RootNamespace]>.EntityType) As IEntityFactory2
+			Return GetFactory(CType(GeneralEntityFactory.CreateMy(typeOfEntity), Object).GetType())
+		End Function
+#End If
+	End Class
+	
+	''' <summary>Element creator For creating project elements from somewhere Else, like inside Linq providers.</summary>
+	Public Class MyElementCreator 
+		Inherits ElementCreator
+	
+		''' <summary>Implementation of the routine which gets the factory of the Entity type With the <[RootNamespace]>.EntityType value passed In</summary>
+		''' <param name="entityTypeValue">The entity type value.</param>
+		''' <returns>the entity factory of the entity type Or null If Not found</returns>
+		Protected Overrides Function GetFactoryImpl(entityTypeValue As Integer) As IEntityFactoryCore
+			Return MyEntityFactoryFactory.GetFactory(CType(entityTypeValue, <[RootNamespace]>.EntityType))
+		End Function
+		
+#If Not CF Then
+		''' <summary>Implementation of the routine which gets the factory of the Entity type With the .NET type passed In</summary>
+		''' <param name="typeOfEntity">The type of entity.</param>
+		''' <returns>the entity factory of the entity type Or null If Not found</returns>
+		Protected Overrides Function GetFactoryImpl(typeOfEntity As Type) As IEntityFactoryCore 
+			Return MyEntityFactoryFactory.GetFactory(typeOfEntity)
+		End Function
+#End If
+	End Class	
+<[EndIf]>
+End Namespace

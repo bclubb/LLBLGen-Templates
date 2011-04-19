@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<language xmlns="http://sd/llblgen/pro/languageDefinition.xsd" 
+		  name="SQL" fileExtension ="sql" arrayIndexOperatorOpenChar ="" hasArrayIndexOperatorOnIdentifier ="false"
+		  arrayIndexOperatorCloseChar="" lineConcatenator="">
+	<keywords/>
+</language>

@@ -1,0 +1,54 @@
+﻿///////////////////////////////////////////////////////////////
+// This is generated code. 
+//////////////////////////////////////////////////////////////
+// Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+// Code is generated on: <[Time]>
+// Code is generated using templates: <[TemplateName]>
+// Templates vendor: Solutions Design.
+// Templates version: <[TemplateVersion]>
+//////////////////////////////////////////////////////////////
+using System;
+
+using <[RootNamespace]>;
+
+using SD.LLBLGen.Pro.ORMSupportClasses;
+
+namespace <[RootNamespace]>.FactoryClasses
+{
+	/// <summary>Class which eases the creation of sort clauses used in a SortExpression, to sort resultsets on specified fields.</summary>
+	public <[If UsePartialClasses]>partial <[EndIf]>class SortClauseFactory
+	{
+		/// <summary>Static class, no CTor</summary>
+		private SortClauseFactory()
+		{
+		}
+<[Foreach Entity CrLf]>
+		/// <summary>Creates a new sort clause for the <[CurrentEntityName]>Entity field specified.</summary>
+		public static ISortClause Create(<[CurrentEntityName]>FieldIndex fieldToSort, SortOperator operatorToUse)
+		{
+			return new SortClause(EntityFieldFactory.Create(fieldToSort), operatorToUse);
+		}
+
+		/// <summary>Creates a new sort clause for the <[CurrentEntityName]>Entity field specified.</summary>
+		public static ISortClause Create(<[CurrentEntityName]>FieldIndex fieldToSort, SortOperator operatorToUse, string objectAlias)
+		{
+			return new SortClause(EntityFieldFactory.Create(fieldToSort), operatorToUse, objectAlias);
+		}<[NextForeach]>
+<[Foreach TypedView CrLf]>
+		/// <summary>Creates a new sort clause for the <[CurrentTypedViewName]>TypedView field specified.</summary>
+		public static ISortClause Create(<[CurrentTypedViewName]>FieldIndex fieldToSort, SortOperator operatorToUse)
+		{
+			return new SortClause(EntityFieldFactory.Create(fieldToSort), operatorToUse);
+		}
+
+		/// <summary>Creates a new sort clause for the <[CurrentTypedViewName]>TypedView field specified.</summary>
+		public static ISortClause Create(<[CurrentTypedViewName]>FieldIndex fieldToSort, SortOperator operatorToUse, string objectAlias)
+		{
+			return new SortClause(EntityFieldFactory.Create(fieldToSort), operatorToUse, objectAlias);
+		}<[NextForeach]>
+
+		#region Included Code
+<# Custom_SortClauseFactoryTemplate #>
+		#endregion
+	}
+}

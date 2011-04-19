@@ -1,0 +1,72 @@
+﻿' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+' // This is generated code. 
+' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+' // Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+' // Code is generated on: <[Time]>
+' // Code is generated using templates: <[TemplateName]>
+' // Templates vendor: Solutions Design.
+' // Templates version: <[TemplateVersion]>
+' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+#If Not CEDesktop Then
+Imports System
+Imports System.Data
+Imports System.EnterpriseServices
+
+Imports <[RootNamespace]>.HelperClasses
+
+Imports SD.LLBLGen.Pro.ORMSupportClasses
+
+Namespace <[RootNamespace]>.HelperClasses
+	''' <summary>
+	''' Specific implementation of the TransactionComPlus class. The constructor will take care of the creation of the physical transaction and the
+	''' opening of the connection. It will require a COM+ transaction.
+	''' </summary>
+	<MustRunInClientContext(True)> Public Class TransactionComPlus 
+		Inherits TransactionComPlusBase
+	
+		''' <summary>
+		''' CTor
+		''' </summary>
+		Public Sub New()
+		End Sub
+
+
+
+		''' <summary>
+		''' Creates a new IDbConnection instance which will be used by all elements using this ITransaction instance. 
+		''' Reads connectionstring from .config file. The COM+ transaction will flow to the used method.
+		''' </summary>
+		''' <returns>new IDbConnection instance</returns>
+		Protected Overrides Overloads Function CreateConnection() As System.Data.IDbConnection
+			Dim dbUtilsToUse As New DbUtilsComPlus()
+			Return dbUtilsToUse.CreateConnection()
+		End Function
+
+
+		''' <summary>
+		''' Creates a new IDbConnection instance which will be used by all elements using this ITransaction instance
+		''' The COM+ transaction will flow to the used method.
+		''' </summary>
+		''' <param name="connectionString">Connection string to use</param>
+		''' <returns>new IDbConnection instance</returns>
+		Protected Overrides Overloads Function CreateConnection(connectionString As String) As System.Data.IDbConnection
+			Dim dbUtilsToUse As New DbUtilsComPlus()
+			Return dbUtilsToUse.CreateConnection(connectionString)
+		End Function
+
+
+		''' <summary>
+		''' Creates a new physical transaction Object over the created connection. The connection is assumed to be open.
+		''' This method is void in combination of a COM+ transaction. It will always Return null.
+		''' </summary>
+		''' <returns>null</returns>
+		Protected Overrides Overloads Function CreatePhysicalTransaction() As System.Data.IDbTransaction
+			Return Nothing
+		End Function
+
+#Region "Included Code"
+<# Custom_TransactionComPlusTemplate #>
+#End Region
+	End Class
+End Namespace
+#End If

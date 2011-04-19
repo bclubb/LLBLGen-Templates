@@ -1,0 +1,82 @@
+﻿///////////////////////////////////////////////////////////////
+// This is generated code. 
+//////////////////////////////////////////////////////////////
+// Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+// Code is generated on: <[Time]>
+// Code is generated using templates: <[TemplateName]>
+// Templates vendor: Solutions Design.
+// Templates version: <[TemplateVersion]>
+//////////////////////////////////////////////////////////////
+using System;
+using SD.LLBLGen.Pro.ORMSupportClasses;
+
+namespace <[RootNamespace]>.HelperClasses
+{
+	<[ UserCodeRegion "AdditionalNamespaces" ]>
+	// __LLBLGENPRO_USER_CODE_REGION_START AdditionalNamespaces
+	// __LLBLGENPRO_USER_CODE_REGION_END
+	<[ EndUserCodeRegion ]>
+	
+	/// <summary>
+	/// Singleton implementation of the FieldInfoProvider. This class is the singleton wrapper through which the actual instance is retrieved.
+	/// </summary>
+	/// <remarks>It uses a single instance of an internal class. The access isn't marked with locks as the FieldInfoProviderBase class is threadsafe.</remarks>
+	internal sealed class FieldInfoProviderSingleton
+	{
+		#region Class Member Declarations
+		private static readonly IFieldInfoProvider _providerInstance = new FieldInfoProviderCore();
+		#endregion
+		
+		/// <summary>private ctor to prevent instances of this class.</summary>
+		private FieldInfoProviderSingleton()
+		{
+		}
+
+		/// <summary>Dummy static constructor to make sure threadsafe initialization is performed.</summary>
+		static FieldInfoProviderSingleton()
+		{
+		}
+
+		/// <summary>Gets the singleton instance of the FieldInfoProviderCore</summary>
+		/// <returns>Instance of the FieldInfoProvider.</returns>
+		public static IFieldInfoProvider GetInstance()
+		{
+			return _providerInstance;
+		}
+	}
+
+	/// <summary>Actual implementation of the FieldInfoProvider. Used by singleton wrapper.</summary>
+	internal class FieldInfoProviderCore : FieldInfoProviderBase
+	{
+		/// <summary>Initializes a new instance of the <see cref="FieldInfoProviderCore"/> class.</summary>
+		internal FieldInfoProviderCore()
+		{
+			Init();
+		}
+
+		/// <summary>Method which initializes the internal datastores.</summary>
+		private void Init()
+		{
+			base.InitClass( (<[AmountOfElements Entity ]> + <[AmountOfElements TypedView ]>));
+<[Foreach Entity CrLf]>			Init<[CurrentEntityName]>EntityInfos();<[NextForeach]>
+<[Foreach TypedView CrLf]>			Init<[CurrentTypedViewName]>TypedViewInfos();<[NextForeach]>
+			base.ConstructElementFieldStructures(InheritanceInfoProviderSingleton.GetInstance());
+		}			
+<[Foreach Entity ]>
+		/// <summary>Inits <[CurrentEntityName]>Entity's FieldInfo objects</summary>
+		private void Init<[CurrentEntityName]>EntityInfos()
+		{
+<[ If HasFields]><[ Foreach EntityField CrLf]>			base.AddElementFieldInfo("<[CurrentEntityName]>Entity", "<[EntityFieldName]>", typeof(<[TypeOfField]>), <[IsPrimaryKey]>, <[IsForeignKey]>, <[ IsReadOnly ]>, <[ IsNullable ]>, (int)<[CurrentEntityName]>FieldIndex.<[EntityFieldName]>, <[SourceColumnMaxLength]>, <[SourceColumnScale]>, <[SourceColumnPrecision]>);<[ NextForeach]><[EndIf]>
+		}<[NextForeach]>
+<[Foreach TypedView]>
+		/// <summary>Inits <[CurrentEntityName]>View's FieldInfo objects</summary>
+		private void Init<[CurrentTypedViewName]>TypedViewInfos()
+		{
+<[ If HasFields]><[ Foreach TypedViewField CrLf]>			base.AddElementFieldInfo("<[CurrentTypedViewName]>TypedView", "<[TypedViewFieldName]>", typeof(<[ TypeOfTypedViewField ]>), false, false, true, false, (int)<[CurrentTypedViewName]>FieldIndex.<[TypedViewFieldName]>, <[SourceColumnMaxLength]>, <[SourceColumnScale]>, <[SourceColumnPrecision]>);<[ NextForeach]><[EndIf]>
+		}<[NextForeach]>	
+	}
+}
+
+
+
+

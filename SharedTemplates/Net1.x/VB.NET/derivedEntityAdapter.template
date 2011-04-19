@@ -1,0 +1,217 @@
+﻿' ///////////////////////////////////////////////////////////////
+' // This is generated code. 
+' //////////////////////////////////////////////////////////////
+' // Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+' // Code is generated on: <[Time]>
+' // Code is generated using templates: <[TemplateName]>
+' // Templates vendor: Solutions Design.
+' // Templates version: <[TemplateVersion]>
+' //////////////////////////////////////////////////////////////
+Imports System
+Imports System.ComponentModel
+Imports System.Collections
+Imports System.Runtime.Serialization
+Imports System.Xml.Serialization
+Imports <[RootNamespace]>
+Imports <[RootNamespace]>.HelperClasses
+Imports <[RootNamespace]>.FactoryClasses
+Imports <[RootNamespace]>.RelationClasses
+<[Foreach AdditionalNamespaces CrLf]>Imports <[CurrentAdditionalNamespace]><[NextForeach]>
+Imports SD.LLBLGen.Pro.ORMSupportClasses
+<[ UserCodeRegion "AdditionalNamespaces" ]>
+' __LLBLGENPRO_USER_CODE_REGION_START AdditionalNamespaces
+' __LLBLGENPRO_USER_CODE_REGION_END
+<[ EndUserCodeRegion ]>
+Namespace <[RootNamespace]>.EntityClasses
+	''' <summary>Entity class which represents the entity '<[CurrentEntityName]>'.</summary>
+	<Serializable()> _
+	Public Class My<[CurrentEntityName]>Entity 
+		Inherits <[CurrentEntityName]>Entity
+<[Foreach AdditionalInterfaces CrLf]>		Implements <[CurrentAdditionalInterface]><[NextForeach]><[ UserCodeRegion "AdditionalInterfaces" ]>
+		' __LLBLGENPRO_USER_CODE_REGION_START AdditionalInterfaces
+		' __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>	
+
+#Region "Class Member Declarations"
+		<[ UserCodeRegion "PrivateMembers" ]>
+		' __LLBLGENPRO_USER_CODE_REGION_START PrivateMembers
+		' __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>
+#End Region
+
+		''' <summary>CTor</summary>
+		<[If IsAbstract]>Friend<[Else]>Public<[EndIf]> Sub New()
+			InitClass()
+		End Sub
+
+		''' <summary>CTor</summary>
+		''' <remarks>For framework usage.</remarks>
+		''' <param name="fields">Fields object to set as the fields for this entity.</param>
+		<[If IsAbstract]>Friend<[Else]>Public<[EndIf]> Sub New(fields As IEntityFields2)
+			MyBase.New(fields)
+			InitClass()
+		End Sub
+		
+		''' <summary>Creates a New instance of the factory related To this entity</summary>
+		Protected Overrides Function CreateEntityFactory() As IEntityFactory2 
+			Return New My<[CurrentEntityName]>EntityFactory()
+		End Function
+
+		''' <summary>CTor</summary>
+		''' <param name="validator">The custom validator object for this <[CurrentEntityName]>Entity</param>
+		<[If IsAbstract]>Friend<[Else]>Public<[EndIf]> Sub New(validator As IValidator)
+			MyBase.New(validator)
+			InitClass()
+		End Sub
+				
+<[If HasPrimaryKey IncludeInherited]>
+		''' <summary>CTor</summary>
+<[Foreach PrimaryKeyEntityField IncludeInherited CrLf]>		''' <param name="<[CaseCamel EntityFieldName]>">PK value for <[CurrentEntityName]> which data should be fetched into this <[CurrentEntityName]> object</param><[NextForeach]>
+		''' <remarks>The entity is not fetched by this constructor. Use a DataAccessAdapter for that.</remarks>
+		<[If IsAbstract]>Friend<[Else]>Public<[EndIf]> Sub New(<[Foreach PrimaryKeyEntityField IncludeInherited Comma]><[CaseCamel EntityFieldName]> As <[TypeOfField]><[NextForeach]>)
+			MyBase.New(<[Foreach PrimaryKeyEntityField IncludeInherited Comma]><[CaseCamel EntityFieldName]><[NextForeach]>)
+			InitClass()
+		End Sub
+
+		''' <summary>CTor</summary>
+<[Foreach PrimaryKeyEntityField IncludeInherited CrLf]>		''' <param name="<[CaseCamel EntityFieldName]>">PK value for <[CurrentEntityName]> which data should be fetched into this <[CurrentEntityName]> object</param><[NextForeach]>
+		''' <param name="validator">The custom validator object for this <[CurrentEntityName]>Entity</param>
+		''' <remarks>The entity is not fetched by this constructor. Use a DataAccessAdapter for that.</remarks>
+		<[If IsAbstract]>Friend<[Else]>Public<[EndIf]> Sub New(<[Foreach PrimaryKeyEntityField IncludeInherited Comma]><[CaseCamel EntityFieldName]> As <[TypeOfField]><[NextForeach]>, validator As IValidator)
+			MyBase.New(<[Foreach PrimaryKeyEntityField IncludeInherited Comma]><[CaseCamel EntityFieldName]><[NextForeach]>, validator)
+			InitClass()
+		End Sub
+	<[EndIf]>
+
+		''' <summary>Protected CTor for deserialization</summary>
+		''' <param name="info"></param>
+		''' <param name="context"></param>
+		<EditorBrowsable(EditorBrowsableState.Never)> _
+		Protected Sub New(info As SerializationInfo, context As StreamingContext)
+			MyBase.New(info, context)
+			InitClass()
+		End Sub
+
+		''' <summary>Initialization routine For Class</summary>
+		Private Sub InitClass()
+			<[ UserCodeRegion "InitClass" ]>
+			' __LLBLGENPRO_USER_CODE_REGION_START InitClass
+			' __LLBLGENPRO_USER_CODE_REGION_END
+			<[ EndUserCodeRegion ]>
+		End Sub
+		
+#Region "Class Property Declarations"
+	<[Foreach RelatedEntity OneToMany]><[If Not MappedFieldRelationIsHidden]>
+		''' <summary>Creates a New PrefetchPathElement2 object which contains all the information to prefetch the related entities of type '<[RelatedEntityName]>' 
+		''' for this entity. Add the object Returned by this property to an existing PrefetchPath2 instance.</summary>
+		''' <Returns>Ready to use IPrefetchPathElement2 implementation.</Returns>
+		Public Shadows Shared ReadOnly Property PrefetchPath<[MappedFieldNameRelation]>() As IPrefetchPathElement2
+			Get
+				Return New PrefetchPathElement2(New EntityCollection(New My<[RelatedEntityName]>EntityFactory()), _
+					<[CurrentEntityName]>Entity.Relations.<[RelatedEntityName]>EntityUsing<[Foreach RelationField]><[RelatedEntityRelationFieldName]><[NextForeach]>, _
+					CType(<[RootNamespace]>.EntityType.<[CurrentEntityName]>Entity, Integer), CType(<[RootNamespace]>.EntityType.<[RelatedEntityName]>Entity, Integer), 0, Nothing, Nothing, Nothing, Nothing, "<[MappedFieldNameRelation]>", SD.LLBLGen.Pro.ORMSupportClasses.RelationType.OneToMany)
+			End Get
+		End Property
+	<[EndIf]><[NextForeach]>
+	<[Foreach RelatedEntity ManyToMany]><[If Not MappedFieldRelationIsHidden]>
+		''' <summary>Creates a New PrefetchPathElement2 object which contains all the information to prefetch the related entities of type '<[RelatedEntityName]>' 
+		''' for this entity. Add the object Returned by this property to an existing PrefetchPath2 instance.</summary>
+		''' <Returns>Ready to use IPrefetchPathElement2 implementation.</Returns>
+		Public Shadows Shared ReadOnly Property PrefetchPath<[MappedFieldNameRelation]>() As IPrefetchPathElement2
+			Get
+				Dim relations As IRelationCollection = New RelationCollection()
+				Dim intermediateRelation As IEntityRelation = <[CurrentEntityName]>Entity.Relations.<[IntermediateEntityName]>EntityUsing<[Foreach RelationField OneToMany]><[RelatedEntityRelationFieldName]><[NextForeach]>
+				intermediateRelation.SetAliases(String.Empty, "<[IntermediateEntityName]>_")
+				relations.Add(<[CurrentEntityName]>Entity.Relations.<[IntermediateEntityName]>EntityUsing<[Foreach RelationField OneToMany]><[RelatedEntityRelationFieldName]><[NextForeach]>, "<[CurrentEntityName]>Entity__", "<[IntermediateEntityName]>_", JoinHint.None)
+				relations.Add(<[IntermediateEntityName]>Entity.Relations.<[RelatedEntityName]>EntityUsing<[Foreach RelationField ManyToOne]><[RelationFieldName]><[NextForeach]>, "<[IntermediateEntityName]>_", String.Empty, JoinHint.None)
+				Return New PrefetchPathElement2(New EntityCollection(New My<[RelatedEntityName]>EntityFactory()), _
+					intermediateRelation, CType(<[RootNamespace]>.EntityType.<[CurrentEntityName]>Entity, Integer), CType(<[RootNamespace]>.EntityType.<[RelatedEntityName]>Entity, Integer), 0, Nothing, Nothing, relations, Nothing, "<[MappedFieldNameRelation]>", SD.LLBLGen.Pro.ORMSupportClasses.RelationType.ManyToMany)
+			End Get
+		End Property
+	<[EndIf]><[NextForeach]>
+	<[Foreach RelatedEntity ManyToOne]><[If Not MappedFieldRelationIsHidden]>
+		''' <summary>Creates a New PrefetchPathElement2 object which contains all the information to prefetch the related entities of type '<[RelatedEntityName]>' 
+		''' for this entity. Add the object Returned by this property to an existing PrefetchPath2 instance.</summary>
+		''' <Returns>Ready to use IPrefetchPathElement2 implementation.</Returns>
+		Public Shadows Shared ReadOnly Property PrefetchPath<[MappedFieldNameRelation]>() As IPrefetchPathElement2
+			Get
+				Return New PrefetchPathElement2( New EntityCollection(New My<[RelatedEntityName]>EntityFactory()), _
+					<[CurrentEntityName]>Entity.Relations.<[RelatedEntityName]>EntityUsing<[If Not RelatedEntityIsOtherEntity]><[Foreach RelationField]><[RelatedEntityRelationFieldName]><[NextForeach]><[EndIf]><[Foreach RelationField]><[RelationFieldName]><[NextForeach]>, _
+					CType(<[RootNamespace]>.EntityType.<[CurrentEntityName]>Entity, Integer), CType(<[RootNamespace]>.EntityType.<[RelatedEntityName]>Entity, Integer), 0, Nothing, Nothing, Nothing, Nothing, "<[MappedFieldNameRelation]>", SD.LLBLGen.Pro.ORMSupportClasses.RelationType.ManyToOne)
+			End Get
+		End Property
+	<[EndIf]><[NextForeach]>
+	<[Foreach RelatedEntity OneToOne]><[If Not MappedFieldRelationIsHidden]>
+		''' <summary>Creates a New PrefetchPathElement2 object which contains all the information to prefetch the related entities of type '<[RelatedEntityName]>' 
+		''' for this entity. Add the object Returned by this property to an existing PrefetchPath2 instance.</summary>
+		''' <Returns>Ready to use IPrefetchPathElement2 implementation.</Returns>
+		Public Shadows Shared ReadOnly Property PrefetchPath<[MappedFieldNameRelation]>() As IPrefetchPathElement2
+			Get
+				Return New PrefetchPathElement2( New EntityCollection(New My<[RelatedEntityName]>EntityFactory()), _
+					<[CurrentEntityName]>Entity.Relations.<[RelatedEntityName]>EntityUsing<[Foreach RelationField]><[If IsOneToOnePkPk FkSide]><[RelationFieldName]><[EndIf]><[If Not IsOneToOnePkPk FkSide]><[RelatedEntityRelationFieldName]><[EndIf]><[If IsOneToOnePkFkUc FkSide]><[RelationFieldName]><[EndIf]><[If Not IsOneToOnePkFkUc FkSide]><[RelatedEntityRelationFieldName]><[EndIf]><[NextForeach]>, _
+					CType(<[RootNamespace]>.EntityType.<[CurrentEntityName]>Entity, Integer), CType(<[RootNamespace]>.EntityType.<[RelatedEntityName]>Entity, Integer), 0, Nothing, Nothing, Nothing, Nothing, "<[MappedFieldNameRelation]>", SD.LLBLGen.Pro.ORMSupportClasses.RelationType.OneToOne)
+			End Get
+		End Property
+	<[EndIf]><[NextForeach]>
+	<[Foreach RelatedEntity OneToMany]><[If Not MappedFieldRelationIsHidden]>
+		''' <summary>Gets the EntityCollection with the related entities of type 'My<[RelatedEntityName]>Entity' which are related to this entity via a relation of type '1:n'.
+		''' If the EntityCollection hasn't been fetched yet, the collection returned will be empty.</summary>
+		<TypeContainedAttribute(GetType(My<[RelatedEntityName]>Entity))> _
+		Public Shadows Overridable ReadOnly Property [<[MappedFieldNameRelation]>]() As EntityCollection
+			Get
+				Dim toReturn As EntityCollection = MyBase.<[MappedFieldNameRelation]>
+				toReturn.EntityFactoryToUse = New My<[RelatedEntityName]>EntityFactory()
+				Return toReturn
+			End Get
+		End Property
+	<[EndIf]><[NextForeach]>
+	<[Foreach RelatedEntity ManyToMany]><[If Not MappedFieldRelationIsHidden]>
+		''' <summary>Gets the EntityCollection with the related entities of type 'My<[RelatedEntityName]>Entity' which are related to this entity via a relation of type 'm:n'.
+		''' If the EntityCollection hasn't been fetched yet, the collection returned will be empty.</summary>
+		<TypeContainedAttribute(GetType(My<[RelatedEntityName]>Entity))> _
+		Public Shadows Overridable ReadOnly Property [<[MappedFieldNameRelation]>]() As EntityCollection
+			Get
+				Dim toReturn As EntityCollection = MyBase.<[MappedFieldNameRelation]>
+				toReturn.EntityFactoryToUse = New My<[RelatedEntityName]>EntityFactory()
+				Return toReturn
+			End Get
+		End Property
+	<[EndIf]><[NextForeach]>
+	<[Foreach RelatedEntity ManyToOne]><[If Not MappedFieldRelationIsHidden]>
+		''' <summary>Gets / sets related entity of type My'<[RelatedEntityName]>Entity' which has to be set Imports a fetch action earlier. If no related entity
+		''' is set for this property, null is returned.
+		''' This property is not visible in databinded grids.</summary>
+<[If HideFromDatabinding]>		<Browsable(False)> _
+<[EndIf]>		Public Shadows Overridable Property [<[MappedFieldNameRelation]>]() As My<[RelatedEntityName]>Entity
+			Get
+				Return CType(MyBase.<[MappedFieldNameRelation]>, My<[RelatedEntityName]>Entity)
+			End Get
+			Set
+				MyBase.<[MappedFieldNameRelation]> = value
+			End Set
+		End Property
+	<[EndIf]><[NextForeach]>
+	<[Foreach RelatedEntity OneToOne]><[If Not MappedFieldRelationIsHidden]>
+		''' <summary>Gets / sets related entity of type My'<[RelatedEntityName]>Entity' which has to be set Imports a fetch action earlier. If no related entity
+		''' is set for this property, null is returned.
+		''' This property is not visible in databinded grids.</summary>
+<[If HideFromDatabinding]>		<Browsable(False)> _
+<[EndIf]>		Public Shadows Overridable Property [<[MappedFieldNameRelation]>]() As My<[RelatedEntityName]>Entity
+			Get
+				Return CType(MyBase.<[MappedFieldNameRelation]>, My<[RelatedEntityName]>Entity)
+			End Get
+			Set
+				MyBase.<[MappedFieldNameRelation]> = value
+			End Set
+		End Property
+	<[EndIf]><[NextForeach]>
+#End Region
+
+#Region "Custom Entity Code"
+		<[ UserCodeRegion "CustomEntityCode" ]>
+		' __LLBLGENPRO_USER_CODE_REGION_START CustomEntityCode
+		' __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>
+#End Region
+	End Class
+End Namespace

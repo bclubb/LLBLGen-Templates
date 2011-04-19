@@ -1,0 +1,84 @@
+﻿///////////////////////////////////////////////////////////////
+// This is generated code. 
+//////////////////////////////////////////////////////////////
+// Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+// Code is generated on: <[Time]>
+// Code is generated using templates: <[TemplateName]>
+// Templates vendor: Solutions Design.
+// Templates version: <[TemplateVersion]>
+//////////////////////////////////////////////////////////////
+using System;
+using System.Data;
+using SD.LLBLGen.Pro.ORMSupportClasses;
+using Npgsql;
+using NpgsqlTypes;
+
+namespace <[RootNamespace]><[DbSpecificNamespaceSuffix]>
+{
+	/// <summary>
+	/// Class which contains the static logic to execute retrieval stored procedures in the database.
+	/// </summary>
+	public <[If UsePartialClasses]>partial <[EndIf]>class RetrievalProcedures
+	{
+		/// <summary>
+		/// private CTor so no instance can be created.
+		/// </summary>
+		private RetrievalProcedures()
+		{
+		}
+
+	<[Foreach RetrievalStoredProcedureCall CrLf]>
+		/// <summary>
+		/// Calls stored procedure '<[ActualStoredProcedureName]>'.<br/><br/>
+		/// <[Foreach CustomProperty RetrievalStoredProcedureCall]>
+		/// <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+		/// </summary>
+<[If HasParameter NoCursors]><[Foreach Parameter NoCursors CrLf]>		/// <param name="<[CaseCamel CurrentParameterName]>"><[CurrentParameterDirection]> parameter of stored procedure</param><[NextForeach]>
+<[EndIf]>		/// <returns>Filled DataSet with resultset(s) of stored procedure</returns>
+		public static DataSet <[CurrentSPCallName]>(<[Foreach InputParameter Comma]><[If IsNullable]><[If IsValueType]>object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]> <[CaseCamel CurrentParameterName]><[NextForeach]><[If HasInputAndOutputParameters NoCursors]>, <[EndIf]><[Foreach OutputParameter NoCursors Comma]>ref <[If IsNullable]><[If IsValueType]>object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]> <[CaseCamel CurrentParameterName]><[NextForeach]>)
+		{
+			using(DataAccessAdapter adapter = new DataAccessAdapter()) 
+			{
+				return <[CurrentSPCallName]>(<[Foreach InputParameter Comma]><[CaseCamel CurrentParameterName]><[NextForeach]><[If HasInputAndOutputParameters NoCursors]>, <[EndIf]><[Foreach OutputParameter NoCursors Comma]>ref <[CaseCamel CurrentParameterName]><[NextForeach]><[If HasParameter NoCursors]>, <[EndIf]> adapter);
+			}
+		}
+
+
+		/// <summary>
+		/// Calls stored procedure '<[ActualStoredProcedureName]>'.<br/><br/>
+		/// <[Foreach CustomProperty RetrievalStoredProcedureCall]>
+		/// <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+		/// </summary>
+<[If HasParameter NoCursors]><[Foreach Parameter NoCursors CrLf]>		/// <param name="<[CaseCamel CurrentParameterName]>"><[CurrentParameterDirection]> parameter of stored procedure</param><[NextForeach]>
+<[EndIf]>		/// <param name="adapter">The DataAccessAdapter object to use for the call</param>
+		/// <returns>Filled DataSet with resultset(s) of stored procedure</returns>
+		public static DataSet <[CurrentSPCallName]>(<[Foreach InputParameter Comma]><[If IsNullable]><[If IsValueType]>object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]> <[CaseCamel CurrentParameterName]><[NextForeach]><[If HasInputAndOutputParameters NoCursors]>, <[EndIf]><[Foreach OutputParameter NoCursors Comma]>ref <[If IsNullable]><[If IsValueType]>object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]> <[CaseCamel CurrentParameterName]><[NextForeach]><[If HasParameter NoCursors]>, <[EndIf]>DataAccessAdapter adapter)
+		{
+			NpgsqlParameter[] parameters = new NpgsqlParameter[<[AmountOfParameters]>];
+<[Foreach Parameter NoCursors CrLf]>			parameters[<[ParameterIndex]>] = new NpgsqlParameter("<[ActualParameterName]>", NpgsqlDbType.<[TypeOfActualParameter]>, <[ParameterSize]>, "", ParameterDirection.<[CurrentParameterDirection]>, true, <[ParameterPrecision]>, <[ParameterScale]>,  DataRowVersion.Current, <[CaseCamel CurrentParameterName]>);<[NextForeach]>
+			DataSet toReturn = new DataSet("<[CurrentSPCallName]>");
+			bool hasSucceeded = adapter.CallRetrievalStoredProcedure("<[SourceSchemaName]>.<[ActualStoredProcedureName]>", parameters, toReturn);
+			return toReturn;
+		}
+		
+		/// <summary>Creates an IRetrievalQuery object for a call to the procedure '<[ActualStoredProcedureName]>'.
+		/// <[Foreach CustomProperty RetrievalStoredProcedureCall]>
+		/// <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+		/// </summary>
+<[If HasParameter InputParameter]><[Foreach InputParameter CrLf]>		/// <param name="<[CaseCamel CurrentParameterName]>"><[CurrentParameterDirection]> parameter of stored procedure</param><[NextForeach]>
+<[EndIf]>		/// <returns>IRetrievalQuery object which is ready to use for datafetching</returns>
+		public static IRetrievalQuery Get<[CurrentSPCallName]>CallAsQuery(<[Foreach InputParameter Comma]><[If IsNullable]><[If IsValueType]>object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]> <[CaseCamel CurrentParameterName]><[NextForeach]>)
+		{
+			RetrievalQuery toReturn = new RetrievalQuery( new NpgsqlCommand("<[SourceSchemaName]>.<[ActualStoredProcedureName]>" ) );
+<[Foreach InputParameter CrLf]>			toReturn.Parameters.Add(new NpgsqlParameter("<[ActualParameterName]>", NpgsqlDbType.<[TypeOfActualParameter]>, <[ParameterSize]>, "", ParameterDirection.Input, true, <[ParameterPrecision]>, <[ParameterScale]>,  DataRowVersion.Current, <[CaseCamel CurrentParameterName]>));<[NextForeach]>
+<[Foreach OutputParameter CrLf]>			toReturn.Parameters.Add(new NpgsqlParameter("<[ActualParameterName]>", NpgsqlDbType.<[TypeOfActualParameter]>, <[ParameterSize]>, "", ParameterDirection.Output, true, <[ParameterPrecision]>, <[ParameterScale]>,  DataRowVersion.Current, null));<[NextForeach]>
+			toReturn.Command.CommandType = CommandType.StoredProcedure;
+			return toReturn;
+		}
+	<[NextForeach]>
+
+		#region Included Code
+<# Custom_RetrievalProceduresAdapterTemplate #>
+		#endregion
+	}
+}

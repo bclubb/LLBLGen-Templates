@@ -1,0 +1,106 @@
+﻿///////////////////////////////////////////////////////////////
+// This is generated code. 
+//////////////////////////////////////////////////////////////
+// Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+// Code is generated on: <[Time]>
+// Code is generated using templates: <[TemplateName]>
+// Templates vendor: Solutions Design.
+// Templates version: <[TemplateVersion]>
+//////////////////////////////////////////////////////////////
+using System;
+using System.ComponentModel;
+using System.Collections;
+#if !CF
+using System.Runtime.Serialization;
+#endif
+using <[RootNamespace]>.FactoryClasses;
+using <[RootNamespace]>.CollectionClasses;
+using <[RootNamespace]>.DaoClasses;
+using <[RootNamespace]>.RelationClasses;
+<[Foreach AdditionalNamespaces CrLf]>using <[CurrentAdditionalNamespace]>;<[NextForeach]>
+using SD.LLBLGen.Pro.ORMSupportClasses;
+
+namespace <[RootNamespace]>.EntityClasses
+{
+	<[ UserCodeRegion "AdditionalNamespaces" ]>
+	// __LLBLGENPRO_USER_CODE_REGION_START AdditionalNamespaces
+	// __LLBLGENPRO_USER_CODE_REGION_END
+	<[ EndUserCodeRegion ]>
+
+	/// <summary>
+	/// Entity class which represents the entity '<[CurrentEntityName]>'. <br/>
+	/// This class is used for Business Logic or for framework extension code. 
+	/// </summary>
+	[Serializable]
+	public <[If UsePartialClasses]>partial <[EndIf]>class <[CurrentEntityName]>Entity : <[CurrentEntityName]>EntityBase<[Foreach AdditionalInterfaces]>, <[CurrentAdditionalInterface]><[NextForeach]><[ UserCodeRegion "AdditionalInterfaces" ]>
+		// __LLBLGENPRO_USER_CODE_REGION_START AdditionalInterfaces
+		// __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>	
+	{
+		#region Constructors
+		/// <summary>
+		/// CTor
+		/// </summary>
+		<[If IsAbstract]>internal<[Else]>public<[EndIf]> <[CurrentEntityName]>Entity():base()
+		{
+		}
+
+	<[If HasPrimaryKey IncludeInherited]>
+		/// <summary>
+		/// CTor
+		/// </summary>
+<[Foreach PrimaryKeyEntityField IncludeInherited CrLf]>		/// <param name="<[CaseCamel EntityFieldName]>">PK value for <[CurrentEntityName]> which data should be fetched into this <[CurrentEntityName]> object</param><[NextForeach]>
+		<[If IsAbstract]>internal<[Else]>public<[EndIf]> <[CurrentEntityName]>Entity(<[Foreach PrimaryKeyEntityField IncludeInherited Comma]><[If IsNullable]><[If IsValueType]>Nullable<<[TypeOfField]>><[Else]><[TypeOfField]><[EndIf]><[Else]><[TypeOfField]><[EndIf]> <[CaseCamel EntityFieldName]><[NextForeach]>):
+			base(<[Foreach PrimaryKeyEntityField IncludeInherited Comma]><[CaseCamel EntityFieldName]><[NextForeach]>)
+		{
+		}
+
+
+		/// <summary>
+		/// CTor
+		/// </summary>
+<[Foreach PrimaryKeyEntityField IncludeInherited CrLf]>		/// <param name="<[CaseCamel EntityFieldName]>">PK value for <[CurrentEntityName]> which data should be fetched into this <[CurrentEntityName]> object</param><[NextForeach]>
+		/// <param name="prefetchPathToUse">the PrefetchPath which defines the graph of objects to fetch as well</param>
+		<[If IsAbstract]>internal<[Else]>public<[EndIf]> <[CurrentEntityName]>Entity(<[Foreach PrimaryKeyEntityField IncludeInherited Comma]><[If IsNullable]><[If IsValueType]>Nullable<<[TypeOfField]>><[Else]><[TypeOfField]><[EndIf]><[Else]><[TypeOfField]><[EndIf]> <[CaseCamel EntityFieldName]><[NextForeach]>, IPrefetchPath prefetchPathToUse):
+			base(<[Foreach PrimaryKeyEntityField IncludeInherited Comma]><[CaseCamel EntityFieldName]><[NextForeach]>, prefetchPathToUse)
+		{
+		}
+
+
+		/// <summary>
+		/// CTor
+		/// </summary>
+<[Foreach PrimaryKeyEntityField IncludeInherited CrLf]>		/// <param name="<[CaseCamel EntityFieldName]>">PK value for <[CurrentEntityName]> which data should be fetched into this <[CurrentEntityName]> object</param><[NextForeach]>
+		/// <param name="validator">The custom validator object for this <[CurrentEntityName]>Entity</param>
+		<[If IsAbstract]>internal<[Else]>public<[EndIf]> <[CurrentEntityName]>Entity(<[Foreach PrimaryKeyEntityField IncludeInherited Comma]><[If IsNullable]><[If IsValueType]>Nullable<<[TypeOfField]>><[Else]><[TypeOfField]><[EndIf]><[Else]><[TypeOfField]><[EndIf]> <[CaseCamel EntityFieldName]><[NextForeach]>, IValidator validator):
+			base(<[Foreach PrimaryKeyEntityField IncludeInherited Comma]><[CaseCamel EntityFieldName]><[NextForeach]>, validator)
+		{
+		}
+	<[EndIf]>
+		
+		/// <summary>
+		/// Private CTor for deserialization
+		/// </summary>
+		/// <param name="info"></param>
+		/// <param name="context"></param>
+		protected <[CurrentEntityName]>Entity(SerializationInfo info, StreamingContext context) : base(info, context)
+		{
+			<[ UserCodeRegion "DeserializationConstructor" ]>
+			// __LLBLGENPRO_USER_CODE_REGION_START DeserializationConstructor
+			// __LLBLGENPRO_USER_CODE_REGION_END
+			<[ EndUserCodeRegion ]>
+		}
+		#endregion
+
+		#region Custom Entity code
+		<[ UserCodeRegion "CustomEntityCode" ]>
+		// __LLBLGENPRO_USER_CODE_REGION_START CustomEntityCode
+		// __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>
+		#endregion
+
+		#region Included Code
+<# Custom_EntityUsingEntityBaseTemplate #>
+		#endregion
+	}
+}

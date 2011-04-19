@@ -1,0 +1,216 @@
+﻿' ///////////////////////////////////////////////////////////////
+' // This is generated code. 
+' //////////////////////////////////////////////////////////////
+' // Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+' // Code is generated on: <[Time]>
+' // Code is generated using templates: <[TemplateName]>
+' // Templates vendor: Solutions Design.
+' // Templates version: <[TemplateVersion]>
+' //////////////////////////////////////////////////////////////
+Imports System
+Imports System.Data
+Imports Oracle.DataAccess.Client
+Imports Oracle.DataAccess.Types
+
+Namespace <[RootNamespace]><[DbSpecificNamespaceSuffix]>
+	''' <summary>
+	''' Class which contains the Shared logic to execute action stored procedures in the database.
+	''' </summary>
+	Public Class ActionProcedures
+		''' <summary>
+		''' Private CTor so no instance can be created.
+		''' </summary>
+		Private Sub New()
+		End Sub
+
+	<[Foreach ActionStoredProcedureCall CrLf]>
+		''' <summary>
+		''' Delegate definition for stored procedure '<[ActualStoredProcedureName]>' to be used in combination of a UnitOfWork2 object.
+		''' </summary>
+		Delegate Function <[CurrentSPCallName]>CallBack(<[Foreach InputParameter Comma]><[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Nullable(Of <[TypeOfParameter]>)<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]><[If HasInputAndOutputParameters]>, <[EndIf]><[Foreach OutputParameter Comma]>ByRef <[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Nullable(Of <[TypeOfParameter]>)<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]><[If HasParameter]>, <[EndIf]>adapter As DataAccessAdapter) As Integer
+
+		''' <summary>
+		''' Calls stored procedure '<[ActualStoredProcedureName]>'. Can't have any cursors.<br/><br/>
+		''' <[Foreach CustomProperty ActionStoredProcedureCall]>
+		''' <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+		''' </summary>
+<[If HasParameter]><[Foreach Parameter CrLf]>		''' <param name="<[CaseCamel CurrentParameterName]>"><[CurrentParameterDirection]> parameter of stored procedure</param><[NextForeach]>
+<[EndIf]>		''' <returns>Amount of rows affected, if the database / routine doesn't surpress rowcounting.</returns>
+		Public Shared Function <[CurrentSPCallName]>(<[Foreach InputParameter Comma]><[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Nullable(Of <[TypeOfParameter]>)<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]><[If HasInputAndOutputParameters]>, <[EndIf]><[Foreach OutputParameter Comma]>ByRef <[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Nullable(Of <[TypeOfParameter]>)<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]>) As Integer
+			Dim adapter As New DataAccessAdapter()
+			Try
+				Return <[CurrentSPCallName]>(<[Foreach InputParameter Comma]><[CaseCamel CurrentParameterName]><[NextForeach]><[If HasInputAndOutputParameters]>, <[EndIf]><[Foreach OutputParameter Comma]><[CaseCamel CurrentParameterName]><[NextForeach]><[If HasParameter]>, <[EndIf]> adapter)
+			Finally
+				adapter.Dispose()
+			End Try
+		End Function
+
+
+		''' <summary>
+		''' Calls stored procedure '<[ActualStoredProcedureName]>'. Can't have any cursors.<br/><br/>
+		''' <[Foreach CustomProperty ActionStoredProcedureCall]>
+		''' <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+		''' </summary>
+<[If HasParameter]><[Foreach Parameter CrLf]>		''' <param name="<[CaseCamel CurrentParameterName]>"><[CurrentParameterDirection]> parameter of stored procedure</param><[NextForeach]>
+<[EndIf]>		''' <param name="adapter">The DataAccessAdapter object to use for the call</param>
+		''' <returns>Amount of rows affected, if the database / routine doesn't surpress rowcounting.</returns>
+		Public Shared Function <[CurrentSPCallName]>(<[Foreach InputParameter Comma]><[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Nullable(Of <[TypeOfParameter]>)<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]><[If HasInputAndOutputParameters]>, <[EndIf]><[Foreach OutputParameter Comma]>ByRef <[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Nullable(Of <[TypeOfParameter]>)<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]><[If HasParameter]>, <[EndIf]>adapter As DataAccessAdapter) As Integer
+			Dim parameters() As OracleParameter = New OracleParameter(<[AmountOfParameters]> - 1) {}
+<[Foreach Parameter CrLf]>			parameters(<[ParameterIndex]>) = ParameterCreator.Create("<[ActualParameterName]>", OracleDbType.<[TypeOfActualParameter]>, ParameterDirection.<[CurrentParameterDirection]>, <[ ParameterSize ]>, <[ParameterPrecision]>, <[ParameterScale]>, <[CaseCamel CurrentParameterName]>)<[NextForeach]>
+			Dim toReturn As Integer = adapter.CallActionStoredProcedure("<[SourceSchemaName]>.<[ActualStoredProcedureName]>", parameters)
+			Dim _pValue As Object
+<[Foreach OutputParameter NoCursors CrLf]>			_pValue = ValueConverter.Convert(Of <[TypeOfParameter]>)(parameters(<[ParameterIndex]>))
+			If (Not(_pValue Is System.DBNull.Value)) Then
+				<[CaseCamel CurrentParameterName]> = CType(_pValue, <[If IsNullable]><[If IsValueType]>Nullable(Of <[TypeOfParameter]>)<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]>)
+			End If<[NextForeach]>
+			Dim i As Integer = 0
+			For i=0 To <[AmountOfParameters]>-1
+				If Not parameters(i) Is Nothing Then
+					parameters(i).Dispose()
+				End If
+			Next i
+			Return toReturn
+		End Function
+	<[NextForeach]>
+
+#Region "Included Code"
+<# Custom_ActionProceduresAdapterTemplate #>
+#End Region
+	End Class
+	
+
+	''' <summary>
+	''' class for producing parameters. This routine is used instead of a normal CTor, as decimal typed parameters can't have their precision/scale set in ODP.NET
+	''' </summary>
+	Friend Class ParameterCreator
+		''' <summary>Creates the specified parameter name.</summary>
+		''' <param name="parameterName">Name of the parameter.</param>
+		''' <param name="dbType">parameterType.</param>
+		''' <param name="direction">The direction.</param>
+		''' <param name="size">The max size</param>
+		''' <param name="precision">The precision.</param>
+		''' <param name="scale">The scale.</param>
+		''' <param name="value">The value.</param>
+		''' <returns>ready to use parameter</returns>
+		Friend Shared Function Create(parameterName As String, dbType As OracleDbType, direction As ParameterDirection, size As Integer, precision As Byte, scale As Byte, value As Object) As OracleParameter 
+			Dim toReturn As New OracleParameter()
+			toReturn.ParameterName = parameterName
+			toReturn.Direction = direction
+			toReturn.IsNullable = True
+			If dbType <> OracleDbType.Decimal Then
+				toReturn.Precision = precision
+				toReturn.Scale = scale
+			End If
+			toReturn.Size = size
+			toReturn.OracleDbType = dbType
+			toReturn.Value = value
+			Return toReturn
+		End Function
+	End Class
+
+	
+	''' <summary>
+	''' Converts parameter values from specIfic Oracle types to .NET types.
+	''' </summary>
+	Friend Class ValueConverter
+		Friend Shared Function Convert(Of T)(parameter As OracleParameter) As Object
+			Dim toReturn As Object = Convert(parameter)
+			If (Not(toReturn Is System.DBNull.Value)) Then
+				toReturn = System.Convert.ChangeType(toReturn, GetType(T))
+			End If
+			Return toReturn
+		End Function
+	
+		Friend Shared Function Convert(parameter As OracleParameter) As Object
+			Dim toReturn As Object = DBNull.Value
+
+			If Not parameter.Value Is Nothing Then
+				Dim typeOfParameterValue As Type = parameter.Value.GetType()
+				Select Case typeOfParameterValue.FullName
+					Case "Oracle.DataAccess.Types.OracleBinary"
+						Dim valueAsBinary As OracleBinary = CType(parameter.Value, OracleBinary)
+						If Not valueAsBinary.IsNull Then
+							toReturn = valueAsBinary.Value
+						End If
+					Case "Oracle.DataAccess.Types.OracleBlob"
+						toReturn = (CType(parameter.Value, OracleBlob)).Value
+					Case "Oracle.DataAccess.Types.OracleClob"
+						toReturn = (CType(parameter.Value, OracleClob)).Value
+					Case "Oracle.DataAccess.Types.OracleDate"
+						Dim valueAsDate As OracleDate= CType(parameter.Value, OracleDate)
+						If Not valueAsDate.IsNull Then
+							toReturn = valueAsDate.Value
+						End If
+					Case "Oracle.DataAccess.Types.OracleDecimal"
+						Dim valueAsDecimal As OracleDecimal= CType(parameter.Value, OracleDecimal)
+						If Not valueAsDecimal.IsNull Then
+							Dim value As Decimal = (CType(parameter.Value, OracleDecimal)).Value
+							Dim actualPrecision As Integer = parameter.Precision
+							If parameter.Precision = 0 Then
+								actualPrecision = 38
+							End If
+							toReturn = value
+							' Following code Is based On ODP.NET's conversion routine, as it is pretty obscure what ODP.NET's doing with values read. The if statements are from ODP.NET. 
+							If parameter.Scale=0 Then
+								If actualPrecision < 5 Then
+									toReturn = System.Convert.ToInt16(value)
+								Else
+									If actualPrecision < 10 Then
+										toReturn = System.Convert.ToInt32(value)
+									Else
+										If actualPrecision < 19 Then
+											toReturn = System.Convert.ToInt64(value)
+										End If
+									End If
+								End If
+							Else
+								If actualPrecision < 8 Then
+									toReturn = System.Convert.ToSingle(value)
+								Else
+									If actualPrecision < 16 Then
+										toReturn = System.Convert.ToDouble(value)
+									End If
+								End If
+							End If
+						End If
+					Case "Oracle.DataAccess.Types.OracleIntervalDS"
+						Dim valueAsIntervalDS As OracleIntervalDS= CType(parameter.Value, OracleIntervalDS)
+						If Not valueAsIntervalDS.IsNull Then
+							toReturn = valueAsIntervalDS.Value
+						End If
+					Case "Oracle.DataAccess.Types.OracleIntervalYM"
+						Dim valueAsIntervalYM As OracleIntervalYM= CType(parameter.Value, OracleIntervalYM)
+						If Not valueAsIntervalYM.IsNull Then
+							toReturn = valueAsIntervalYM.Value
+						End If
+					Case "Oracle.DataAccess.Types.OracleString"
+						Dim valueAsString As OracleString = CType(parameter.Value, OracleString)
+						If Not valueAsString.IsNull Then
+							toReturn = valueAsString.Value
+						End If
+					Case "Oracle.DataAccess.Types.OracleTimeStamp"
+						Dim valueAsTimeStamp As OracleTimeStamp= CType(parameter.Value, OracleTimeStamp)
+						If Not valueAsTimeStamp.IsNull Then
+							toReturn = valueAsTimeStamp.Value
+						End If
+					Case "Oracle.DataAccess.Types.OracleTimeStampLTZ"
+						Dim valueAsTimeStampLTZ As OracleTimeStampLTZ= CType(parameter.Value, OracleTimeStampLTZ)
+						If Not valueAsTimeStampLTZ.IsNull Then
+							toReturn = valueAsTimeStampLTZ.Value
+						End If
+					Case "Oracle.DataAccess.Types.OracleTimeStampTZ"
+						Dim valueAsTimeStampTZ As OracleTimeStampTZ= CType(parameter.Value, OracleTimeStampTZ)
+						If Not valueAsTimeStampTZ.IsNull Then
+							toReturn = valueAsTimeStampTZ.Value
+						End If
+					Case Else
+						toReturn = parameter.Value
+				End Select
+			End If
+			If toReturn Is Nothing Then
+				toReturn = System.DBNull.Value
+			End If
+			Return toReturn
+		End Function
+	End Class
+End Namespace

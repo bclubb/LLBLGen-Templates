@@ -1,0 +1,300 @@
+﻿' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+' // This is generated code. 
+' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+' // Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+' // Code is generated on: <[Time]>
+' // Code is generated using templates: <[TemplateName]>
+' // Templates vendor: Solutions Design.
+' // Templates version: <[TemplateVersion]>
+' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+Imports System
+Imports System.Collections.Generic
+Imports <[RootNamespace]>.HelperClasses
+<[ If HasEntity ]>
+Imports <[RootNamespace]>.EntityClasses
+Imports <[RootNamespace]>.RelationClasses
+Imports <[RootNamespace]>.DaoClasses
+Imports <[RootNamespace]>.CollectionClasses<[ EndIf ]>
+
+Imports SD.LLBLGen.Pro.ORMSupportClasses
+<[ UserCodeRegion "AdditionalNamespaces" ]>
+' __LLBLGENPRO_USER_CODE_REGION_START AdditionalNamespaces
+' __LLBLGENPRO_USER_CODE_REGION_END
+<[ EndUserCodeRegion ]>
+Namespace <[RootNamespace]>.FactoryClasses
+<[If HasEntity]>	
+	''' <summary>general base Class For the generated factories</summary>
+	<Serializable()> _
+	Public Class EntityFactoryBase
+			Inherits EntityFactoryCore
+		Private _entityName As String
+		Private _typeOfEntity As <[RootNamespace]>.EntityType
+		
+		''' <summary>CTor</summary>
+		''' <param name="entityName">Name of the entity.</param>
+		''' <param name="typeOfEntity">The type of entity.</param>
+		Public Sub New(entityName As String, typeOfEntity As <[RootNamespace]>.EntityType)
+			_entityName = entityName
+			_typeOfEntity = typeOfEntity
+		End Sub
+
+		''' <summary>Creates a New entity instance using the GeneralEntityFactory In the generated code, using the passed In entitytype value</summary>
+		''' <param name="entityTypeValue">The entity type value of the entity To create an instance For.</param>
+		''' <returns>New IEntity instance</returns>
+		Public Overrides Overloads Function CreateEntityFromEntityTypeValue(entityTypeValue As Integer) As IEntity
+			Return GeneralEntityFactory.Create(CType(entityTypeValue, <[RootNamespace]>.EntityType))
+		End Function
+
+		''' <summary>Creates, using the generated EntityFieldsFactory, the IEntityFields object for the entity to create. </summary>
+		''' <returns>Empty IEntityFields object.</returns>
+		Public Overrides Function CreateFields() As IEntityFields
+			Return EntityFieldsFactory.CreateEntityFieldsObject(_typeOfEntity)
+		End Function
+		
+		''' <summary>Creates the relations collection To the entity To Join all targets so this entity can be fetched. </summary>
+		''' <param name="objectAlias">The object alias to use for the elements in the relations.</param>
+		''' <returns>null If the entity isn't in a hierarchy of type TargetPerEntity, otherwise the relations collection needed to
+		''' Join all targets together To fetch all subtypes of this entity And this entity itself</returns>
+		Public Overrides Function  CreateHierarchyRelations(objectAlias As String) As IRelationCollection
+			Return InheritanceInfoProviderSingleton.GetInstance().GetHierarchyRelations(_entityName, objectAlias)
+		End Function
+
+		''' <summary>This method retrieves, using the InheritanceInfoprovider, the factory For the entity represented by the values passed In.</summary>
+		''' <param name="fieldValues">Field values read from the db, To determine which factory To Return, based On the field values passed In.</param>
+		''' <param name="entityFieldStartIndexesPerEntity">indexes into values where per entity type their own fields start.</param>
+		''' <returns>the factory For the entity which Is represented by the values passed In.</returns>
+		Public Overrides Function GetEntityFactory(fieldValues As Object(), entityFieldStartIndexesPerEntity As Dictionary(Of String, Integer)) As IEntityFactory
+			Dim toReturn As IEntityFactory =  CType(InheritanceInfoProviderSingleton.GetInstance().GetEntityFactory(_entityName, fieldValues, entityFieldStartIndexesPerEntity), IEntityFactory)
+			If toReturn Is Nothing Then
+				toReturn = Me
+			End If
+			Return toReturn
+		End Function
+								
+		''' <summary>Creates a New entity collection For the entity of this factory.</summary>
+		''' <returns>ready To use New entity collection, typed.</returns>
+		Public Overrides Function CreateEntityCollection() As IEntityCollection 
+			Return GeneralEntityCollectionFactory.Create(_typeOfEntity)
+		End Function
+			
+		''' <summary>returns the name of the entity this factory Is For, e.g. "EmployeeEntity"</summary>
+		Public Overrides ReadOnly Property ForEntityName() As String
+			Get 
+				Return _entityName
+			End Get
+		End Property
+	End Class<[EndIf]>
+<[Foreach Entity CrLf]>	
+	''' <summary>
+	''' Factory to create new, empty <[CurrentEntityName]>Entity objects.
+	''' </summary>
+	<Serializable()> _
+	Public Class <[CurrentEntityName]>EntityFactory 
+		Inherits EntityFactoryBase
+
+		''' <summary>CTor</summary>
+		Public Sub New()
+			MyBase.New("<[CurrentEntityName]>Entity", <[RootNamespace]>.EntityType.<[CurrentEntityName]>Entity)
+		End Sub
+
+		''' <summary>Creates a new, empty <[CurrentEntityName]>Entity object.</summary>
+		''' <returns>A new, empty <[CurrentEntityName]>Entity object.</returns>
+		Public Overrides Overloads Function Create() As IEntity
+<# SD_EntityFactoryIncludeTemplate #>
+		End Function
+		
+		''' <summary>Creates a new <[CurrentEntityName]>Entity instance but uses a special constructor which will set the Fields object of the new
+		''' IEntity instance to the passed in fields object. Implement this method to support multi-type in single table inheritance.</summary>
+		''' <param name="fields">Populated IEntityFields object for the new IEntity to create</param>
+		''' <returns>Fully created and populated (due to the IEntityFields object) IEntity object</returns>
+		Public Overrides Overloads Function Create(fields As IEntityFields) As IEntity
+			Dim toReturn As IEntity = Create()
+			toReturn.Fields = fields
+			<[ UserCodeRegion CurrentEntityName "CreateNew($VALUE)UsingFields" ]>
+			' __LLBLGENPRO_USER_CODE_REGION_START <[ UserCodeRegionName ]>
+			' __LLBLGENPRO_USER_CODE_REGION_END
+			<[ EndUserCodeRegion ]>		
+			Return toReturn
+		End Function
+<[ If Not IsInHierarchyType None ]>		''' <summary>Creates the hierarchy fields For the Entity To which this factory belongs.</summary>
+		''' <returns>IEntityFields Object With the fields of all the entities In the hierarchy of this Entity Or the fields of this Entity If the Entity isn't in a hierarchy.</returns>
+		Public Overrides Function CreateHierarchyFields() As IEntityFields
+			Return New EntityFields(InheritanceInfoProviderSingleton.GetInstance().GetHierarchyFields("<[CurrentEntityName]>Entity"), InheritanceInfoProviderSingleton.GetInstance(), Nothing)
+		End Function<[ EndIf ]>
+#Region "Included Code"
+<# Custom_EntityFactoriesTemplate #>
+#End Region
+	End Class<[NextForeach]>
+<[If HasEntity]>
+	''' <summary>Factory to create new entity collection objects</summary>
+	<Serializable()> _
+	Public Class GeneralEntityCollectionFactory
+		''' <summary>Creates a New entity collection</summary>
+		''' <param name="typeToUse">The entity type To create the collection For.</param>
+		''' <returns>A New entity collection Object.</returns>
+		Public Shared Function Create(typeToUse As <[RootNamespace]>.EntityType) As IEntityCollection 
+			Select Case typeToUse
+<[Foreach Entity CrLf]>				Case <[RootNamespace]>.EntityType.<[CurrentEntityName]>Entity
+					Return New <[CurrentEntityName]>Collection()<[NextForeach]>
+				Case Else
+					Return Nothing
+			End Select
+		End Function		
+	End Class
+	
+	''' <summary>Factory to create new, empty Entity objects based on the entity type specified. Uses entity specific factory objects</summary>
+	<Serializable()> _
+	Public Class GeneralEntityFactory
+		''' <summary>Creates a new, empty Entity object of the type specified</summary>
+		''' <param name="entityTypeToCreate">The entity type to create.</param>
+		''' <returns>A new, empty Entity object.</returns>
+		Public Shared Function Create(entityTypeToCreate As <[RootNamespace]>.EntityType) As IEntity 
+			Dim factoryToUse As IEntityFactory = Nothing
+			Select Case entityTypeToCreate
+<[Foreach Entity CrLf]>				Case <[RootNamespace]>.EntityType.<[CurrentEntityName]>Entity
+					factoryToUse = New <[CurrentEntityName]>EntityFactory()<[NextForeach]>
+			End Select
+			Dim toReturn As IEntity = Nothing
+			if Not factoryToUse Is Nothing Then
+				toReturn = factoryToUse.Create()
+			End If
+			Return toReturn
+		End Function		
+	End Class
+	
+	''' <summary>Class which Is used To obtain the entity factory based On the .NET type of the entity. </summary>
+	<Serializable()> _
+	Public Class EntityFactoryFactory
+#If CF Then
+		''' <summary>Gets the factory of the entity With the <[RootNamespace]>.EntityType specified</summary>
+		''' <param name="typeOfEntity">The type of entity.</param>
+		''' <returns>factory To use Or null If Not found</returns>
+		Public Shared Function GetFactory(typeOfEntity As <[RootNamespace]>.EntityType) As IEntityFactory
+			Return GeneralEntityFactory.Create(typeOfEntity).GetEntityFactory()
+		End Function
+#Else
+		Private Shared _factoryPerType As Dictionary(Of Type, IEntityFactory) = New Dictionary(Of Type, IEntityFactory)()
+
+		''' <summary>Initializes the <see cref="EntityFactoryFactory"/> Class.</summary>
+		Shared Sub New()
+			Dim entityTypeValues As Array = [Enum].GetValues(GetType(<[RootNamespace]>.EntityType))
+			For Each entityTypeValue As Integer In entityTypeValues
+				Dim dummy As IEntity = GeneralEntityFactory.Create(CType(entityTypeValue, <[RootNamespace]>.EntityType))
+				_factoryPerType.Add(CType(dummy, Object).GetType(), dummy.GetEntityFactory())
+			Next
+		End Sub
+
+		''' <summary>Gets the factory of the entity With the .NET type specified</summary>
+		''' <param name="typeOfEntity">The type of entity.</param>
+		''' <returns>factory To use Or null If Not found</returns>
+		Public Shared Function GetFactory(typeOfEntity As Type) As IEntityFactory 
+			Dim toReturn As IEntityFactory  = Nothing
+			_factoryPerType.TryGetValue(typeOfEntity, toReturn)
+			Return toReturn
+		End Function
+
+		''' <summary>Gets the factory of the entity With the <[RootNamespace]>.EntityType specified</summary>
+		''' <param name="typeOfEntity">The type of entity.</param>
+		''' <returns>factory To use Or null If Not found</returns>
+		Public Shared Function GetFactory(typeOfEntity As <[RootNamespace]>.EntityType) As IEntityFactory
+			Return GetFactory(CType(GeneralEntityFactory.Create(typeOfEntity), Object).GetType())
+		End Function
+#End If
+	End Class
+				
+	''' <summary>Element creator For creating project elements from somewhere Else, like inside Linq providers.</summary>
+	Public Class ElementCreator 
+		Inherits ElementCreatorBase
+		Implements IElementCreator
+	
+		''' <summary>Gets the factory of the Entity type with the <[RootNamespace]>.EntityType value passed in</summary>
+		''' <param name="entityTypeValue">The entity type value.</param>
+		''' <returns>the entity factory of the entity type or null if not found</returns>
+		Public Function GetFactory(entityTypeValue As Integer) As IEntityFactory Implements IElementCreator.GetFactory
+			Return CType(GetFactoryImpl(entityTypeValue), IEntityFactory)
+		End Function
+		
+		''' <summary>Gets the factory of the Entity type With the .NET type passed In</summary>
+		''' <param name="typeOfEntity">The type of entity.</param>
+		''' <returns>the entity factory of the entity type Or null If Not found</returns>
+		Public Function GetFactory(typeOfEntity As Type) As IEntityFactory Implements IElementCreator.GetFactory
+			Return CType(GetFactoryImpl(typeOfEntity), IEntityFactory)
+		End Function
+
+		''' <summary>Creates a New resultset fields Object With the number of field slots reserved As specified</summary>
+		''' <param name="numberOfFields">The number of fields.</param>
+		''' <returns>ready To use resultsetfields Object</returns>
+		Public Function CreateResultsetFields(numberOfFields As Integer) As IEntityFields  Implements IElementCreator.CreateResultsetFields
+			Return New ResultsetFields(numberOfFields)
+		End Function
+		
+		''' <summary>Gets an instance of the TypedListDAO Class To execute dynamic lists And projections.</summary>
+		''' <returns>ready To use typedlistDAO</returns>
+		Public Function GetTypedListDao() As IDao Implements IElementCreator.GetTypedListDAO
+			Return New TypedListDAO()
+		End Function
+				
+		''' <summary>Creates a New dynamic relation instance</summary>
+		''' <param name="leftOperand">The Left operand.</param>
+		''' <returns>ready To use dynamic relation</returns>
+		Public Overrides Overloads Function CreateDynamicRelation(leftOperand As DerivedTableDefinition) As IDynamicRelation
+			Return New DynamicRelation(leftOperand)
+		End Function
+
+		''' <summary>Creates a New dynamic relation instance</summary>
+		''' <param name="leftOperand">The Left operand.</param>
+		''' <param name="joinType">Type of the Join. If None Is specified, Inner Is assumed.</param>
+		''' <param name="rightOperand">The Right operand.</param>
+		''' <param name="onClause">The On clause For the Join.</param>
+		''' <returns>ready To use dynamic relation</returns>
+		Public Overrides Overloads Function CreateDynamicRelation(leftOperand As DerivedTableDefinition, joinType As JoinHint, rightOperand As DerivedTableDefinition, onClause As IPredicate) As IDynamicRelation
+			Return New DynamicRelation(leftOperand, joinType, rightOperand, onClause)
+		End Function
+
+		''' <summary>Creates a New dynamic relation instance</summary>
+		''' <param name="leftOperand">The Left operand.</param>
+		''' <param name="joinType">Type of the Join. If None Is specified, Inner Is assumed.</param>
+		''' <param name="rightOperandEntityName">Name of the entity, which Is used As the Right operand.</param>
+		''' <param name="aliasRightOperand">The Alias of the Right operand. If you don't want to / need to alias the right operand (only alias if you have to), specify string.Empty.</param>
+		''' <param name="onClause">The On clause For the Join.</param>
+		''' <returns>ready To use dynamic relation</returns>
+		Public Overrides Overloads Function CreateDynamicRelation(leftOperand As DerivedTableDefinition, joinType As JoinHint, rightOperandEntityName As String, aliasRightOperand As String, onClause As IPredicate) As IDynamicRelation
+			Return New DynamicRelation(leftOperand, joinType, CType([Enum].Parse(GetType(<[RootNamespace]>.EntityType), rightOperandEntityName, False), <[RootNamespace]>.EntityType), aliasRightOperand, onClause)
+		End Function
+
+		''' <summary>Creates a New dynamic relation instance</summary>
+		''' <param name="leftOperandEntityName">Name of the entity which Is used As the Left operand.</param>
+		''' <param name="joinType">Type of the Join. If None Is specified, Inner Is assumed.</param>
+		''' <param name="rightOperandEntityName">Name of the entity, which Is used As the Right operand.</param>
+		''' <param name="aliasLeftOperand">The Alias of the Left operand. If you don't want to / need to alias the right operand (only alias if you have to), specify string.Empty.</param>
+		''' <param name="aliasRightOperand">The Alias of the Right operand. If you don't want to / need to alias the right operand (only alias if you have to), specify string.Empty.</param>
+		''' <param name="onClause">The On clause For the Join.</param>
+		''' <returns>ready To use dynamic relation</returns>
+		Public Overrides Overloads Function CreateDynamicRelation(leftOperandEntityName As String, joinType As JoinHint, rightOperandEntityName As String, aliasLeftOperand As String, aliasRightOperand As String, onClause As IPredicate) As IDynamicRelation
+			Return New DynamicRelation(CType([Enum].Parse(GetType(<[RootNamespace]>.EntityType), leftOperandEntityName, False), <[RootNamespace]>.EntityType), joinType, CType([Enum].Parse(GetType(<[RootNamespace]>.EntityType), rightOperandEntityName, False), <[RootNamespace]>.EntityType), aliasLeftOperand, aliasRightOperand, onClause)
+		End Function
+				
+		''' <summary>Obtains the inheritance info provider instance from the singleton </summary>
+		''' <returns>The singleton instance of the inheritance info provider</returns>
+		Public Overrides Function ObtainInheritanceInfoProviderInstance() As IInheritanceInfoProvider
+			Return InheritanceInfoProviderSingleton.GetInstance()
+		End Function
+				
+		''' <summary>Implementation of the routine which gets the factory of the Entity type With the <[RootNamespace]>.EntityType value passed In</summary>
+		''' <param name="entityTypeValue">The entity type value.</param>
+		''' <returns>the entity factory of the entity type Or null If Not found</returns>
+		Protected Overrides Function GetFactoryImpl(entityTypeValue As Integer) As IEntityFactoryCore
+			Return EntityFactoryFactory.GetFactory(CType(entityTypeValue, <[RootNamespace]>.EntityType))
+		End Function
+		
+#If Not CF Then
+		''' <summary>Implementation of the routine which gets the factory of the Entity type With the .NET type passed In</summary>
+		''' <param name="typeOfEntity">The type of entity.</param>
+		''' <returns>the entity factory of the entity type Or null If Not found</returns>
+		Protected Overrides Function GetFactoryImpl(typeOfEntity As Type) As IEntityFactoryCore 
+			Return EntityFactoryFactory.GetFactory(typeOfEntity)
+		End Function
+#End If
+	End Class
+<[EndIf]>
+End Namespace

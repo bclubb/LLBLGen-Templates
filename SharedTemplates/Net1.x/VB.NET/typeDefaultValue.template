@@ -1,0 +1,59 @@
+﻿' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+' // This is generated code. 
+' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+' // Code is generated using LLBLGen Pro version <[LLBLGenVersion]>
+' // Code is generated on <[Time]>
+' // Code is generated using templates: <[TemplateName]>
+' // Templates vendor: Solutions Design.
+' // Templates version: <[TemplateVersion]>
+' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+Imports System
+
+Imports SD.LLBLGen.Pro.ORMSupportClasses
+
+Namespace <[RootNamespace]>.HelperClasses
+	''' <summary>
+	''' Class for the returning of a default value when a type is given. These
+	''' Default values are used for EntityFields which have a NULL value in the database.
+	''' In Business Logic it's impractical to work with NULL values. If you want different values
+	''' as default values for NULL values for a given type, alter the DefaultValue method below.
+	''' If you want to keep your values when regenerating the code, make this file read-only, or bind a different
+	''' template to the template ID: SD_TypeDefaultValueIncludeTemplate, or alter the template file currently 
+	''' bound to that template ID.
+	''' </summary>
+	<Serializable> _
+	Public Class TypeDefaultValue 
+		Implements ITypeDefaultValue
+	
+		''' <summary>
+		''' Ctor
+		''' </summary>
+		Public Sub New()
+		End Sub
+
+
+		''' <summary>
+		''' Returns a default value for the type specified
+		''' </summary>
+		''' <param name="defaultValueType">The type which default value should be returned.</param>
+		''' <returns>The default value for the type specified.</returns>
+		Public Function DefaultValue(defaultValueType As System.Type) As Object Implements ITypeDefaultValue.DefaultValue
+			Return TypeDefaultValue.GetDefaultValue(defaultValueType)
+		End Function
+
+
+		''' <summary>
+		''' Returns a default value for the type specified
+		''' </summary>
+		''' <param name="defaultValueType">The type which default value should be returned.</param>
+		''' <returns>The default value for the type specified.</returns>
+		Public Shared Function GetDefaultValue(defaultValueType As System.Type) As Object
+<# SD_TypeDefaultValueIncludeTemplate #>
+		End Function
+
+#Region "Included Code"
+<# Custom_TypeDefaultValueTemplate #>
+#End Region
+	End Class
+End Namespace
+

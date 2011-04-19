@@ -1,0 +1,455 @@
+﻿' ///////////////////////////////////////////////////////////////
+' // This is generated code. 
+' //////////////////////////////////////////////////////////////
+' // Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+' // Code is generated on: <[Time]>
+' // Code is generated using templates: <[TemplateName]>
+' // Templates vendor: Solutions Design.
+' // Templates version: <[TemplateVersion]>
+' //////////////////////////////////////////////////////////////
+Imports System
+Imports System.ComponentModel
+Imports System.Data
+Imports System.Collections
+#If Not CF Then
+Imports System.Runtime.Serialization
+#End If
+
+Imports <[RootNamespace]>.EntityClasses
+Imports <[RootNamespace]>.HelperClasses
+Imports <[RootNamespace]>.FactoryClasses
+
+Imports SD.LLBLGen.Pro.ORMSupportClasses
+<[ UserCodeRegion "AdditionalNamespaces" ]>
+' __LLBLGENPRO_USER_CODE_REGION_START AdditionalNamespaces
+' __LLBLGENPRO_USER_CODE_REGION_END
+<[ EndUserCodeRegion ]>
+Namespace <[RootNamespace]>.TypedListClasses
+
+	''' <summary>
+	''' Typed datatable for the list '<[CurrentTypedListName]>'.<br/><br/>
+	''' <[Foreach CustomProperty TypedList]>
+	''' <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+	''' </summary>
+	''' <remarks>
+	''' The code doesn't support any changing of data. Users who do that are on their own.
+	''' It also doesn't support any event throwing. This list should be used as a base for readonly databinding
+	''' or dataview construction.
+	''' </remarks>
+#If Not CF Then	
+	<Serializable(), System.ComponentModel.DesignerCategory("Code"), ToolboxItem(True), DesignTimeVisible(True)> _
+	Public Class <[CurrentTypedListName]>TypedList 
+#Else
+	Public Class <[CurrentTypedListName]>TypedList 
+#End If	
+		Inherits TypedListBase2(Of <[CurrentTypedListName]>Row)
+		Implements ITypedListLgp2<[ UserCodeRegion "AdditionalInterfacesList" ]>
+		' __LLBLGENPRO_USER_CODE_REGION_START AdditionalInterfacesList
+		' __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>	
+
+#Region "Class Member Declarations"
+<[Foreach TypedListField CrLf]>		Private _column<[TypedListFieldName]> As DataColumn<[NextForeach]>
+		Private _fields As ResultsetFields
+		Private _filterBucket As IRelationPredicateBucket 
+		<[ UserCodeRegion "AdditionalMembers" ]>
+		' __LLBLGENPRO_USER_CODE_REGION_START AdditionalMembers
+		' __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>
+		Private Shared _customProperties As Hashtable
+		Private Shared _fieldsCustomProperties As Hashtable
+#End Region
+
+#Region "Class Constants"
+		''' <summary>
+		''' The amount of fields in the resultset.
+		''' </summary>
+		Private Const AmountOfFields As Integer = <[AmountOfTypedListFields]>
+#End Region
+		
+		''' <summary>
+		''' Static CTor for setting up custom property hashtables. Is executed before the first instance of this
+		''' class or derived classes is constructed. 
+		''' </summary>
+		Shared Sub New()
+			SetupCustomPropertyHashtables()
+		End Sub
+
+
+		''' <summary>
+		''' CTor
+		''' </summary>
+		Public Sub New()
+			MyBase.New("<[CurrentTypedListName]>")
+			InitClass(False)
+		End Sub
+		
+		
+		''' <summary>
+		''' CTor
+		''' </summary>
+		''' <param name="obeyWeakRelations">The flag to signal the collection what kind of join statements to generate in the
+		''' query statement. Weak relationships are relationships which are optional, for example a
+		''' customer with no orders is possible, because the relationship between customer and order is based on a field in order.
+		''' When this property is set to true (default: false), weak relationships will result in LEFT JOIN statements. When
+		''' set to false (which is the default), INNER JOIN statements are used.
+		''' </param>
+		Public Sub New(obeyWeakRelations As Boolean)
+			MyBase.New("<[CurrentTypedListName]>")
+			InitClass(obeyWeakRelations)
+		End Sub
+		
+#If Not CF Then		
+		''' <summary>
+		''' Protected constructor for deserialization.
+		''' </summary>
+		''' <param name="info"></param>
+		''' <param name="context"></param>
+		Protected Sub New(info As SerializationInfo, context As StreamingContext)
+			MyBase.New(info, context)
+			If SerializationHelper.Optimization = SerializationOptimization.None Then
+				InitMembers()
+				BuildResultset()
+			End If
+		End Sub
+#End If		
+
+		''' <summary>
+		''' Gets the IEntityFields2 collection of fields of this typed list. Use this method in combination with the FetchTypedList() methods in DataAccessAdapter.
+		''' </summary>
+		''' <returns>Ready to use IEntityFields2 collection object.</returns>
+		Public Function GetFieldsInfo() As IEntityFields2 Implements ITypedListLgp2.GetFieldsInfo
+			Return _fields
+		End Function
+
+
+		''' <summary>
+		''' Gets the IRelationPredicateBucket object which contains the relation information for this Typed List. Use this method in combination with the 
+		''' FetchTypedList() methods in DataAccessAdapter.
+		''' </summary>
+		''' <returns>Ready to use IRelationPredicateBucket object.</returns>
+		Public Function GetRelationInfo() As IRelationPredicateBucket Implements ITypedListLgp2.GetRelationInfo
+			_filterBucket = New RelationPredicateBucket()
+			BuildRelationSet()
+			Return _filterBucket
+		End Function
+
+		''' <summary>Gets an array of all <[CurrentTypedListName]>Row objects.</summary>
+		''' <returns>Array With <[CurrentTypedListName]>Row objects</returns>
+		Public Shadows Function [Select]() As <[CurrentTypedListName]>Row()
+			Return CType(MyBase.Select(), <[CurrentTypedListName]>Row())
+		End Function
+
+
+		''' <summary>Gets an array of all <[CurrentTypedListName]>Row objects that match the Filter criteria In order of primary key (Or lacking one, order of addition.) </summary>
+		''' <param name="filterExpression">The criteria To use To Filter the rows.</param>
+		''' <returns>Array With <[CurrentTypedListName]>Row objects</returns>
+		Public Shadows Function [Select](filterExpression As String) As <[CurrentTypedListName]>Row()
+			Return CType(MyBase.Select(filterExpression), <[CurrentTypedListName]>Row())
+		End Function
+
+
+		''' <summary>Gets an array of all <[CurrentTypedListName]>Row objects that match the Filter criteria, In the specified sort order</summary>
+		''' <param name="filterExpression">The Filter expression.</param>
+		''' <param name="sort">A String specifying the column And sort direction.</param>
+		''' <returns>Array With <[CurrentTypedListName]>Row objects</returns>
+		Public Shadows Function [Select](filterExpression As String, sort As String) As <[CurrentTypedListName]>Row()
+			Return CType(MyBase.Select(filterExpression, sort), <[CurrentTypedListName]>Row())
+		End Function
+
+
+		''' <summary>Gets an array of all <[CurrentTypedListName]>Row objects that match the Filter criteria, In the specified sort order that match the specified state</summary>
+		''' <param name="filterExpression">The Filter expression.</param>
+		''' <param name="sort">A String specifying the column And sort direction.</param>
+		''' <param name="recordStates">One of the <see cref="System.Data.DataViewRowState"/> values.</param>
+		''' <returns>Array With <[CurrentTypedListName]>Row objects</returns>
+		Public Shadows Function [Select](filterExpression As String, sort As String, recordStates As DataViewRowState) As <[CurrentTypedListName]>Row()
+			Return CType(MyBase.Select(filterExpression, sort, recordStates), <[CurrentTypedListName]>Row())
+		End Function
+
+
+		''' <summary>
+		''' Creates a New typed row during the build of the datatable during a Fill session by a dataadapter.
+		''' </summary>
+		''' <param name="rowBuilder">supplied row builder to pass to the typed row</param>
+		''' <returns>the New typed datarow</returns>
+		Protected Overrides Function NewRowFromBuilder(rowBuilder As DataRowBuilder) As DataRow
+			Return New <[CurrentTypedListName]>Row(rowBuilder)
+		End Function
+
+
+		''' <summary>
+		''' Builds the relation set for this typed list, inside the filterBucket object.
+		''' </summary>
+		Private Sub BuildRelationSet()
+			_filterBucket.Relations.ObeyWeakRelations = MyBase.ObeyWeakRelations
+<[Foreach EntityRelation CrLf]>			_filterBucket.Relations.Add(<[RelationStartPointName]>Entity.Relations.<[RelationEndPointName]>EntityUsing<[If RelationType ManyToOne]><[If Not RelatedEntityIsOtherEntity]><[Foreach RelationField]><[RelatedEntityRelationFieldName]><[NextForeach]><[EndIf]><[Foreach RelationField]><[RelationFieldName]><[NextForeach]><[EndIf]><[If RelationType OneToOne]><[Foreach RelationField]><[If IsOneToOnePkPk FkSide]><[RelationFieldName]><[EndIf]><[If Not IsOneToOnePkPk FkSide]><[RelatedEntityRelationFieldName]><[EndIf]><[If IsOneToOnePkFkUc FkSide]><[RelationFieldName]><[EndIf]><[If Not IsOneToOnePkFkUc FkSide]><[RelatedEntityRelationFieldName]><[EndIf]><[NextForeach]><[EndIf]><[If RelationType OneToMany]><[Foreach RelationField]><[RelatedEntityRelationFieldName]><[NextForeach]><[EndIf]>, "<[ StartEntityAlias ]>", "<[ EndEntityAlias ]>", JoinHint.<[ JoinHint ]>)<[NextForeach]>
+			<[ UserCodeRegion "AdditionalRelations" ]>
+			' __LLBLGENPRO_USER_CODE_REGION_START AdditionalRelations
+			' __LLBLGENPRO_USER_CODE_REGION_END
+			<[ EndUserCodeRegion ]>
+			OnRelationSetBuilt(_filterBucket.Relations)
+		End Sub
+
+
+		''' <summary>
+		''' Builds the resultset fields, stored in the Private _fields object
+		''' </summary>
+		Private Sub BuildResultset()
+			_fields = New ResultsetFields(AmountOfFields)
+<[Foreach TypedListField CrLf]>			_fields.DefineField(<[TypedListFieldEntityName]>Fields.<[EntityFieldName]>, <[FieldIndex]>, "<[TypedListFieldName]>", "<[ EntityAlias ]>", AggregateFunction.<[ AggregateFunction ]>)<[NextForeach]>
+			<[ UserCodeRegion "AdditionalFields" ]>
+			' __LLBLGENPRO_USER_CODE_REGION_START AdditionalFields
+			' be sure To call _fields.Expand(number of New fields) first. 
+			' __LLBLGENPRO_USER_CODE_REGION_END
+			<[ EndUserCodeRegion ]>
+			OnResultsetBuilt(_fields)
+		End Sub
+
+
+		''' <summary>
+		''' Initialize the datastructures.
+		''' </summary>
+		''' <param name="obeyWeakRelations">flag for the internal used relations object</param>
+		Protected Overrides Sub InitClass(obeyWeakRelations As Boolean)
+			TableName = "<[CurrentTypedListName]>"
+			MyBase.ObeyWeakRelations = obeyWeakRelations
+			<[Foreach TypedListField CrLf]>
+			_column<[TypedListFieldName]> = New DataColumn("<[TypedListFieldName]>", GetType(<[TypeOfTypedListField]>), Nothing, MappingType.Element)
+			_column<[TypedListFieldName]>.ReadOnly = True
+			_column<[TypedListFieldName]>.Caption = "<[ FieldCaption ]>"
+			Me.Columns.Add(_column<[TypedListFieldName]>)<[NextForeach]>
+			<[ UserCodeRegion "InitClass" ]>
+			' __LLBLGENPRO_USER_CODE_REGION_START InitClass
+			' __LLBLGENPRO_USER_CODE_REGION_END
+			<[ EndUserCodeRegion ]>
+
+			BuildResultset()
+			_filterBucket = New RelationPredicateBucket()
+			BuildRelationSet()
+			OnInitialized()
+		End Sub
+
+
+		''' <summary>
+		''' Initializes the members, after a clone action.
+		''' </summary>
+		Private Sub InitMembers()
+<[Foreach TypedListField CrLf]>			_column<[TypedListFieldName]> = Me.Columns("<[TypedListFieldName]>")<[NextForeach]>
+			<[ UserCodeRegion "InitMembers" ]>
+			' __LLBLGENPRO_USER_CODE_REGION_START InitMembers
+			' __LLBLGENPRO_USER_CODE_REGION_END
+			<[ EndUserCodeRegion ]>
+			OnInitialized()
+		End Sub
+
+
+		''' <summary>
+		''' Initializes the hashtables for the TypedList type and TypedList field custom properties. 
+		''' </summary>
+		Private Shared Sub SetupCustomPropertyHashtables()
+			_customProperties = New Hashtable()
+			_fieldsCustomProperties = New Hashtable()
+<[Foreach CustomProperty TypedList CrLf]>			_customProperties.Add("<[CustomPropertyName]>", "<[CustomPropertyValue]>")<[NextForeach]>
+			' Add per Field a new Hashtable with its custom properties, indexed by the name of the field.
+			Dim fieldHashtable As Hashtable = Nothing
+<[Foreach TypedListField]>
+			fieldHashtable = New Hashtable()
+<[Foreach CustomProperty TypedListField CrLf]>			fieldHashtable.Add("<[CustomPropertyName]>", "<[CustomPropertyValue]>")<[NextForeach]>
+			_fieldsCustomProperties.Add("<[TypedListFieldName]>", fieldHashtable)<[NextForeach]>
+		End Sub
+
+
+		''' <summary>
+		''' Return the type of the typed datarow
+		''' </summary>
+		''' <returns>returns the requested type</returns>
+		Protected Overrides Function GetRowType() As Type
+			Return GetType(<[CurrentTypedListName]>Row)
+		End Function
+
+
+		''' <summary>
+		''' Clones this instance.
+		''' </summary>
+		''' <returns>A clone of this instance</returns>
+		Public Overrides Function Clone() As DataTable
+			Dim cloneToReturn As <[CurrentTypedListName]>TypedList = CType(MyBase.Clone(), <[CurrentTypedListName]>TypedList)
+			cloneToReturn.InitMembers()
+			Return cloneToReturn
+		End Function
+
+#If Not CF Then            
+		''' <summary>
+		''' Creates a New instance of the DataTable class.
+		''' </summary>
+		''' <returns>a New instance of a datatable with this schema.</returns>
+		Protected Overrides Function CreateInstance() As DataTable
+			Return New <[CurrentTypedListName]>TypedList()
+		End Function
+#End If
+
+#Region "Class Property Declarations"
+		''' <summary>
+		''' Returns the amount of rows in this typed list.
+		''' </summary>
+		<System.ComponentModel.Browsable(False)> _
+		Public Overloads Overrides ReadOnly Property Count As Integer
+			Get 
+				Return Me.Rows.Count
+			End Get
+		End Property
+		
+		''' <summary>
+		''' The custom properties for this TypedList type.
+		''' </summary>
+		''' <remarks>The data returned from this property should be considered read-only: it is not thread safe to alter this data at runtime.</remarks>
+		Public Shared ReadOnly Property CustomProperties() As Hashtable
+			Get
+				Return _customProperties
+			End Get
+		End Property
+
+		''' <summary>
+		''' The custom properties for the type of this TypedList instance.
+		''' </summary>
+		''' <remarks>The data returned from this property should be considered read-only: it is not thread safe to alter this data at runtime.</remarks>
+		<System.ComponentModel.Browsable(False)> _
+		Public Overridable ReadOnly Property CustomPropertiesOfType() As Hashtable
+			Get
+				Return <[CurrentTypedListName]>TypedList.CustomProperties
+			End Get
+		End Property
+
+		''' <summary>
+		''' The custom properties for the fields of this TypedList type. The returned Hashtable contains per fieldname a hashtable of name-value
+		''' pairs. 
+		''' </summary>
+		''' <remarks>The data returned from this property should be considered read-only: it is not thread safe to alter this data at runtime.</remarks>
+		Public Shared ReadOnly Property FieldsCustomProperties() As Hashtable
+			Get
+				Return _fieldsCustomProperties
+			End Get
+		End Property
+
+		''' <summary>
+		''' The custom properties for the fields of the type of this TypedList instance. The returned Hashtable contains per fieldname a hashtable of name-value
+		''' pairs. 
+		''' </summary>
+		''' <remarks>The data returned from this property should be considered read-only: it is not thread safe to alter this data at runtime.</remarks>
+		<System.ComponentModel.Browsable(False)> _
+		Public Overridable ReadOnly Property FieldsCustomPropertiesOfType() As Hashtable
+			Get
+				Return <[CurrentTypedListName]>TypedList.FieldsCustomProperties
+			End Get
+		End Property
+
+		''' <summary>
+		''' Indexer of this strong typed list
+		''' </summary>
+		Default ReadOnly Public Property  Item(index As Integer) As <[CurrentTypedListName]>Row
+			Get 
+				Return CType(Me.Rows(index), <[CurrentTypedListName]>Row)
+			End Get
+		End Property
+
+	<[Foreach TypedListField]>
+		''' <summary>
+		''' Returns the column object belonging to the TypedList field <[TypedListFieldName]>
+		''' </summary>
+		ReadOnly Friend Property <[TypedListFieldName]>Column As DataColumn
+			Get 
+				Return _column<[TypedListFieldName]> 
+			End Get
+		End Property
+    <[NextForeach]>
+		<[ UserCodeRegion "AdditionalColumnProperties" ]>
+		' __LLBLGENPRO_USER_CODE_REGION_START AdditionalColumnProperties
+		' __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>
+#End Region
+
+#Region "Custom TypedList code"
+	<[ UserCodeRegion "CustomTypedListCode" ]>
+	' __LLBLGENPRO_USER_CODE_REGION_START CustomTypedListCode
+	' __LLBLGENPRO_USER_CODE_REGION_END
+	<[ EndUserCodeRegion ]>
+#End Region
+
+#Region "Included Code"
+<# Custom_TypedListAdapterTemplate #>
+#End Region
+	End Class
+
+
+	''' <summary>
+	''' Typed datarow for the typed datatable <[CurrentTypedListName]>
+	''' </summary>
+	Public Class <[CurrentTypedListName]>Row 
+		Inherits DataRow<[ UserCodeRegion "AdditionalInterfacesRow" ]>
+		' __LLBLGENPRO_USER_CODE_REGION_START AdditionalInterfacesRow
+		' __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>	
+		
+#Region "Class Member Declarations"
+		Private _parent As <[CurrentTypedListName]>TypedList
+#End Region
+
+		''' <summary>
+		''' CTor
+		''' </summary>
+		''' <param name="rowBuilder">Row builder object to use when building this row</param>
+		Protected Friend Sub New(rowBuilder As DataRowBuilder)
+			MyBase.New(rowBuilder) 
+			_parent = CType(Me.Table, <[CurrentTypedListName]>TypedList)
+		End Sub
+
+
+#Region "Class Property Declarations"
+	<[Foreach TypedListField CrLf]>
+		''' <summary>
+		''' Gets / sets the value of the TypedList field <[TypedListFieldName]><br/><br/>
+		''' <[Foreach CustomProperty TypedListField]>
+		''' <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+		''' </summary>
+		''' <remarks>Mapped On: <[ If EntityIsAliased ]><[ EntityAlias ]>.<[EntityFieldName]>. <[ EntityAlias ]> Is an Alias For <[EntityFieldEntityName]><[ EndIf ]><[ If Not EntityIsAliased ]><[EntityFieldEntityName]>.<[EntityFieldName]><[ EndIf ]></remarks>
+		Public Property [<[TypedListFieldName]>]() As <[TypeOfTypedListField]>
+			Get 
+				If Is<[TypedListFieldName]>Null() Then
+					' return default value for this type.
+					Return CType(TypeDefaultValue.GetDefaultValue(GetType(<[TypeOfTypedListField]>)), <[TypeOfTypedListField]>)
+				Else
+					Return CType(Me(_parent.<[TypedListFieldName]>Column), <[TypeOfTypedListField]>)
+				End If
+			End Get
+			Set 
+				Me(_parent.<[TypedListFieldName]>Column) = Value
+			End Set
+		End Property
+
+		''' <summary>
+		''' Returns true if the TypedList field <[TypedListFieldName]> is NULL, false otherwise.
+		''' </summary>
+		Public Function Is<[TypedListFieldName]>Null() As Boolean
+			Return IsNull(_parent.<[TypedListFieldName]>Column)
+		End Function
+
+		''' <summary>
+		''' Sets the TypedList field <[TypedListFieldName]> to NULL. Not recommended a typed list should be used
+		''' as a readonly object.
+		''' </summary>
+    	Public Sub Set<[TypedListFieldName]>Null() 
+			Me(_parent.<[TypedListFieldName]>Column) = System.Convert.DBNull
+		End Sub
+
+	<[NextForeach]>
+#End Region
+
+#Region "Custom TypedList Row code"
+	<[ UserCodeRegion "CustomTypedListRowCode" ]>
+	' __LLBLGENPRO_USER_CODE_REGION_START CustomTypedListRowCode
+	' __LLBLGENPRO_USER_CODE_REGION_END
+	<[ EndUserCodeRegion ]>
+#End Region
+	End Class
+End Namespace

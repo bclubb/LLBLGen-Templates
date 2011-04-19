@@ -1,0 +1,178 @@
+﻿' ///////////////////////////////////////////////////////////////
+' // This is generated code. 
+' //////////////////////////////////////////////////////////////
+' // Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+' // Code is generated on: <[Time]>
+' // Code is generated using templates: <[TemplateName]>
+' // Templates vendor: Solutions Design.
+' // Templates version: <[TemplateVersion]>
+' //////////////////////////////////////////////////////////////
+Imports System
+Imports System.Collections
+Imports <[RootNamespace]>.EntityClasses
+Imports <[RootNamespace]>.HelperClasses
+
+Imports SD.LLBLGen.Pro.ORMSupportClasses
+<[ UserCodeRegion "AdditionalNamespaces" ]>
+' __LLBLGENPRO_USER_CODE_REGION_START AdditionalNamespaces
+' __LLBLGENPRO_USER_CODE_REGION_END
+<[ EndUserCodeRegion ]>
+Namespace <[RootNamespace]>.FactoryClasses
+<[If HasEntity]>
+	''' <summary>general base Class For the generated factories</summary>
+	<Serializable()> _
+	Public Class EntityFactoryBase2
+			Inherits EntityFactoryCore2
+		Private _entityName As String
+		Private _typeOfEntity As <[RootNamespace]>.EntityType
+		
+		''' <summary>CTor</summary>
+		''' <param name="entityName">Name of the entity.</param>
+		''' <param name="typeOfEntity">The type of entity.</param>
+		Public Sub New(entityName As String, typeOfEntity As <[RootNamespace]>.EntityType)
+			_entityName = entityName
+			_typeOfEntity = typeOfEntity
+		End Sub
+		
+		''' <summary>Creates a New entity instance using the GeneralEntityFactory In the generated code, using the passed In entitytype value</summary>
+		''' <param name="entityTypeValue">The entity type value of the entity To create an instance For.</param>
+		''' <returns>New IEntity instance</returns>
+		Public Overrides Overloads Function CreateEntityFromEntityTypeValue(entityTypeValue As Integer) As IEntity2
+			Return GeneralEntityFactory.Create(CType(entityTypeValue, <[RootNamespace]>.EntityType))
+		End Function
+		
+		''' <summary>Creates, using the generated EntityFieldsFactory, the IEntityFields2 object for the entity to create.</summary>
+		''' <returns>Empty IEntityFields2 object.</returns>
+		Public Overrides Function CreateFields() As IEntityFields2
+			Return EntityFieldsFactory.CreateEntityFieldsObject(_typeOfEntity)
+		End Function
+		
+		''' <summary>Creates the relations collection To the entity To Join all targets so this entity can be fetched. </summary>
+		''' <returns>null If the entity isn't in a hierarchy of type TargetPerEntity, otherwise the relations collection needed to
+		''' Join all targets together To fetch all subtypes of this entity And this entity itself</returns>
+		Public Overrides Function  CreateHierarchyRelations() As IRelationCollection
+			Return InheritanceInfoProviderSingleton.GetInstance().GetHierarchyRelations(_entityName)
+		End Function
+
+		''' <summary>This method retrieves, using the InheritanceInfoprovider, the factory For the entity represented by the values passed In.</summary>
+		''' <param name="fieldValues">Field values read from the db, To determine which factory To Return, based On the field values passed In.</param>
+		''' <param name="entityFieldStartIndexesPerEntity">indexes into values where per entity type their own fields start.</param>
+		''' <returns>the factory For the entity which Is represented by the values passed In.</returns>
+		Public Overrides Function GetEntityFactory(fieldValues As Object(), entityFieldStartIndexesPerEntity As Hashtable) As IEntityFactory2
+			Dim toReturn As IEntityFactory2 =  CType(InheritanceInfoProviderSingleton.GetInstance().GetEntityFactory(_entityName, fieldValues, entityFieldStartIndexesPerEntity), IEntityFactory2)
+			If toReturn Is Nothing Then
+				toReturn = Me
+			End If
+			Return toReturn
+		End Function
+		
+		''' <summary>Gets a predicateexpression which filters On the entity With type belonging To this factory.</summary>
+		''' <param name="negate">Flag To produce a Not filter, (True), Or a normal filter (False). </param>
+		''' <returns>ready To use predicateexpression, Or an empty predicate expression If the belonging entity isn't a hierarchical type.</returns>
+		Public Overrides Function GetEntityTypeFilter(negate As Boolean) As IPredicateExpression
+			Return InheritanceInfoProviderSingleton.GetInstance().GetEntityTypeFilter(_entityName, negate)
+		End Function
+
+		''' <summary>returns the name of the entity this factory Is For, e.g. "EmployeeEntity"</summary>
+		Public Overrides ReadOnly Property ForEntityName() As String
+			Get 
+				Return _entityName
+			End Get
+		End Property
+	End Class<[EndIf]>
+<[Foreach Entity CrLf]>	
+	''' <summary>
+	''' Factory to create new, empty <[CurrentEntityName]>Entity objects.
+	''' </summary>
+	<Serializable()> _
+	Public Class <[CurrentEntityName]>EntityFactory 
+		Inherits EntityFactoryBase2
+
+		''' <summary>CTor</summary>
+		Public Sub New()
+			MyBase.New("<[CurrentEntityName]>Entity", <[RootNamespace]>.EntityType.<[CurrentEntityName]>Entity)
+		End Sub
+
+		''' <summary>Creates a new, empty <[CurrentEntityName]>Entity object.</summary>
+		''' <returns>A new, empty <[CurrentEntityName]>Entity object.</returns>
+		Public Overrides Overloads Function Create() As IEntity2
+			Dim toReturn As IEntity2 = New <[CurrentEntityName]>Entity()
+			<[ UserCodeRegion CurrentEntityName "CreateNew($VALUE)" ]>
+			' __LLBLGENPRO_USER_CODE_REGION_START <[ UserCodeRegionName ]>
+			' __LLBLGENPRO_USER_CODE_REGION_END
+			<[ EndUserCodeRegion ]>		
+			Return toReturn
+		End Function
+		
+		''' <summary>Creates a new <[CurrentEntityName]>Entity instance and will set the Fields object of the new IEntity2 instance to the passed in fields object.</summary>
+		''' <param name="fields">Populated IEntityFields2 object for the new IEntity2 to create</param>
+		''' <returns>Fully created and populated (due to the IEntityFields2 object) IEntity2 object</returns>
+		Public Overrides Overloads Function Create(fields As IEntityFields2) As IEntity2
+			Dim toReturn As IEntity2 = New <[CurrentEntityName]>Entity(fields)
+			<[ UserCodeRegion CurrentEntityName "CreateNew($VALUE)UsingFields" ]>
+			' __LLBLGENPRO_USER_CODE_REGION_START <[ UserCodeRegionName ]>
+			' __LLBLGENPRO_USER_CODE_REGION_END
+			<[ EndUserCodeRegion ]>		
+			Return toReturn
+		End Function
+<[ If Not IsInHierarchyType None ]>		''' <summary>Creates the hierarchy fields For the Entity To which this factory belongs.</summary>
+		''' <returns>IEntityFields2 Object With the fields of all the entities In the hierarchy of this Entity Or the fields of this Entity If the Entity isn't in a hierarchy.</returns>
+		Public Overrides Function CreateHierarchyFields() As IEntityFields2
+			Return New EntityFields2(InheritanceInfoProviderSingleton.GetInstance().GetHierarchyFields("<[CurrentEntityName]>Entity"), InheritanceInfoProviderSingleton.GetInstance(), Nothing)
+		End Function<[ EndIf ]>
+
+#Region "Included Code"
+<# Custom_EntityFactoriesAdapterTemplate #>
+#End Region
+	End Class<[NextForeach]>
+<[If HasEntity]>
+	''' <summary>Factory to create new, empty Entity objects based on the entity type specified. Uses entity specific factory objects</summary>
+	<Serializable()> _
+	Public Class GeneralEntityFactory
+		''' <summary>Creates a new, empty Entity object of the type specified</summary>
+		''' <param name="entityTypeToCreate">The entity type to create.</param>
+		''' <returns>A new, empty Entity object.</returns>
+		Public Shared Function Create(entityTypeToCreate As <[RootNamespace]>.EntityType) As IEntity2 
+			Dim factoryToUse As IEntityFactory2 = Nothing
+			Select Case entityTypeToCreate
+<[Foreach Entity CrLf]>				Case <[RootNamespace]>.EntityType.<[CurrentEntityName]>Entity
+					factoryToUse = New <[CurrentEntityName]>EntityFactory()<[NextForeach]>
+			End Select
+			Dim toReturn As IEntity2 = Nothing
+			if Not factoryToUse Is Nothing Then
+				toReturn = factoryToUse.Create()
+			End If
+			Return toReturn
+		End Function		
+	End Class
+		
+	''' <summary>Class which Is used To obtain the entity factory based On the .NET type of the entity. </summary>
+	<Serializable()> _
+	Public Class EntityFactoryFactory
+		Private Shared _factoryPerType As Hashtable = New Hashtable()
+
+		''' <summary>Initializes the <see cref="EntityFactoryFactory"/> Class.</summary>
+		Shared Sub New()
+			Dim entityTypeValues As Array = [Enum].GetValues(GetType(<[RootNamespace]>.EntityType))
+			For Each entityTypeValue As Integer In entityTypeValues
+				Dim dummy As IEntity2 = GeneralEntityFactory.Create(CType(entityTypeValue, <[RootNamespace]>.EntityType))
+				_factoryPerType.Add(CType(dummy, Object).GetType(), dummy.GetEntityFactory())
+			Next
+		End Sub
+
+		''' <summary>Gets the factory of the entity With the .NET type specified</summary>
+		''' <param name="typeOfEntity">The type of entity.</param>
+		''' <returns>factory To use Or null If Not found</returns>
+		Public Shared Function GetFactory(typeOfEntity As Type) As IEntityFactory2
+			Return CType(_factoryPerType(typeOfEntity), IEntityFactory2)
+		End Function
+
+		''' <summary>Gets the factory of the entity With the <[RootNamespace]>.EntityType specified</summary>
+		''' <param name="typeOfEntity">The type of entity.</param>
+		''' <returns>factory To use Or null If Not found</returns>
+		Public Shared Function GetFactory(typeOfEntity As <[RootNamespace]>.EntityType) As IEntityFactory2
+			Return GetFactory(CType(GeneralEntityFactory.Create(typeOfEntity), Object).GetType())
+		End Function
+	End Class
+<[EndIf]>
+End Namespace

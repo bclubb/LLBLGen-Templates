@@ -1,0 +1,1274 @@
+﻿		
+		''' <summary>Performs the desync setup when an FK field has been changed. The entity referenced based On the FK field will be dereferenced And sync info will be removed.</summary>
+		''' <param name="fieldIndex">The fieldindex.</param>
+		Protected Overrides Sub PerformDesyncSetupFKFieldChange(fieldIndex As Integer)
+			Select Case CType(fieldIndex, <[ CurrentEntityName ]>FieldIndex)
+<[ Foreach EntityField CrLf]><[ If IsForeignKey ]>				Case <[ CurrentEntityName ]>FieldIndex.<[ EntityFieldName ]>
+<[ Foreach RelationFieldIsInFkSide CrLf]><[If Not MappedFieldRelationIsHidden]>					DesetupSync<[MappedFieldNameRelation]>(True, False)
+					_alreadyFetched<[MappedFieldNameRelation]> = False<[EndIf]><[ NextForeach ]><[ EndIf ]><[ NextForeach ]>
+				Case Else
+					MyBase.PerformDesyncSetupFKFieldChange(fieldIndex)
+			End Select
+		End Sub
+		
+		''' <summary>Gets the inheritance info provider instance of the project this entity instance is located in. </summary>
+		''' <returns>ready to use inheritance info provider instance.</returns>
+		Protected Overrides Function GetInheritanceInfoProvider() As IInheritanceInfoProvider 
+			Return InheritanceInfoProviderSingleton.GetInstance()
+		End Function
+		
+		''' <summary> Will perform post-ReadXml actions</summary>
+		Protected Overrides Sub PostReadXmlFixups()
+<[Foreach RelatedEntity OneToMany CrLf]><[If Not MappedFieldRelationIsHidden]>			_alreadyFetched<[MappedFieldNameRelation]> = (_<[CaseCamel MappedFieldNameRelation]>.Count > 0)<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity ManyToMany CrLf]><[If Not MappedFieldRelationIsHidden]>			_alreadyFetched<[MappedFieldNameRelation]> = (_<[CaseCamel MappedFieldNameRelation]>.Count > 0)<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity ManyToOne CrLf]><[If Not MappedFieldRelationIsHidden]>			_alreadyFetched<[MappedFieldNameRelation]> = Not(_<[CaseCamel MappedFieldNameRelation]> Is Nothing)<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity OneToOne CrLf]><[If Not MappedFieldRelationIsHidden]>			_alreadyFetched<[MappedFieldNameRelation]> = Not(_<[CaseCamel MappedFieldNameRelation]> Is Nothing)<[EndIf]><[NextForeach]>
+		End Sub
+
+		''' <summary>Gets the relation objects which represent the relation the fieldName specified Is mapped On. </summary>
+		''' <param name="fieldName">Name of the field mapped onto the relation of which the relation objects have To be obtained.</param>
+		''' <returns>RelationCollection With relation Object(s) which represent the relation the field Is maped On</returns>
+		Public Overrides Function GetRelationsForFieldOfType(fieldName As String ) As RelationCollection 
+			Return <[CurrentEntityName]>Entity.GetRelationsForField(fieldName)
+		End Function
+
+		''' <summary>Gets the relation objects which represent the relation the fieldName specified Is mapped On. </summary>
+		''' <param name="fieldName">Name of the field mapped onto the relation of which the relation objects have To be obtained.</param>
+		''' <returns>RelationCollection With relation Object(s) which represent the relation the field Is maped On</returns>
+		Public Shared <[If IsSubType]>Shadows <[EndIf]>Function GetRelationsForField(fieldName As String) As RelationCollection 
+			Dim toReturn As New RelationCollection()
+			Select Case fieldName
+<[Foreach RelatedEntity ManyToOne CrLf]><[If Not MappedFieldRelationIsHidden]>				Case "<[MappedFieldNameRelation]>"
+					toReturn.Add(<[CurrentEntityName]>Entity.Relations.<[RelatedEntityName]>EntityUsing<[If Not RelatedEntityIsOtherEntity]><[Foreach RelationField]><[RelatedEntityRelationFieldName]><[NextForeach]><[EndIf]><[Foreach RelationField]><[RelationFieldName]><[NextForeach]>)<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity OneToMany CrLf]><[If Not MappedFieldRelationIsHidden]>				Case "<[MappedFieldNameRelation]>"
+					toReturn.Add(<[CurrentEntityName]>Entity.Relations.<[RelatedEntityName]>EntityUsing<[Foreach RelationField]><[RelatedEntityRelationFieldName]><[NextForeach]>)<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity ManyToMany CrLf]><[If Not MappedFieldRelationIsHidden]>				Case "<[MappedFieldNameRelation]>"
+					toReturn.Add(<[CurrentEntityName]>Entity.Relations.<[IntermediateEntityName]>EntityUsing<[Foreach RelationField OneToMany]><[RelatedEntityRelationFieldName]><[NextForeach]>, "<[CurrentEntityName]>Entity__", "<[IntermediateEntityName]>_", JoinHint.None)
+					toReturn.Add(<[IntermediateEntityName]>Entity.Relations.<[RelatedEntityName]>EntityUsing<[Foreach RelationField ManyToOne]><[RelationFieldName]><[NextForeach]>, "<[IntermediateEntityName]>_", String.Empty, JoinHint.None)<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity OneToOne CrLf]><[If Not MappedFieldRelationIsHidden]>				Case "<[MappedFieldNameRelation]>"
+					toReturn.Add(<[CurrentEntityName]>Entity.Relations.<[RelatedEntityName]>EntityUsing<[Foreach RelationField]><[If IsOneToOnePkPk FkSide]><[RelationFieldName]><[EndIf]><[If Not IsOneToOnePkPk FkSide]><[RelatedEntityRelationFieldName]><[EndIf]><[If IsOneToOnePkFkUc FkSide]><[If RelatedEntityIsOtherEntity]><[RelationFieldName]><[EndIf]><[If Not RelatedEntityIsOtherEntity]><[RelatedEntityRelationFieldName]><[EndIf]><[EndIf]><[If Not IsOneToOnePkFkUc FkSide]><[RelatedEntityRelationFieldName]><[EndIf]><[NextForeach]>)<[EndIf]><[NextForeach]>
+				Case Else
+<[If IsSubType]>					toReturn = <[SuperTypeName]>Entity.GetRelationsForField(fieldName)<[EndIf]>
+			End Select
+			Return toReturn
+		End Function
+
+<[If Not IsInHierarchyType None]>		''' <summary>Gets the inheritance info For this entity, If applicable (it's then overriden) or null if not.</summary>
+		''' <returns>InheritanceInfo Object If this entity Is In a hierarchy of type TargetPerEntity, Or null otherwise</returns>
+		<EditorBrowsable(EditorBrowsableState.Never)> _
+		Public Overrides Function GetInheritanceInfo() As IInheritanceInfo
+			Return InheritanceInfoProviderSingleton.GetInstance().GetInheritanceInfo("<[CurrentEntityName]>Entity", False)
+		End Function
+
+		''' <summary>Gets a predicateexpression which filters On this entity</summary>
+		''' <returns>ready To use predicateexpression</returns>
+		''' <remarks>Only useful In entity fetches.</remarks>
+		Public <[If IsSubType]>Shadows<[EndIf]> Shared Function GetEntityTypeFilter() As IPredicateExpression
+			Return InheritanceInfoProviderSingleton.GetInstance().GetEntityTypeFilter("<[CurrentEntityName]>Entity", False)
+		End Function
+		
+		''' <summary>Gets a predicateexpression which filters On this entity</summary>
+		''' <param name="negate">Flag To produce a Not filter, (True), Or a normal filter (False). </param>
+		''' <returns>ready To use predicateexpression</returns>
+		''' <remarks>Only useful In entity fetches.</remarks>
+		Public <[If IsSubType]>Shadows<[EndIf]> Shared Function GetEntityTypeFilter(negate As Boolean) As IPredicateExpression
+			Return InheritanceInfoProviderSingleton.GetInstance().GetEntityTypeFilter("<[CurrentEntityName]>Entity", negate)
+		End Function<[EndIf]>
+
+		''' <summary>ISerializable member. Does custom serialization so event handlers do not get serialized.
+		''' Serializes members of this entity class and uses the base class' implementation to serialize the rest.</summary>
+		''' <param name="info"></param>
+		''' <param name="context"></param>
+		<EditorBrowsable(EditorBrowsableState.Never)> _
+		Public Overrides Sub GetObjectData(info As SerializationInfo, context As StreamingContext)
+			Dim value As IEntityCollection = Nothing
+			Dim entityValue As IEntity = Nothing
+<[Foreach RelatedEntity OneToMany CrLf]><[If Not MappedFieldRelationIsHidden]>			value = Nothing
+			If Not Me.MarkedForDeletion Then
+				value = _<[CaseCamel MappedFieldNameRelation]>
+			End If
+			info.AddValue("_<[CaseCamel MappedFieldNameRelation]>", value)
+			info.AddValue("_alwaysFetch<[MappedFieldNameRelation]>", _alwaysFetch<[MappedFieldNameRelation]>)
+			info.AddValue("_alreadyFetched<[MappedFieldNameRelation]>", _alreadyFetched<[MappedFieldNameRelation]>)<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity ManyToMany CrLf]><[If Not MappedFieldRelationIsHidden]>			value = Nothing
+			If Not Me.MarkedForDeletion Then
+				value = _<[CaseCamel MappedFieldNameRelation]>
+			End If
+			info.AddValue("_<[CaseCamel MappedFieldNameRelation]>", value)
+			info.AddValue("_alwaysFetch<[MappedFieldNameRelation]>", _alwaysFetch<[MappedFieldNameRelation]>)
+			info.AddValue("_alreadyFetched<[MappedFieldNameRelation]>", _alreadyFetched<[MappedFieldNameRelation]>)<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity ManyToOne CrLf]><[If Not MappedFieldRelationIsHidden]>			entityValue = Nothing
+			If Not Me.MarkedForDeletion Then
+				entityValue = _<[CaseCamel MappedFieldNameRelation]>
+			End If
+			info.AddValue("_<[CaseCamel MappedFieldNameRelation]>", entityValue)
+			info.AddValue("_<[CaseCamel MappedFieldNameRelation]>ReturnsNewIfNotFound", _<[CaseCamel MappedFieldNameRelation]>ReturnsNewIfNotFound)
+			info.AddValue("_alwaysFetch<[MappedFieldNameRelation]>", _alwaysFetch<[MappedFieldNameRelation]>)
+			info.AddValue("_alreadyFetched<[MappedFieldNameRelation]>", _alreadyFetched<[MappedFieldNameRelation]>)<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity OneToOne CrLf]><[If Not MappedFieldRelationIsHidden]>			entityValue = Nothing
+			If Not Me.MarkedForDeletion Then
+				entityValue = _<[CaseCamel MappedFieldNameRelation]>
+			End If
+			info.AddValue("_<[CaseCamel MappedFieldNameRelation]>", entityValue)
+			info.AddValue("_<[CaseCamel MappedFieldNameRelation]>ReturnsNewIfNotFound", _<[CaseCamel MappedFieldNameRelation]>ReturnsNewIfNotFound)
+			info.AddValue("_alwaysFetch<[MappedFieldNameRelation]>", _alwaysFetch<[MappedFieldNameRelation]>)
+			info.AddValue("_alreadyFetched<[MappedFieldNameRelation]>", _alreadyFetched<[MappedFieldNameRelation]>)<[EndIf]><[NextForeach]>
+			<[ UserCodeRegion "GetObjectInfo" ]>
+			' __LLBLGENPRO_USER_CODE_REGION_START GetObjectInfo
+			' __LLBLGENPRO_USER_CODE_REGION_END
+			<[ EndUserCodeRegion ]>
+			MyBase.GetObjectData(info, context)
+		End Sub
+
+		''' <summary>Sets the related entity property to the entity specified. If the property is a collection, it will add the entity specified to that collection.</summary>
+		''' <param name="propertyName">Name of the property.</param>
+		''' <param name="entity">Entity to set as an related entity</param>
+		''' <remarks>Used by prefetch path logic.</remarks>
+		<EditorBrowsable(EditorBrowsableState.Never)> _
+		Public Overrides Overloads Sub SetRelatedEntityProperty(propertyName As String, entity As IEntity)
+			Select Case propertyName
+<[Foreach RelatedEntity ManyToOne CrLf]><[If Not MappedFieldRelationIsHidden]>				Case "<[MappedFieldNameRelation]>"
+					_alreadyFetched<[MappedFieldNameRelation]> = True
+					Me.<[MappedFieldNameRelation]> = CType(entity, <[RelatedEntityName]>Entity)<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity OneToMany CrLf]><[If Not MappedFieldRelationIsHidden]>				Case "<[MappedFieldNameRelation]>"
+					_alreadyFetched<[MappedFieldNameRelation]> = True
+					If Not entity Is Nothing Then
+						Me.<[MappedFieldNameRelation]>.Add(CType(entity, <[RelatedEntityName]>Entity))
+					End If<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity ManyToMany CrLf]><[If Not MappedFieldRelationIsHidden]>				Case "<[MappedFieldNameRelation]>"
+					_alreadyFetched<[MappedFieldNameRelation]> = True
+					If Not entity Is Nothing Then
+						Me.<[MappedFieldNameRelation]>.Add(CType(entity, <[RelatedEntityName]>Entity))
+					End If<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity OneToOne CrLf]><[If Not MappedFieldRelationIsHidden]>				Case "<[MappedFieldNameRelation]>"
+					_alreadyFetched<[MappedFieldNameRelation]> = True
+					Me.<[MappedFieldNameRelation]> = CType(entity, <[RelatedEntityName]>Entity)<[EndIf]><[NextForeach]>
+				Case Else
+<[If IsSubType]>					MyBase.SetRelatedEntityProperty(propertyName, entity)<[EndIf]>
+			End Select
+		End Sub
+
+		''' <summary>Sets the internal parameter related to the fieldname passed to the instance relatedEntity. </summary>
+		''' <param name="relatedEntity">Instance to set as the related entity of type entityType</param>
+		''' <param name="fieldName">Name of field mapped onto the relation which resolves in the instance relatedEntity</param>
+		<EditorBrowsable(EditorBrowsableState.Never)> _
+		Public Overrides Overloads Sub SetRelatedEntity(relatedEntity As IEntity, fieldName As String)
+			Select Case fieldName
+<[Foreach RelatedEntity ManyToOne CrLf]><[If Not MappedFieldRelationIsHidden]>				Case "<[MappedFieldNameRelation]>"
+					SetupSync<[MappedFieldNameRelation]>(relatedEntity)<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity OneToMany CrLf]><[If Not MappedFieldRelationIsHidden]>				Case "<[MappedFieldNameRelation]>"
+<[If OppositeRelationPresent Full]>					_<[CaseCamel MappedFieldNameRelation]>.Add(CType(relatedEntity, <[RelatedEntityName]>Entity))<[EndIf]><[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity OneToOne CrLf]><[If Not MappedFieldRelationIsHidden]>				Case "<[MappedFieldNameRelation]>"
+					SetupSync<[MappedFieldNameRelation]>(relatedEntity)<[EndIf]><[NextForeach]>
+				Case Else
+<[If IsSubType]>					MyBase.SetRelatedEntity(relatedEntity, fieldName)<[EndIf]>
+			End Select
+		End Sub
+
+		''' <summary>Unsets the internal parameter related to the fieldname passed to the instance relatedEntity. Reverses the actions taken by SetRelatedEntity() </summary>
+		''' <param name="relatedEntity">Instance to set as the related entity of type entityType</param>
+		''' <param name="fieldName">Name of field mapped onto the relation which resolves in the instance relatedEntity</param>
+		''' <param name="signalRelatedEntityManyToOne">if set to true it will notify the manytoone side, if applicable.</param>
+		<EditorBrowsable(EditorBrowsableState.Never)> _
+		Public Overrides Overloads Sub UnsetRelatedEntity(relatedEntity As IEntity, fieldName As String, signalRelatedEntityManyToOne As Boolean)
+			Select Case fieldName
+<[Foreach RelatedEntity ManyToOne CrLf]><[If Not MappedFieldRelationIsHidden]>				Case "<[MappedFieldNameRelation]>"
+					DesetupSync<[MappedFieldNameRelation]>(False, True)<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity OneToMany CrLf]><[If Not MappedFieldRelationIsHidden]>				Case "<[MappedFieldNameRelation]>"
+<[If OppositeRelationPresent Full]>					MyBase.PerformRelatedEntityRemoval(_<[CaseCamel MappedFieldNameRelation]>, relatedEntity, signalRelatedEntityManyToOne)<[EndIf]><[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity OneToOne CrLf]><[If Not MappedFieldRelationIsHidden]>				Case "<[MappedFieldNameRelation]>"
+					DesetupSync<[MappedFieldNameRelation]>(False, True)<[EndIf]><[NextForeach]>
+				Case Else
+<[If IsSubType]>					MyBase.UnsetRelatedEntity(relatedEntity, fieldName, signalRelatedEntityManyToOne)<[EndIf]>
+			End Select
+		End Sub
+
+		''' <summary>Gets a collection of related entities referenced by this entity which depend on this entity (this entity is the PK side of their FK fields). These
+		''' entities will have to be persisted after this entity during a recursive save.</summary>
+		''' <returns>Collection with 0 or more IEntity objects, referenced by this entity</returns>
+		Public Overrides Function GetDependingRelatedEntities() As List(Of IEntity)
+			Dim toReturn As New List(Of IEntity)()
+<[Foreach RelatedEntity OneToOne CrLf]><[If Not MappedFieldRelationIsHidden]>
+<[ If Not IsOneToOnePkPk FkSide ]>			If Not _<[CaseCamel MappedFieldNameRelation]> Is Nothing Then
+				toReturn.Add(_<[CaseCamel MappedFieldNameRelation]>)
+			End If<[EndIf]>
+<[ If Not IsOneToOnePkFkUc FkSide ]>			If Not _<[CaseCamel MappedFieldNameRelation]> Is Nothing Then
+				toReturn.Add(_<[CaseCamel MappedFieldNameRelation]>)
+			End If<[EndIf]><[EndIf]><[NextForeach]>
+<[If IsSubType]>			toReturn.AddRange(MyBase.GetDependingRelatedEntities())<[EndIf]>
+			Return toReturn
+		End Function
+
+		''' <summary>Gets a collection of related entities referenced by this entity which this entity depends on (this entity is the FK side of their PK fields). These
+		''' entities will have to be persisted before this entity during a recursive save.</summary>
+		''' <returns>Collection with 0 or more IEntity objects, referenced by this entity</returns>
+		Public Overrides Function GetDependentRelatedEntities() As List(Of IEntity)
+			Dim toReturn As New List(Of IEntity)()
+<[Foreach RelatedEntity ManyToOne CrLf]><[If Not MappedFieldRelationIsHidden]>			If Not _<[CaseCamel MappedFieldNameRelation]> Is Nothing Then
+				toReturn.Add(_<[CaseCamel MappedFieldNameRelation]>)
+			End If<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity OneToOne CrLf]><[If Not MappedFieldRelationIsHidden]>
+<[ If IsOneToOnePkPk FkSide ]>			If Not _<[CaseCamel MappedFieldNameRelation]> Is Nothing Then
+				toReturn.Add(_<[CaseCamel MappedFieldNameRelation]>)
+			End If<[EndIf]>
+<[ If IsOneToOnePkFkUc FkSide ]>			If Not _<[CaseCamel MappedFieldNameRelation]> Is Nothing Then
+				toReturn.Add(_<[CaseCamel MappedFieldNameRelation]>)
+			End If<[EndIf]><[EndIf]><[NextForeach]>
+<[If IsSubType]>			toReturn.AddRange(MyBase.GetDependentRelatedEntities())<[EndIf]>
+			Return toReturn
+		End Function
+		
+		''' <summary>Gets an ArrayList of all entity collections stored as member variables in this entity. The contents of the ArrayList is
+		''' used by the DataAccessAdapter to perform recursive saves. Only 1:n related collections are returned.</summary>
+		''' <returns>Collection with 0 or more IEntityCollection objects, referenced by this entity</returns>
+		Public Overrides Function GetMemberEntityCollections() As List(Of IEntityCollection)
+			Dim toReturn As New List(Of IEntityCollection)()
+<[Foreach RelatedEntity OneToMany CrLf]><[If Not MappedFieldRelationIsHidden]>			toReturn.Add(_<[CaseCamel MappedFieldNameRelation]>)<[EndIf]><[NextForeach]>
+<[If IsSubType]>			toReturn.AddRange(MyBase.GetMemberEntityCollections())<[EndIf]>
+			Return toReturn
+		End Function
+
+<[Foreach UniqueConstraint]>
+		''' <summary>Method which will try to fetch the contents for this entity Imports a unique constraint. </summary>
+		''' <remarks>All contents of the entity is lost.</remarks>
+<[Foreach UniqueConstraintEntityField CrLf]>		''' <param name="<[CaseCamel EntityFieldName]>">Value for a field in the UniqueConstraint, which is used to retrieve the contents.</param><[NextForeach]>
+		''' <returns>true if succeeded and the contents is read, False otherwise</returns>
+		Public Function FetchUsingUC<[Foreach UniqueConstraintEntityField]><[EntityFieldName]><[NextForeach]>(<[Foreach UniqueConstraintEntityField Comma]><[CaseCamel EntityFieldName]> As <[If GenerateAsNullableType]>Nullable(Of <[TypeOfField]>)<[Else]><[TypeOfField]><[EndIf]><[NextForeach]>) As Boolean
+			Return FetchUsingUC<[Foreach UniqueConstraintEntityField]><[EntityFieldName]><[NextForeach]>(<[Foreach UniqueConstraintEntityField Comma]><[CaseCamel EntityFieldName]><[NextForeach]>, Nothing, Nothing)
+		End Function
+
+		''' <summary>Method which will try to fetch the contents for this entity Imports a unique constraint. </summary>
+		''' <remarks>All contents of the entity is lost.</remarks>
+<[Foreach UniqueConstraintEntityField CrLf]>		''' <param name="<[CaseCamel EntityFieldName]>">Value for a field in the UniqueConstraint, which is used to retrieve the contents.</param><[NextForeach]>
+		''' <param name="prefetchPathToUse">the PrefetchPath which defines the graph of objects to fetch as well</param>
+		''' <returns>true if succeeded and the contents is read, False otherwise</returns>
+		Public Function FetchUsingUC<[Foreach UniqueConstraintEntityField]><[EntityFieldName]><[NextForeach]>(<[Foreach UniqueConstraintEntityField Comma]><[CaseCamel EntityFieldName]> As <[If GenerateAsNullableType]>Nullable(Of <[TypeOfField]>)<[Else]><[TypeOfField]><[EndIf]><[NextForeach]>, prefetchPathToUse As IPrefetchPath) As Boolean
+			Return FetchUsingUC<[Foreach UniqueConstraintEntityField]><[EntityFieldName]><[NextForeach]>(<[Foreach UniqueConstraintEntityField Comma]><[CaseCamel EntityFieldName]><[NextForeach]>, prefetchPathToUse, Nothing, Nothing)
+		End Function
+
+		''' <summary>Method which will try to fetch the contents for this entity Imports a unique constraint. </summary>
+		''' <remarks>All contents of the entity is lost.</remarks>
+<[Foreach UniqueConstraintEntityField CrLf]>		''' <param name="<[CaseCamel EntityFieldName]>">Value for a field in the UniqueConstraint, which is used to retrieve the contents.</param><[NextForeach]>
+		''' <param name="prefetchPathToUse">the PrefetchPath which defines the graph of objects to fetch as well</param>
+		''' <param name="contextToUse">The context to fetch the prefetch path with.</param>
+		''' <returns>true if succeeded and the contents is read, False otherwise</returns>
+		Public Function FetchUsingUC<[Foreach UniqueConstraintEntityField]><[EntityFieldName]><[NextForeach]>(<[Foreach UniqueConstraintEntityField Comma]><[CaseCamel EntityFieldName]> As <[If GenerateAsNullableType]>Nullable(Of <[TypeOfField]>)<[Else]><[TypeOfField]><[EndIf]><[NextForeach]>, prefetchPathToUse As IPrefetchPath, contextToUse As Context) As Boolean
+			Return FetchUsingUC<[Foreach UniqueConstraintEntityField]><[EntityFieldName]><[NextForeach]>(<[Foreach UniqueConstraintEntityField Comma]><[CaseCamel EntityFieldName]><[NextForeach]>, prefetchPathToUse, contextToUse, Nothing)
+		End Function
+
+		''' <summary>Method which will try to fetch the contents for this entity Imports a unique constraint. </summary>
+		''' <remarks>All contents of the entity is lost.</remarks>
+<[Foreach UniqueConstraintEntityField CrLf]>		''' <param name="<[CaseCamel EntityFieldName]>">Value for a field in the UniqueConstraint, which is used to retrieve the contents.</param><[NextForeach]>
+		''' <param name="prefetchPathToUse">the PrefetchPath which defines the graph of objects to fetch as well</param>
+		''' <param name="contextToUse">The context to fetch the prefetch path with.</param>
+		''' <param name="excludedIncludedFields">The list of IEntityField objects which have To be excluded Or included For the fetch. 
+		''' If null Or empty, all fields are fetched (Default). If an instance of ExcludeIncludeFieldsList is passed in and its ExcludeContainedFields Property
+		''' is set to false, the fields contained In excludedIncludedFields are kept In the query, the rest of the fields In the query are excluded.</param>
+		''' <returns>true if succeeded and the contents is read, False otherwise</returns>
+		Public Function FetchUsingUC<[Foreach UniqueConstraintEntityField]><[EntityFieldName]><[NextForeach]>(<[Foreach UniqueConstraintEntityField Comma]><[CaseCamel EntityFieldName]> As <[If GenerateAsNullableType]>Nullable(Of <[TypeOfField]>)<[Else]><[TypeOfField]><[EndIf]><[NextForeach]>, prefetchPathToUse As IPrefetchPath, contextToUse As Context, excludedIncludedFields As ExcludeIncludeFieldsList) As Boolean
+			Try
+				OnFetch()
+				Dim dao As <[CurrentEntityName]>DAO = CType(CreateDAOInstance(), <[CurrentEntityName]>DAO)
+				dao.Fetch<[CurrentEntityName]>UsingUC<[Foreach UniqueConstraintEntityField]><[EntityFieldName]><[NextForeach]>(Me, MyBase.Transaction, <[Foreach UniqueConstraintEntityField Comma]><[CaseCamel EntityFieldName]><[NextForeach]>, prefetchPathToUse, contextToUse, excludedIncludedFields)
+				Return (MyBase.Fields.State = EntityState.Fetched)
+			Finally
+				OnFetchComplete()
+			End Try
+		End Function
+<[If Not IsInHierarchyType None]>
+		''' <summary>Fetches the contents of this entity from the persistent storage using a polymorphic fetch On unique constraint, so the entity returned 
+		''' could be of a subtype of the current entity Or the current entity.</summary>
+		''' <param name="transactionToUse">transaction To use during fetch</param>
+<[Foreach UniqueConstraintEntityField CrLf]>		''' <param name="<[CaseCamel EntityFieldName]>">Value For a field In the UniqueConstraint, which Is used To retrieve the contents.</param><[NextForeach]>
+		''' <param name="contextToUse">The context To add the entity To If the fetch was succesful. </param>
+		''' <returns>Fetched entity of the type of this entity Or a subtype, Or an empty entity of that type If Not found.</returns>
+		''' <remarks>Creates a New instance, doesn't fill <i>this</i> entity instance</remarks>
+		Public Shared Function FetchPolymorphicUsingUC<[Foreach UniqueConstraintEntityField]><[EntityFieldName]><[NextForeach]>(transactionToUse As ITransaction, <[Foreach UniqueConstraintEntityField Comma]><[CaseCamel EntityFieldName]> As <[If GenerateAsNullableType]>Nullable(Of <[TypeOfField]>)<[Else]><[TypeOfField]><[EndIf]><[NextForeach]>, contextToUse As Context) As <[CurrentEntityName]>Entity
+			Return FetchPolymorphicUsingUC<[Foreach UniqueConstraintEntityField]><[EntityFieldName]><[NextForeach]>(transactionToUse, <[Foreach UniqueConstraintEntityField Comma]><[CaseCamel EntityFieldName]><[NextForeach]>, contextToUse, Nothing)
+		End Function
+		
+		''' <summary>Fetches the contents of this entity from the persistent storage using a polymorphic fetch On unique constraint, so the entity returned 
+		''' could be of a subtype of the current entity Or the current entity.</summary>
+		''' <param name="transactionToUse">transaction To use during fetch</param>
+<[Foreach UniqueConstraintEntityField CrLf]>		''' <param name="<[CaseCamel EntityFieldName]>">Value For a field In the UniqueConstraint, which Is used To retrieve the contents.</param><[NextForeach]>
+		''' <param name="contextToUse">The context To add the entity To If the fetch was succesful. </param>
+		''' <param name="excludedIncludedFields">The list of IEntityField objects which have To be excluded Or included For the fetch. 
+		''' If null Or empty, all fields are fetched (Default). If an instance of ExcludeIncludeFieldsList is passed in and its ExcludeContainedFields Property
+		''' is set to false, the fields contained In excludedIncludedFields are kept In the query, the rest of the fields In the query are excluded.</param>
+		''' <returns>Fetched entity of the type of this entity Or a subtype, Or an empty entity of that type If Not found.</returns>
+		''' <remarks>Creates a New instance, doesn't fill <i>this</i> entity instance</remarks>
+		Public Shared Function FetchPolymorphicUsingUC<[Foreach UniqueConstraintEntityField]><[EntityFieldName]><[NextForeach]>(transactionToUse As ITransaction, <[Foreach UniqueConstraintEntityField Comma]><[CaseCamel EntityFieldName]> As <[If GenerateAsNullableType]>Nullable(Of <[TypeOfField]>)<[Else]><[TypeOfField]><[EndIf]><[NextForeach]>, contextToUse As Context, excludedIncludedFields As ExcludeIncludeFieldsList) As <[CurrentEntityName]>Entity
+			Dim dao As New <[CurrentEntityName]>DAO()
+			Return dao.Fetch<[CurrentEntityName]>PolyUsingUC<[Foreach UniqueConstraintEntityField]><[EntityFieldName]><[NextForeach]>(transactionToUse, <[Foreach UniqueConstraintEntityField Comma]><[CaseCamel EntityFieldName]><[NextForeach]>, contextToUse, excludedIncludedFields)
+		End Function<[EndIf]><[NextForeach]>
+		
+<[If Not IsInHierarchyType None]><[ If HasPrimaryKey IncludeInherited ]>
+		''' <summary>Fetches the contents of this entity from the persistent storage using the primary key specified In a polymorphic way, so the entity returned 
+		''' could be of a subtype of the current entity Or the current entity.</summary>
+		''' <param name="transactionToUse">transaction To use during fetch</param>
+<[Foreach PrimaryKeyEntityField IncludeInherited CrLf]>		''' <param name="<[CaseCamel EntityFieldName]>">PK value For <[CurrentEntityName]> which data should be fetched into this <[CurrentEntityName]> Object</param><[NextForeach]>
+		''' <param name="contextToUse">Context To use For fetch</param>
+		''' <returns>Fetched entity of the type of this entity Or a subtype, Or an empty entity of that type If Not found.</returns>
+		''' <remarks>Creates a New instance, doesn't fill <i>this</i> entity instance</remarks>
+		Public Shared <[If IsSubType]>Shadows<[EndIf]> Function FetchPolymorphic(transactionToUse As ITransaction, <[Foreach PrimaryKeyEntityField IncludeInherited Comma]><[CaseCamel EntityFieldName]> As <[If GenerateAsNullableType]>Nullable(Of <[TypeOfField]>)<[Else]><[TypeOfField]><[EndIf]><[NextForeach]>, contextToUse As Context) As <[CurrentEntityName]>Entity
+			Return FetchPolymorphic(transactionToUse, <[Foreach PrimaryKeyEntityField IncludeInherited Comma]><[CaseCamel EntityFieldName]><[NextForeach]>, contextToUse, Nothing)
+		End Function
+
+		''' <summary>Fetches the contents of this entity from the persistent storage using the primary key specified In a polymorphic way, so the entity returned 
+		''' could be of a subtype of the current entity Or the current entity.</summary>
+		''' <param name="transactionToUse">transaction To use during fetch</param>
+<[Foreach PrimaryKeyEntityField IncludeInherited CrLf]>		''' <param name="<[CaseCamel EntityFieldName]>">PK value For <[CurrentEntityName]> which data should be fetched into this <[CurrentEntityName]> Object</param><[NextForeach]>
+		''' <param name="contextToUse">Context To use For fetch</param>
+		''' <param name="excludedIncludedFields">The list of IEntityField objects which have To be excluded Or included For the fetch. 
+		''' If null Or empty, all fields are fetched (Default). If an instance of ExcludeIncludeFieldsList is passed in and its ExcludeContainedFields Property
+		''' is set to false, the fields contained In excludedIncludedFields are kept In the query, the rest of the fields In the query are excluded.</param>
+		''' <returns>Fetched entity of the type of this entity Or a subtype, Or an empty entity of that type If Not found.</returns>
+		''' <remarks>Creates a New instance, doesn't fill <i>this</i> entity instance</remarks>
+		Public Shared <[If IsSubType]>Shadows<[EndIf]> Function FetchPolymorphic(transactionToUse As ITransaction, <[Foreach PrimaryKeyEntityField IncludeInherited Comma]><[CaseCamel EntityFieldName]> As <[If GenerateAsNullableType]>Nullable(Of <[TypeOfField]>)<[Else]><[TypeOfField]><[EndIf]><[NextForeach]>, contextToUse As Context, excludedIncludedFields As ExcludeIncludeFieldsList) As <[CurrentEntityName]>Entity
+			Dim dao As New <[CurrentEntityName]>DAO()
+			Dim fields As IEntityFields = EntityFieldsFactory.CreateEntityFieldsObject(<[RootNamespace]>.EntityType.<[CurrentEntityName]>Entity)
+<[Foreach PrimaryKeyEntityField IncludeInherited CrLf]>			fields(CInt(<[CurrentEntityName]>FieldIndex.<[EntityFieldName]>)).ForcedCurrentValueWrite(<[CaseCamel EntityFieldName]>)<[NextForeach]>
+			Return CType(dao.FetchExistingPolymorphic(transactionToUse, fields, contextToUse, excludedIncludedFields), <[CurrentEntityName]>Entity)
+		End Function
+<[ EndIf ]><[EndIf]>	
+<[If Not IsSubType]><[If HasPrimaryKey]>
+		''' <summary>Fetches the contents of this entity from the persistent storage Imports the primary key.</summary>
+<[Foreach PrimaryKeyEntityField CrLf]>		''' <param name="<[CaseCamel EntityFieldName]>">PK value for <[CurrentEntityName]> which data should be fetched into this <[CurrentEntityName]> Object</param><[NextForeach]>
+		''' <returns>True if succeeded, False otherwise.</returns>
+		Public Function FetchUsingPK(<[Foreach PrimaryKeyEntityField Comma]><[CaseCamel EntityFieldName]> As <[If GenerateAsNullableType]>Nullable(Of <[TypeOfField]>)<[Else]><[TypeOfField]><[EndIf]><[NextForeach]>) As Boolean
+			Return FetchUsingPK(<[Foreach PrimaryKeyEntityField Comma]><[CaseCamel EntityFieldName]><[NextForeach]>, Nothing, Nothing, Nothing)
+		End Function
+
+		''' <summary>Fetches the contents of this entity from the persistent storage Imports the primary key.</summary>
+<[Foreach PrimaryKeyEntityField CrLf]>		''' <param name="<[CaseCamel EntityFieldName]>">PK value for <[CurrentEntityName]> which data should be fetched into this <[CurrentEntityName]> Object</param><[NextForeach]>
+		''' <param name="prefetchPathToUse">the PrefetchPath which defines the graph of objects to fetch as well</param>
+		''' <returns>True if succeeded, False otherwise.</returns>
+		Public Function FetchUsingPK(<[Foreach PrimaryKeyEntityField Comma]><[CaseCamel EntityFieldName]> As <[If GenerateAsNullableType]>Nullable(Of <[TypeOfField]>)<[Else]><[TypeOfField]><[EndIf]><[NextForeach]>, prefetchPathToUse As IPrefetchPath) As Boolean
+			Return FetchUsingPK(<[Foreach PrimaryKeyEntityField Comma]><[CaseCamel EntityFieldName]><[NextForeach]>, prefetchPathToUse, Nothing, Nothing)
+		End Function
+
+		''' <summary>Fetches the contents of this entity from the persistent storage Imports the primary key.</summary>
+<[Foreach PrimaryKeyEntityField CrLf]>		''' <param name="<[CaseCamel EntityFieldName]>">PK value for <[CurrentEntityName]> which data should be fetched into this <[CurrentEntityName]> Object</param><[NextForeach]>
+		''' <param name="prefetchPathToUse">the PrefetchPath which defines the graph of objects to fetch as well</param>
+		''' <param name="contextToUse">The context to fetch the prefetch path with.</param>
+		''' <returns>True if succeeded, False otherwise.</returns>
+		Public Function FetchUsingPK(<[Foreach PrimaryKeyEntityField Comma]><[CaseCamel EntityFieldName]> As <[If GenerateAsNullableType]>Nullable(Of <[TypeOfField]>)<[Else]><[TypeOfField]><[EndIf]><[NextForeach]>, prefetchPathToUse As IPrefetchPath, contextToUse As Context) As Boolean
+			Return Fetch(<[Foreach PrimaryKeyEntityField Comma]><[CaseCamel EntityFieldName]><[NextForeach]>, prefetchPathToUse, contextToUse, Nothing)
+		End Function
+
+		''' <summary>Fetches the contents of this entity from the persistent storage Imports the primary key.</summary>
+<[Foreach PrimaryKeyEntityField CrLf]>		''' <param name="<[CaseCamel EntityFieldName]>">PK value for <[CurrentEntityName]> which data should be fetched into this <[CurrentEntityName]> Object</param><[NextForeach]>
+		''' <param name="prefetchPathToUse">the PrefetchPath which defines the graph of objects to fetch as well</param>
+		''' <param name="contextToUse">The context to fetch the prefetch path with.</param>
+		''' <param name="excludedIncludedFields">The list of IEntityField objects which have To be excluded Or included For the fetch. 
+		''' If null Or empty, all fields are fetched (Default). If an instance of ExcludeIncludeFieldsList is passed in and its ExcludeContainedFields Property
+		''' is set to false, the fields contained In excludedIncludedFields are kept In the query, the rest of the fields In the query are excluded.</param>
+		''' <returns>True if succeeded, False otherwise.</returns>
+		Public Function FetchUsingPK(<[Foreach PrimaryKeyEntityField Comma]><[CaseCamel EntityFieldName]> As <[If GenerateAsNullableType]>Nullable(Of <[TypeOfField]>)<[Else]><[TypeOfField]><[EndIf]><[NextForeach]>, prefetchPathToUse As IPrefetchPath, contextToUse As Context, excludedIncludedFields As ExcludeIncludeFieldsList) As Boolean
+			Return Fetch(<[Foreach PrimaryKeyEntityField Comma]><[CaseCamel EntityFieldName]><[NextForeach]>, prefetchPathToUse, contextToUse, excludedIncludedFields)
+		End Function
+
+		''' <summary>Refetches the Entity from the persistent storage. Refetch is used to re-load an Entity which is marked "Out-of-sync", due to a save action. Refetching an empty Entity has no effect. </summary>
+		''' <returns>true if Refetch succeeded, False otherwise</returns>
+		''' <exception cref="System.ApplicationException">When an exception is caught during the save process. The caught exception is set as the
+		''' inner exception. Encapsulation of database-related exceptions is necessary since these exceptions do not have a common exception framework implemented.</exception>
+		Public Overrides Overloads Function Refetch() As Boolean
+			Return Fetch(<[Foreach PrimaryKeyEntityField Comma]>Me.<[EntityFieldName]><[NextForeach]>, Nothing, Nothing, Nothing)
+		End Function<[EndIf]><[EndIf]>
+
+		''' <summary>Returns true if the original value for the field with the fieldIndex passed in, read from the persistent storage was NULL, False otherwise.
+		''' Should Not be used For testing If the current value Is NULL, use <see cref="TestCurrentFieldValueForNull"/> For that.</summary>
+		''' <param name="fieldIndex">Index of the field to test if that field was NULL in the persistent storage</param>
+		''' <returns>true if the field with the passed in index was NULL in the persistent storage, False otherwise</returns>
+		Public <[If IsSubType]>Overloads<[EndIf]> Function TestOriginalFieldValueForNull(fieldIndex As <[CurrentEntityName]>FieldIndex) As Boolean
+			Return MyBase.Fields(CInt(fieldIndex)).IsNull
+		End Function
+		
+		''' <summary>Returns True If the current value For the field With the fieldIndex passed In represents null/Not defined, False otherwise.
+		''' Should Not be used For testing If the original value (read from the db) Is NULL</summary>
+		''' <param name="fieldIndex">Index of the field To test If its currentvalue Is null/undefined</param>
+		''' <returns>True If the field's value isn't defined yet, false otherwise</returns>
+		Public <[If IsSubType]>Overloads<[EndIf]> Function TestCurrentFieldValueForNull(fieldIndex As <[CurrentEntityName]>FieldIndex) As Boolean
+			Return MyBase.CheckIfCurrentFieldValueIsNull(CInt(fieldIndex))
+		End Function
+<[ If Not IsInHierarchyType None]>
+		''' <summary>Determines whether this entity Is a subType of the entity represented by the passed In Enum value, which represents a value In the <[RootNamespace]>.EntityType Enum</summary>
+		''' <param name="typeOfEntity">Type of entity.</param>
+		''' <returns>True If the passed In type Is a supertype of this entity, otherwise False</returns>
+		<EditorBrowsable(EditorBrowsableState.Never)> _
+		Public Overrides Function CheckIfIsSubTypeOf(typeOfEntity As Integer) As Boolean
+			Return InheritanceInfoProviderSingleton.GetInstance().CheckIfIsSubTypeOf("<[CurrentEntityName]>Entity", CType(typeOfEntity, <[RootNamespace]>.EntityType).ToString())
+		End Function<[EndIf]>
+
+		''' <summary>Gets a list of all the EntityRelation objects the type of this instance has.</summary>
+		''' <returns>A list of all the EntityRelation objects the type of this instance has. Hierarchy relations are excluded.</returns>
+		Public Overrides Overloads Function GetAllRelations() As List(Of IEntityRelation)
+			Return New <[CurrentEntityName]>Relations().GetAllRelations()
+		End Function
+
+<[Foreach RelatedEntity OneToMany]><[If Not MappedFieldRelationIsHidden]>
+		''' <summary>Retrieves all related entities of type '<[RelatedEntityName]>Entity' Imports a relation of type '1:n'.</summary>
+		''' <param name="forceFetch">if true, it will discard any changes currently in the collection and will rerun the complete query instead</param>
+		''' <returns>Filled collection with all related entities of type '<[RelatedEntityName]>Entity'</returns>
+		Public Function GetMulti<[MappedFieldNameRelation]>(forceFetch As Boolean) As <[RootNamespace]>.CollectionClasses.<[RelatedEntityName]>Collection
+			Return GetMulti<[MappedFieldNameRelation]>(forceFetch, _<[CaseCamel MappedFieldNameRelation]>.EntityFactoryToUse, Nothing)
+		End Function
+
+		''' <summary>Retrieves all related entities of type '<[RelatedEntityName]>Entity' Imports a relation of type '1:n'.</summary>
+		''' <param name="forceFetch">if true, it will discard any changes currently in the collection and will rerun the complete query instead</param>
+		''' <param name="entityFactoryToUse">The entity factory to use for the GetMultiManyToOne() routine.</param>
+		''' <returns>Filled collection with all related entities of the type constructed by the passed in entity factory</returns>
+		Public Function GetMulti<[MappedFieldNameRelation]>(forceFetch As Boolean, entityFactoryToUse As IEntityFactory) As <[RootNamespace]>.CollectionClasses.<[RelatedEntityName]>Collection
+			Return GetMulti<[MappedFieldNameRelation]>(forceFetch, entityFactoryToUse, Nothing)
+		End Function
+
+		''' <summary>Retrieves all related entities of type '<[RelatedEntityName]>Entity' Imports a relation of type '1:n'.</summary>
+		''' <param name="forceFetch">if true, it will discard any changes currently in the collection and will rerun the complete query instead</param>
+		''' <param name="filter">Extra filter to limit the resultset.</param>
+		''' <returns>Filled collection with all related entities of type '<[RelatedEntityName]>Entity'</returns>
+		Public Function GetMulti<[MappedFieldNameRelation]>(forceFetch As Boolean, Filter As IPredicateExpression) As <[RootNamespace]>.CollectionClasses.<[RelatedEntityName]>Collection
+			Return GetMulti<[MappedFieldNameRelation]>(forceFetch, _<[CaseCamel MappedFieldNameRelation]>.EntityFactoryToUse, Filter)
+		End Function
+
+		''' <summary>Retrieves all related entities of type '<[RelatedEntityName]>Entity' Imports a relation of type '1:n'.</summary>
+		''' <param name="forceFetch">if true, it will discard any changes currently in the collection and will rerun the complete query instead</param>
+		''' <param name="entityFactoryToUse">The entity factory to use for the GetMultiManyToOne() routine.</param>
+		''' <param name="filter">Extra filter to limit the resultset.</param>
+		''' <returns>Filled collection with all related entities of the type constructed by the passed in entity factory</returns>
+		Public Overridable Function GetMulti<[MappedFieldNameRelation]>(forceFetch As Boolean, entityFactoryToUse As IEntityFactory, Filter As IPredicateExpression) As <[RootNamespace]>.CollectionClasses.<[RelatedEntityName]>Collection
+			If ( Not _alreadyFetched<[MappedFieldNameRelation]> Or forceFetch Or _alwaysFetch<[MappedFieldNameRelation]>) AndAlso Not MyBase.IsSerializing AndAlso Not MyBase.IsDeserializing AndAlso Not MyBase.InDesignMode Then
+				If MyBase.ParticipatesInTransaction Then
+					If Not _<[CaseCamel MappedFieldNameRelation]>.ParticipatesInTransaction Then
+						MyBase.Transaction.Add(_<[CaseCamel MappedFieldNameRelation]>)
+					End If
+				End If
+				_<[CaseCamel MappedFieldNameRelation]>.SuppressClearInGetMulti = Not forceFetch
+				If Not entityFactoryToUse Is Nothing Then
+					_<[CaseCamel MappedFieldNameRelation]>.EntityFactoryToUse = entityFactoryToUse
+				End If
+				_<[CaseCamel MappedFieldNameRelation]>.GetMultiManyToOne(<[CallByFKReference]>, Filter)
+				_<[CaseCamel MappedFieldNameRelation]>.SuppressClearInGetMulti = False
+				_alreadyFetched<[MappedFieldNameRelation]> = True
+			End If
+			Return _<[CaseCamel MappedFieldNameRelation]>
+		End Function
+
+		''' <summary>Sets the collection parameters for the collection for '<[MappedFieldNameRelation]>'. These settings will be taken into account
+		''' when the property <[MappedFieldNameRelation]> is requested or GetMulti<[MappedFieldNameRelation]> is called.</summary>
+		''' <param name="maxNumberOfItemsToReturn"> The maximum number of items to return. When set to 0, this parameter is ignored</param>
+		''' <param name="sortClauses">The order by specifications for the sorting of the resultset. When not specified (null), no sorting is applied.</param>
+		Public Overridable Sub SetCollectionParameters<[MappedFieldNameRelation]>(maxNumberOfItemsToReturn As Long, sortClauses As ISortExpression)
+			_<[CaseCamel MappedFieldNameRelation]>.SortClauses=sortClauses
+			_<[CaseCamel MappedFieldNameRelation]>.MaxNumberOfItemsToReturn=maxNumberOfItemsToReturn
+		End Sub
+	<[EndIf]><[NextForeach]>
+	<[Foreach RelatedEntity ManyToMany CrLf]><[If Not MappedFieldRelationIsHidden]>
+		''' <summary>Retrieves all related entities of type '<[RelatedEntityName]>Entity' Imports a relation of type 'm:n'.</summary>
+		''' <param name="forceFetch">if true, it will discard any changes currently in the collection and will rerun the complete query instead</param>
+		''' <returns>Filled collection with all related entities of type '<[RelatedEntityName]>Entity'</returns>
+		Public Function GetMulti<[MappedFieldNameRelation]>(forceFetch As Boolean) As <[RootNamespace]>.CollectionClasses.<[RelatedEntityName]>Collection
+			Return GetMulti<[MappedFieldNameRelation]>(forceFetch, _<[CaseCamel MappedFieldNameRelation]>.EntityFactoryToUse)
+		End Function
+
+		''' <summary>Retrieves all related entities of type '<[RelatedEntityName]>Entity' Imports a relation of type 'm:n'.</summary>
+		''' <param name="forceFetch">if true, it will discard any changes currently in the collection and will rerun the complete query instead</param>
+		''' <param name="entityFactoryToUse">The entity factory to use for the GetMultiManyToMany() routine.</param>
+		''' <returns>Filled collection with all related entities of the type constructed by the passed in entity factory</returns>
+		Public Overridable Function GetMulti<[MappedFieldNameRelation]>(forceFetch As Boolean, entityFactoryToUse As IEntityFactory) As <[RootNamespace]>.CollectionClasses.<[RelatedEntityName]>Collection
+			If ( Not _alreadyFetched<[MappedFieldNameRelation]> Or forceFetch Or _alwaysFetch<[MappedFieldNameRelation]>) AndAlso Not MyBase.IsSerializing AndAlso Not MyBase.IsDeserializing AndAlso Not MyBase.InDesignMode Then
+				If MyBase.ParticipatesInTransaction Then
+					If Not _<[CaseCamel MappedFieldNameRelation]>.ParticipatesInTransaction Then
+						MyBase.Transaction.Add(_<[CaseCamel MappedFieldNameRelation]>)
+					End If
+				End If
+				Dim Filter As IPredicateExpression = New PredicateExpression()
+<[Foreach PrimaryKeyEntityField CrLf]>				Filter.Add(New FieldCompareValuePredicate(<[CurrentEntityName]>Fields.<[EntityFieldName]>, ComparisonOperator.Equal, Me.<[EntityFieldName]>, "<[CurrentEntityName]>Entity__"))<[NextForeach]>
+				_<[CaseCamel MappedFieldNameRelation]>.SuppressClearInGetMulti = Not forceFetch
+				If Not entityFactoryToUse Is Nothing Then
+					_<[CaseCamel MappedFieldNameRelation]>.EntityFactoryToUse = entityFactoryToUse
+				End If
+				_<[CaseCamel MappedFieldNameRelation]>.GetMulti(Filter, GetRelationsForField("<[MappedFieldNameRelation]>"))
+				_<[CaseCamel MappedFieldNameRelation]>.SuppressClearInGetMulti = False
+				_alreadyFetched<[MappedFieldNameRelation]> = True
+			End If
+			Return _<[CaseCamel MappedFieldNameRelation]>
+		End Function
+
+		''' <summary>Sets the collection parameters for the collection for '<[MappedFieldNameRelation]>'. These settings will be taken into account
+		''' when the property <[MappedFieldNameRelation]> is requested or GetMulti<[MappedFieldNameRelation]> is called.</summary>
+		''' <param name="maxNumberOfItemsToReturn"> The maximum number of items to return. When set to 0, this parameter is ignored</param>
+		''' <param name="sortClauses">The order by specifications for the sorting of the resultset. When not specified (null), no sorting is applied.</param>
+		Public Overridable Sub SetCollectionParameters<[MappedFieldNameRelation]>(maxNumberOfItemsToReturn As Long, sortClauses As ISortExpression)
+			_<[CaseCamel MappedFieldNameRelation]>.SortClauses=sortClauses
+			_<[CaseCamel MappedFieldNameRelation]>.MaxNumberOfItemsToReturn=maxNumberOfItemsToReturn
+		End Sub	<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity ManyToOne]><[If Not MappedFieldRelationIsHidden]>
+		''' <summary>Retrieves the related entity of type '<[RelatedEntityName]>Entity', Imports a relation of type 'n:1'</summary>
+		''' <returns>A fetched entity of type '<[RelatedEntityName]>Entity' which is related to this entity.</returns>
+		Public Overridable Function GetSingle<[MappedFieldNameRelation]>() As <[RelatedEntityName]>Entity
+			Return GetSingle<[MappedFieldNameRelation]>(False)
+		End Function
+
+		''' <summary>Retrieves the related entity of type '<[RelatedEntityName]>Entity', Imports a relation of type 'n:1'</summary>
+		''' <param name="forceFetch">if true, it will discard any changes currently in the currently loaded related entity and will refetch the entity from the persistent storage</param>
+		''' <returns>A fetched entity of type '<[RelatedEntityName]>Entity' which is related to this entity.</returns>
+		Public Overridable Function GetSingle<[MappedFieldNameRelation]>(forceFetch As Boolean) As <[RelatedEntityName]>Entity
+			If ( Not _alreadyFetched<[MappedFieldNameRelation]> Or forceFetch Or _alwaysFetch<[MappedFieldNameRelation]>) AndAlso Not MyBase.IsSerializing AndAlso Not MyBase.IsDeserializing AndAlso Not MyBase.InDesignMode Then
+				Dim performLazyLoading As Boolean = MyBase.CheckIfLazyLoadingShouldOccur(<[CurrentEntityName]>Entity.Relations.<[RelatedEntityName]>EntityUsing<[If Not RelatedEntityIsOtherEntity]><[Foreach RelationField]><[RelatedEntityRelationFieldName]><[NextForeach]><[EndIf]><[Foreach RelationField]><[RelationFieldName]><[NextForeach]>)
+<[If Not RelatedEntityIsInHierarchyType None]>				' always fetch, even If performLazyLoading Is False, because the related entity can be abstract so we can't simply use new. 
+				Dim newEntity As <[RelatedEntityName]>Entity = <[RelatedEntityName]>Entity.FetchPolymorphic(MyBase.Transaction, <[CallByPKReference SupportNullableTypes]>, MyBase.ActiveContext)
+				If MyBase.ParticipatesInTransaction Then
+					MyBase.Transaction.Add(newEntity)
+				End If
+				Dim fetchResult As Boolean = (newEntity.Fields.State=EntityState.Fetched)<[Else]>
+				Dim newEntity As New <[RelatedEntityName]>Entity()
+				If MyBase.ParticipatesInTransaction Then
+					MyBase.Transaction.Add(newEntity)
+				End If
+				Dim fetchResult As Boolean = False
+				If performLazyLoading Then
+					fetchResult = newEntity.FetchUsingPK(<[CallByPKReference SupportNullableTypes]>)
+				End If<[EndIf]>
+				If fetchResult Then
+					If Not MyBase.ActiveContext Is Nothing Then
+						newEntity = CType(MyBase.ActiveContext.Get(newEntity), <[RelatedEntityName]>Entity)
+					End If
+					Me.<[MappedFieldNameRelation]> = newEntity
+				Else
+					If _<[CaseCamel MappedFieldNameRelation]>ReturnsNewIfNotFound Then
+						If performLazyLoading OrElse ( Not performLazyLoading AndAlso (_<[CaseCamel MappedFieldNameRelation]> Is Nothing )) Then
+							Me.<[MappedFieldNameRelation]> = newEntity
+						End If
+					Else
+						Me.<[MappedFieldNameRelation]> = Nothing
+					End If
+				End If
+				_alreadyFetched<[MappedFieldNameRelation]> = fetchResult
+				If MyBase.ParticipatesInTransaction AndAlso Not fetchResult Then
+					MyBase.Transaction.Remove(newEntity)
+				End If
+			End If
+			Return _<[CaseCamel MappedFieldNameRelation]>
+		End Function
+	<[EndIf]><[NextForeach]>
+	<[Foreach RelatedEntity OneToOne]><[If Not MappedFieldRelationIsHidden]>
+		''' <summary>Retrieves the related entity of type '<[RelatedEntityName]>Entity', Imports a relation of type '1:1'</summary>
+		''' <returns>A fetched entity of type '<[RelatedEntityName]>Entity' which is related to this entity.</returns>
+		Public Overridable Function GetSingle<[MappedFieldNameRelation]>() As <[RelatedEntityName]>Entity
+			Return GetSingle<[MappedFieldNameRelation]>(False)
+		End Function
+
+		''' <summary>Retrieves the related entity of type '<[RelatedEntityName]>Entity', Imports a relation of type '1:1'</summary>
+		''' <param name="forceFetch">if true, it will discard any changes currently in the currently loaded related entity and will refetch the entity from the persistent storage</param>
+		''' <returns>A fetched entity of type '<[RelatedEntityName]>Entity' which is related to this entity.</returns>
+		Public Overridable Function GetSingle<[MappedFieldNameRelation]>(forceFetch As Boolean) As <[RelatedEntityName]>Entity
+			If ( Not _alreadyFetched<[MappedFieldNameRelation]> Or forceFetch Or _alwaysFetch<[MappedFieldNameRelation]>) AndAlso Not MyBase.IsSerializing AndAlso Not MyBase.IsDeserializing AndAlso Not MyBase.InDesignMode Then
+<[If RelatedEntityIsInHierarchyType None]>				Dim newEntity As New <[RelatedEntityName]>Entity()
+				Dim relation As IEntityRelation = <[CurrentEntityName]>Entity.Relations.<[RelatedEntityName]>EntityUsing<[Foreach RelationField]><[If IsOneToOnePkPk FkSide]><[RelationFieldName]><[EndIf]><[If Not IsOneToOnePkPk FkSide]><[RelatedEntityRelationFieldName]><[EndIf]><[If IsOneToOnePkFkUc FkSide]><[RelationFieldName]><[EndIf]><[If Not IsOneToOnePkFkUc FkSide]><[RelatedEntityRelationFieldName]><[EndIf]><[NextForeach]>
+				If MyBase.ParticipatesInTransaction Then
+					MyBase.Transaction.Add(newEntity)
+				End If<[EndIf]>
+<[If IsOneToOnePkPk]><[If Not RelatedEntityIsInHierarchyType None]>				Dim newEntity As <[RelatedEntityName]>Entity = <[RelatedEntityName]>Entity.FetchPolymorphic(MyBase.Transaction, <[CallByPKReference SupportNullableTypes]>, MyBase.ActiveContext)
+				If MyBase.ParticipatesInTransaction Then
+					MyBase.Transaction.Add(newEntity)
+				End If
+				Dim fetchResult As Boolean = (newEntity.Fields.State=EntityState.Fetched)<[Else]>				Dim fetchResult As Boolean = False
+				If MyBase.CheckIfLazyLoadingShouldOccur(relation) Then
+					fetchResult = newEntity.FetchUsingPK(<[CallByPKReference SupportNullableTypes]>)
+				End If<[EndIf]><[Else]>
+<[If IsOneToOnePkFkUc]><[If IsOnPkSide]><[If Not RelatedEntityIsInHierarchyType None]>				Dim newEntity As <[RelatedEntityName]>Entity = <[RelatedEntityName]>Entity.FetchPolymorphicUsingUC<[Foreach UniqueConstraintEntityField]><[EntityFieldName]><[NextForeach]>(MyBase.Transaction, <[CallByUCReference SupportNullableTypes]>, MyBase.ActiveContext)
+				If MyBase.ParticipatesInTransaction Then
+					MyBase.Transaction.Add(newEntity)
+				End If
+				Dim fetchResult As Boolean = (newEntity.Fields.State=EntityState.Fetched)<[Else]>				Dim fetchResult As Boolean = False
+				If MyBase.CheckIfLazyLoadingShouldOccur(relation) Then
+					fetchResult = newEntity.FetchUsingUC<[Foreach UniqueConstraintEntityField]><[EntityFieldName]><[NextForeach]>(<[CallByUCReference SupportNullableTypes]>)
+				End If<[EndIf]><[Else]>
+<[If Not RelatedEntityIsInHierarchyType None]>				Dim newEntity As <[RelatedEntityName]>Entity = <[RelatedEntityName]>Entity.FetchPolymorphic(MyBase.Transaction, <[CallByPKReference SupportNullableTypes]>, MyBase.ActiveContext)
+				If MyBase.ParticipatesInTransaction Then
+					MyBase.Transaction.Add(newEntity)
+				End If
+				Dim fetchResult As Boolean = (newEntity.Fields.State=EntityState.Fetched)<[Else]>				Dim fetchResult As Boolean = False
+				If MyBase.CheckIfLazyLoadingShouldOccur(relation) Then
+					fetchResult = newEntity.FetchUsingPK(<[CallByPKReference SupportNullableTypes]>)
+				End If<[EndIf]><[EndIf]><[EndIf]><[EndIf]>
+				If Not _<[CaseCamel MappedFieldNameRelation]>ReturnsNewIfNotFound And Not fetchResult Then
+					Me.<[MappedFieldNameRelation]> = Nothing
+				Else
+					If Not MyBase.ActiveContext Is Nothing AndAlso fetchResult Then
+						newEntity = CType(MyBase.ActiveContext.Get(newEntity), <[RelatedEntityName]>Entity)
+					End If
+					Me.<[MappedFieldNameRelation]> = newEntity
+					_alreadyFetched<[MappedFieldNameRelation]> = fetchResult
+				End If
+				If MyBase.ParticipatesInTransaction AndAlso Not fetchResult Then
+					MyBase.Transaction.Remove(newEntity)
+				End If
+			End If
+			Return _<[CaseCamel MappedFieldNameRelation]>
+		End Function
+	<[EndIf]><[NextForeach]>
+
+		''' <summary>Adds the internals To the active context. </summary>
+		Protected Overrides Overloads Sub AddInternalsToContext()
+<[Foreach RelatedEntity OneToMany CrLf]><[If Not MappedFieldRelationIsHidden]>			_<[CaseCamel MappedFieldNameRelation]>.ActiveContext = MyBase.ActiveContext<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity ManyToMany CrLf]><[If Not MappedFieldRelationIsHidden]>			_<[CaseCamel MappedFieldNameRelation]>.ActiveContext = MyBase.ActiveContext<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity ManyToOne CrLf]><[If Not MappedFieldRelationIsHidden]>		If Not _<[CaseCamel MappedFieldNameRelation]> Is Nothing Then
+				_<[CaseCamel MappedFieldNameRelation]>.ActiveContext = MyBase.ActiveContext
+			End If<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity OneToOne CrLf]><[If Not MappedFieldRelationIsHidden]>		If Not _<[CaseCamel MappedFieldNameRelation]> Is Nothing Then
+				_<[CaseCamel MappedFieldNameRelation]>.ActiveContext = MyBase.ActiveContext
+			End If<[EndIf]><[NextForeach]>
+<[If IsSubType]>			MyBase.AddInternalsToContext()<[EndIf]>
+		End Sub
+
+		''' <summary>Performs the insert action of a new Entity to the persistent storage.</summary>
+		''' <returns>true if succeeded, False otherwise</returns>
+		Protected Overrides Overloads Function InsertEntity() As Boolean
+			Dim dao As <[CurrentEntityName]>DAO = CType(CreateDAOInstance(), <[CurrentEntityName]>DAO)
+			Return dao.AddNew(MyBase.Fields, MyBase.Transaction)
+		End Function
+
+	<[If HasPrimaryKey]>
+		''' <summary>Performs the update action of an existing Entity to the persistent storage.</summary>
+		''' <returns>true if succeeded, False otherwise</returns>
+		Protected Overrides Overloads Function UpdateEntity() As Boolean
+			Dim dao As <[CurrentEntityName]>DAO = CType(CreateDAOInstance(), <[CurrentEntityName]>DAO)
+			Return dao.UpdateExisting(MyBase.Fields, MyBase.Transaction)
+		End Function
+		
+		
+		''' <summary>Performs the update action of an existing Entity to the persistent storage.</summary>
+		''' <param name="updateRestriction">Predicate expression, meant for concurrency checks in an Update query</param>
+		''' <returns>true if succeeded, False otherwise</returns>
+		Protected Overrides Overloads Function UpdateEntity(updateRestriction As IPredicate) As Boolean
+			Dim dao As <[CurrentEntityName]>DAO = CType(CreateDAOInstance(), <[CurrentEntityName]>DAO)
+			Return dao.UpdateExisting(MyBase.Fields, MyBase.Transaction, updateRestriction)
+		End Function
+	<[EndIf]>
+		''' <summary>Initializes the class with empty data, as if it is a new Entity.</summary>
+		''' <param name="validatorToUse">The validator Object for this <[CurrentEntityName]>Entity</param>
+		Protected <[If IsSubType]>Overrides<[Else]>Overridable<[EndIf]> Sub InitClassEmpty(validatorToUse As IValidator)
+<[If Not IsSubType]>			OnInitializing()<[EndIf]>
+<[If IsSubType]>			MyBase.InitClassEmpty(validatorToUse)<[Else]>			MyBase.Fields = CreateFields()
+			MyBase.IsNew=True
+			MyBase.Validator = validatorToUse<[EndIf]>
+<[If IsInHierarchyType TargetPerEntityHierarchy]>			If MyBase.Fields.State=EntityState.[New] Then
+				MyBase.Fields(CInt(<[CurrentEntityName]>FieldIndex.<[DiscriminatorColumnName]>)).ForcedCurrentValueWrite(<[DiscriminatorValue]>)
+			End If<[EndIf]>
+			InitClassMembers()
+			<[ UserCodeRegion "InitClassEmpty" ]>
+			' __LLBLGENPRO_USER_CODE_REGION_START InitClassEmpty
+			' __LLBLGENPRO_USER_CODE_REGION_END
+			<[ EndUserCodeRegion ]>
+<# Custom_EntityInitializationTemplate #>
+<[If Not IsSubType]>			OnInitialized()<[EndIf]>
+		End Sub
+
+		''' <summary>Creates entity fields Object For this entity. Used In constructor To setup this entity In a polymorphic scenario.</summary>
+		Protected <[If IsSubType]>Overrides<[Else]>Overridable<[EndIf]> Function CreateFields() As IEntityFields
+			Return EntityFieldsFactory.CreateEntityFieldsObject(<[RootNamespace]>.EntityType.<[CurrentEntityName]>Entity)
+		End Function
+
+		''' <summary>Creates a New transaction Object</summary>
+		''' <param name="levelOfIsolation">The level of isolation.</param>
+		''' <param name="name">The name.</param>
+		Protected Overrides Overloads Function CreateTransaction( levelOfIsolation As IsolationLevel, name As String) As ITransaction 
+			Return New Transaction(levelOfIsolation, name)
+		End Function
+
+		''' <summary>
+		''' Creates the ITypeDefaultValue instance used To provide Default values For value types which aren't of type nullable(of T)
+		''' </summary>
+		''' <returns></returns>
+		Protected Overrides Function CreateTypeDefaultValueProvider() As ITypeDefaultValue 
+			Return New TypeDefaultValue()
+		End Function
+		
+		''' <summary>Gets all related data objects, stored by name. The name Is the field name mapped onto the relation For that particular data element. </summary>
+		''' <returns>Dictionary With per name the related referenced data element, which can be an entity collection Or an entity Or null</returns>
+		Public Overrides Overloads Function GetRelatedData() As Dictionary(Of String, Object)
+<[ If IsSubType]>			Dim toReturn As Dictionary(Of String, Object) = MyBase.GetRelatedData()<[Else]>			Dim toReturn As New Dictionary(Of String, Object)()<[EndIf]>
+<[Foreach RelatedEntity ManyToOne CrLf]><[If Not MappedFieldRelationIsHidden]>			toReturn.Add("<[MappedFieldNameRelation]>", _<[CaseCamel MappedFieldNameRelation]>)<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity OneToMany CrLf]><[If Not MappedFieldRelationIsHidden]>			toReturn.Add("<[MappedFieldNameRelation]>", _<[CaseCamel MappedFieldNameRelation]>)<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity ManyToMany CrLf]><[If Not MappedFieldRelationIsHidden]>			toReturn.Add("<[MappedFieldNameRelation]>", _<[CaseCamel MappedFieldNameRelation]>)<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity OneToOne CrLf]><[If Not MappedFieldRelationIsHidden]>			toReturn.Add("<[MappedFieldNameRelation]>", _<[CaseCamel MappedFieldNameRelation]>)<[EndIf]><[NextForeach]>
+			Return toReturn
+		End Function
+		
+<[If HasPrimaryKey IncludeInherited]>
+		''' <summary>Initializes the the entity and fetches the data related to the entity in this entity.</summary>
+<[Foreach PrimaryKeyEntityField IncludeInherited CrLf]>		''' <param name="<[CaseCamel EntityFieldName]>">PK value for <[CurrentEntityName]> which data should be fetched into this <[CurrentEntityName]> Object</param><[NextForeach]>
+		''' <param name="validator">The validator Object for this <[CurrentEntityName]>Entity</param>
+		''' <param name="prefetchPathToUse">the PrefetchPath which defines the graph of objects to fetch as well</param>
+		Protected <[If IsSubType]>Overrides<[Else]>Overridable<[EndIf]> Sub InitClassFetch(<[Foreach PrimaryKeyEntityField IncludeInherited Comma]><[CaseCamel EntityFieldName]> As <[If GenerateAsNullableType]>Nullable(Of <[TypeOfField]>)<[Else]><[TypeOfField]><[EndIf]><[NextForeach]>, validator As IValidator, prefetchPathToUse As IPrefetchPath)
+<[If Not IsSubType]>			OnInitializing()<[EndIf]>
+<[If IsSubType]>			InitClassMembers()
+			MyBase.InitClassFetch(<[Foreach PrimaryKeyEntityField IncludeInherited Comma]><[CaseCamel EntityFieldName]><[NextForeach]>, validator, prefetchPathToUse)<[Else]>			MyBase.Validator = validator
+			InitClassMembers()
+			MyBase.Fields = CreateFields()
+			Dim wasSuccesful As Boolean = Fetch(<[Foreach PrimaryKeyEntityField IncludeInherited Comma]><[CaseCamel EntityFieldName]><[NextForeach]>, prefetchPathToUse, Nothing, Nothing)
+			MyBase.IsNew = Not wasSuccesful<[EndIf]>
+<[If IsInHierarchyType TargetPerEntityHierarchy]>			If MyBase.Fields.State=EntityState.[New] Then
+				MyBase.Fields(CInt(<[CurrentEntityName]>FieldIndex.<[DiscriminatorColumnName]>)).ForcedCurrentValueWrite(<[DiscriminatorValue]>)
+			End If<[EndIf]>
+			<[ UserCodeRegion "InitClassFetch" ]>
+			' __LLBLGENPRO_USER_CODE_REGION_START InitClassFetch
+			' __LLBLGENPRO_USER_CODE_REGION_END
+			<[ EndUserCodeRegion ]>
+<# Custom_EntityInitializationTemplate #>
+<[If Not IsSubType]>			OnInitialized()<[EndIf]>
+		End Sub<[EndIf]>
+
+		''' <summary>Initializes the class members</summary>
+		Private Sub InitClassMembers()
+<[Foreach RelatedEntity OneToMany CrLf]><[If Not MappedFieldRelationIsHidden]>			_<[CaseCamel MappedFieldNameRelation]> = New <[RootNamespace]>.CollectionClasses.<[RelatedEntityName]>Collection(New <[RelatedEntityName]>EntityFactory())
+			_<[CaseCamel MappedFieldNameRelation]>.SetContainingEntityInfo(Me, "<[RelatedMappedFieldNameRelation]>")
+			_alwaysFetch<[MappedFieldNameRelation]> = False
+			_alreadyFetched<[MappedFieldNameRelation]> = False<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity ManyToMany CrLf]><[If Not MappedFieldRelationIsHidden]>			_<[CaseCamel MappedFieldNameRelation]> = New <[RootNamespace]>.CollectionClasses.<[RelatedEntityName]>Collection(New <[RelatedEntityName]>EntityFactory())
+			_alwaysFetch<[MappedFieldNameRelation]> = False
+			_alreadyFetched<[MappedFieldNameRelation]> = False<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity ManyToOne CrLf]><[If Not MappedFieldRelationIsHidden]>			_<[CaseCamel MappedFieldNameRelation]> = Nothing
+			_<[CaseCamel MappedFieldNameRelation]>ReturnsNewIfNotFound = <[LazyLoadingWithoutResultReturnsNew]>
+			_alwaysFetch<[MappedFieldNameRelation]> = False
+			_alreadyFetched<[MappedFieldNameRelation]> = False<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity OneToOne CrLf]><[If Not MappedFieldRelationIsHidden]>			_<[CaseCamel MappedFieldNameRelation]> = Nothing
+			_<[CaseCamel MappedFieldNameRelation]>ReturnsNewIfNotFound = <[LazyLoadingWithoutResultReturnsNew]>
+			_alwaysFetch<[MappedFieldNameRelation]> = False
+			_alreadyFetched<[MappedFieldNameRelation]> = False<[EndIf]><[NextForeach]>
+
+			PerformDependencyInjection()
+			<[ UserCodeRegion "InitClassMembers" ]>
+			' __LLBLGENPRO_USER_CODE_REGION_START InitClassMembers
+			' __LLBLGENPRO_USER_CODE_REGION_END
+			<[ EndUserCodeRegion ]>
+<[If Not IsSubType]>			OnInitClassMembersComplete()<[EndIf]>
+		End Sub
+
+		''' <summary>Initializes the hashtables for the entity type and entity field custom properties. </summary>
+		Private Shared Sub SetupCustomPropertyHashtables()
+			_customProperties = New Dictionary(Of String, String)()
+			_fieldsCustomProperties = New Dictionary(Of String, Dictionary(Of String, String))()
+<[Foreach CustomProperty Entity CrLf]>			_customProperties.Add("<[CustomPropertyName]>", "<[CustomPropertyValue]>")<[NextForeach]>
+<[If HasFields]>			Dim fieldHashtable As Dictionary(Of String, String) = Nothing
+<[Foreach EntityField CrLf]>			fieldHashtable = New Dictionary(Of String, String)()
+<[Foreach CustomProperty EntityField CrLf]>			fieldHashtable.Add("<[CustomPropertyName]>", "<[CustomPropertyValue]>")<[NextForeach]>
+			_fieldsCustomProperties.Add("<[EntityFieldName]>", fieldHashtable)<[NextForeach]><[EndIf]>
+		End Sub
+
+<[Foreach RelatedEntity ManyToOne]><[If Not MappedFieldRelationIsHidden]>
+		''' <summary>Removes the sync logic for member _<[CaseCamel MappedFieldNameRelation]></summary>
+		''' <param name="signalRelatedEntity">If set to true, it will call the related entity's UnsetRelatedEntity method</param>
+		''' <param name="resetFKFields">if set to true it will also reset the FK fields pointing to the related entity</param>
+		Private Sub DesetupSync<[MappedFieldNameRelation]>(signalRelatedEntity As Boolean, resetFKFields As Boolean)
+			MyBase.PerformDesetupSyncRelatedEntity( _<[CaseCamel MappedFieldNameRelation]>, AddressOf On<[MappedFieldNameRelation]>PropertyChanged, "<[MappedFieldNameRelation]>", <[CurrentEntityName]>Entity.Relations.<[RelatedEntityName]>EntityUsing<[If Not RelatedEntityIsOtherEntity]><[Foreach RelationField]><[RelatedEntityRelationFieldName]><[NextForeach]><[EndIf]><[Foreach RelationField]><[RelationFieldName]><[NextForeach]>, True, signalRelatedEntity, "<[ If OppositeRelationPresent Full ]><[RelatedMappedFieldNameRelation]><[ EndIf ]>", resetFKFields, New Integer() { <[ Foreach RelationField Comma]>CInt(<[ CurrentEntityName ]>FieldIndex.<[ RelationFieldName ]>)<[NextForeach]> } )
+			_<[CaseCamel MappedFieldNameRelation]> = Nothing
+		End Sub
+		
+		''' <summary>setups the sync logic for member _<[CaseCamel MappedFieldNameRelation]></summary>
+		''' <param name="relatedEntity">Instance to set as the related entity of type entityType</param>
+		Private Sub SetupSync<[MappedFieldNameRelation]>(relatedEntity As IEntity)
+			If Not _<[CaseCamel MappedFieldNameRelation]> Is relatedEntity Then
+				DesetupSync<[MappedFieldNameRelation]>(True, True)
+				_<[CaseCamel MappedFieldNameRelation]> = CType(relatedEntity, <[RelatedEntityName]>Entity)
+				MyBase.PerformSetupSyncRelatedEntity( _<[CaseCamel MappedFieldNameRelation]>, AddressOf On<[MappedFieldNameRelation]>PropertyChanged, "<[MappedFieldNameRelation]>", <[CurrentEntityName]>Entity.Relations.<[RelatedEntityName]>EntityUsing<[If Not RelatedEntityIsOtherEntity]><[Foreach RelationField]><[RelatedEntityRelationFieldName]><[NextForeach]><[EndIf]><[Foreach RelationField]><[RelationFieldName]><[NextForeach]>, True, _alreadyFetched<[MappedFieldNameRelation]>, New String() { <[ Foreach RelatedEntityField CurrentRelatedEntity Comma]>"<[MappedFieldNameRelatedField]>"<[NextForeach]> } )
+			End If
+		End Sub
+		
+		''' <summary>Handles Property change events of properties In a related entity.</summary>
+		''' <param name="sender"></param>
+		''' <param name="e"></param>
+		Private Sub On<[MappedFieldNameRelation]>PropertyChanged( sender As Object, e As PropertyChangedEventArgs)
+			Select Case e.PropertyName
+<[ Foreach RelatedEntityField CurrentRelatedEntity CrLf]>				Case "<[RelatedEntityFieldName]>"
+					MyBase.OnPropertyChanged("<[MappedFieldNameRelatedField]>")<[NextForeach]>
+				Case Else
+					' Emtpy
+			End Select
+		End Sub<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity OneToOne]><[If Not MappedFieldRelationIsHidden]>
+		''' <summary>Removes the sync logic for member _<[CaseCamel MappedFieldNameRelation]></summary>
+		''' <param name="signalRelatedEntity">If set to true, it will call the related entity's UnsetRelatedEntity method</param>
+		''' <param name="resetFKFields">if set to true it will also reset the FK fields pointing to the related entity</param>
+		Private Sub DesetupSync<[MappedFieldNameRelation]>(signalRelatedEntity As Boolean, resetFKFields As Boolean)
+			MyBase.PerformDesetupSyncRelatedEntity( _<[CaseCamel MappedFieldNameRelation]>, AddressOf On<[MappedFieldNameRelation]>PropertyChanged, "<[MappedFieldNameRelation]>", <[CurrentEntityName]>Entity.Relations.<[RelatedEntityName]>EntityUsing<[Foreach RelationField]><[If IsOneToOnePkPk FkSide]><[RelationFieldName]><[EndIf]><[If Not IsOneToOnePkPk FkSide]><[RelatedEntityRelationFieldName]><[EndIf]><[If IsOneToOnePkFkUc FkSide]><[RelationFieldName]><[EndIf]><[If Not IsOneToOnePkFkUc FkSide]><[RelatedEntityRelationFieldName]><[EndIf]><[NextForeach]>, <[If IsOnPkSide]>False<[Else]>True<[EndIf]>, signalRelatedEntity, "<[ If OppositeRelationPresent Full ]><[RelatedMappedFieldNameRelation]><[ EndIf ]>", <[If IsOneToOnePkFkUc FkSide]>resetFKFields<[Else]>False<[EndIf]>, New Integer() { <[ Foreach RelationField Comma]>CInt(<[ CurrentEntityName ]>FieldIndex.<[ RelationFieldName ]>)<[NextForeach]> } )
+			_<[CaseCamel MappedFieldNameRelation]> = Nothing
+		End Sub
+
+		''' <summary>setups the sync logic for member _<[CaseCamel MappedFieldNameRelation]></summary>
+		''' <param name="relatedEntity">Instance to set as the related entity of type entityType</param>
+		Private Sub SetupSync<[MappedFieldNameRelation]>(relatedEntity As IEntity)
+			If Not _<[CaseCamel MappedFieldNameRelation]> Is relatedEntity Then
+				DesetupSync<[MappedFieldNameRelation]>(True, True)
+				_<[CaseCamel MappedFieldNameRelation]> = CType(relatedEntity, <[RelatedEntityName]>Entity)
+				MyBase.PerformSetupSyncRelatedEntity( _<[CaseCamel MappedFieldNameRelation]>, AddressOf On<[MappedFieldNameRelation]>PropertyChanged, "<[MappedFieldNameRelation]>", <[CurrentEntityName]>Entity.Relations.<[RelatedEntityName]>EntityUsing<[Foreach RelationField]><[If IsOneToOnePkPk FkSide]><[RelationFieldName]><[EndIf]><[If Not IsOneToOnePkPk FkSide]><[RelatedEntityRelationFieldName]><[EndIf]><[If IsOneToOnePkFkUc FkSide]><[RelationFieldName]><[EndIf]><[If Not IsOneToOnePkFkUc FkSide]><[RelatedEntityRelationFieldName]><[EndIf]><[NextForeach]>, <[If IsOnPkSide]>False<[Else]>True<[EndIf]>, _alreadyFetched<[MappedFieldNameRelation]>, New String() { <[ Foreach RelatedEntityField CurrentRelatedEntity Comma]>"<[MappedFieldNameRelatedField]>"<[NextForeach]> } )
+			End If
+		End Sub
+
+		''' <summary>Handles Property change events of properties In a related entity.</summary>
+		''' <param name="sender"></param>
+		''' <param name="e"></param>
+		Private Sub On<[MappedFieldNameRelation]>PropertyChanged( sender As Object, e As PropertyChangedEventArgs)
+			Select Case e.PropertyName
+<[ Foreach RelatedEntityField CurrentRelatedEntity CrLf]>				Case "<[RelatedEntityFieldName]>"
+					MyBase.OnPropertyChanged("<[MappedFieldNameRelatedField]>")<[NextForeach]>
+				Case Else
+					' Emtpy
+			End Select
+		End Sub<[EndIf]><[NextForeach]>
+
+<[If Not IsSubType]><[If HasPrimaryKey IncludeInherited]>
+		''' <summary>Fetches the entity from the persistent storage. Fetch simply reads the entity into an EntityFields Object. </summary>
+<[Foreach PrimaryKeyEntityField CrLf]>		''' <param name="<[CaseCamel EntityFieldName]>">PK value for <[CurrentEntityName]> which data should be fetched into this <[CurrentEntityName]> Object</param><[NextForeach]>
+		''' <param name="prefetchPathToUse">the PrefetchPath which defines the graph of objects to fetch as well</param>
+		''' <param name="contextToUse">The context to fetch the prefetch path with.</param>
+		''' <param name="excludedIncludedFields">The list of IEntityField objects which have To be excluded Or included For the fetch. 
+		''' If null Or empty, all fields are fetched (Default). If an instance of ExcludeIncludeFieldsList is passed in and its ExcludeContainedFields Property
+		''' is set to false, the fields contained In excludedIncludedFields are kept In the query, the rest of the fields In the query are excluded.</param>
+		''' <returns>True if succeeded, False otherwise.</returns>
+		Private Function Fetch(<[Foreach PrimaryKeyEntityField Comma]><[CaseCamel EntityFieldName]> As <[If GenerateAsNullableType]>Nullable(Of <[TypeOfField]>)<[Else]><[TypeOfField]><[EndIf]><[NextForeach]>, prefetchPathToUse As IPrefetchPath, contextToUse As Context, excludedIncludedFields As ExcludeIncludeFieldsList) As Boolean
+			Try
+				OnFetch()
+				Dim dao As IDao = Me.CreateDAOInstance()
+<[Foreach PrimaryKeyEntityField CrLf]>				MyBase.Fields(CInt(<[CurrentEntityName]>FieldIndex.<[EntityFieldName]>)).ForcedCurrentValueWrite(<[CaseCamel EntityFieldName]>)<[NextForeach]>
+				dao.FetchExisting(Me, MyBase.Transaction, prefetchPathToUse, contextToUse, excludedIncludedFields)
+				Return (MyBase.Fields.State = EntityState.Fetched)
+			Finally
+				OnFetchComplete()
+			End Try
+		End Function
+<[Else]>
+		''' <summary>Refetches the Entity from the persistent storage. Refetch is used to re-load an Entity which is marked "Out-of-sync", due to a save action. 
+		''' Refetching an empty Entity has no effect. 
+		''' Because this entity doesn't have a primary key defined, this routine does nothing. </summary>
+		''' <returns>true</returns>
+		Public Overrides Overloads Function Refetch() As Boolean
+			Return True
+		End Function
+		
+		''' <summary>Deletes the Entity from the persistent storage. This method succeeds also when the Entity is not present.</summary>
+		''' <param name="deleteRestriction">Predicate expression, meant for concurrency checks in a delete query. Overrules the predicate returned
+		''' by a set ConcurrencyPredicateFactory object.</param>
+		''' <returns>true if Delete succeeded, False otherwise</returns>
+		''' <exception cref="ORMQueryExecutionException">When an exception is caught during the delete process. The caught exception is set as the
+		''' inner exception. Encapsulation of database-related exceptions is necessary since these exceptions do not have a common exception framework
+		''' implemented.</exception>
+		Public Overrides Overloads Function Delete(deleteRestriction As IPredicate) As Boolean
+			Return True
+		End Function
+		
+		''' <summary>Performs the update action of an existing Entity to the persistent storage.
+		''' Because this entity doesn't have a primary key defined, this routine does nothing. </summary>
+		''' <returns>true</returns>
+		Protected Overrides Overloads Function UpdateEntity() As Boolean
+			Return True
+		End Function
+		
+		''' <summary>Performs the update action of an existing Entity to the persistent storage.
+		''' Because this entity doesn't have a primary key defined, this routine does nothing. </summary>
+		''' <param name="updateRestriction">Predicate expression, meant for concurrency checks in an Update query</param>
+		''' <returns>true</returns>
+		Protected Overrides Overloads Function UpdateEntity(updateRestriction As IPredicate) As Boolean
+			Return True
+		End Function
+<[EndIf]><[EndIf]>
+		''' <summary>Creates the DAO instance For this type</summary>
+		''' <returns></returns>
+		Protected Overrides Function CreateDAOInstance() As IDao
+			Return DAOFactory.Create<[CurrentEntityName]>DAO()
+		End Function
+		
+		''' <summary>Creates the entity factory For this type.</summary>
+		''' <returns></returns>
+		Protected Overrides Function CreateEntityFactory() As IEntityFactory 
+			Return New <[CurrentEntityName]>EntityFactory()
+		End Function
+
+#Region "Class Property Declarations"
+		''' <summary>The relations Object holding all relations of this entity with other entity classes.</summary>
+		Public <[If IsSubType]>Shadows<[EndIf]> Shared ReadOnly Property Relations() As <[CurrentEntityName]>Relations
+			Get	
+				Return New <[CurrentEntityName]>Relations() 
+			End Get
+		End Property
+		
+		''' <summary>The custom properties for this entity type.</summary>
+		''' <remarks>The data returned from this property should be considered read-only: it is not thread safe to alter this data at runtime.</remarks>
+		Public <[If IsSubType]>Shadows<[EndIf]> Shared ReadOnly Property CustomProperties() As Dictionary(Of String, String)
+			Get
+				Return _customProperties
+			End Get
+		End Property
+		
+	<[Foreach RelatedEntity OneToMany]><[If Not MappedFieldRelationIsHidden]>
+		''' <summary>Creates a New PrefetchPathElement object which contains all the information to prefetch the related entities of type '<[RelatedEntityName]>' 
+		''' for this entity. Add the object Returned by this property to an existing PrefetchPath2 instance.</summary>
+		''' <Returns>Ready to use IPrefetchPathElement implementation.</Returns>
+		Public Shared ReadOnly Property PrefetchPath<[MappedFieldNameRelation]>() As IPrefetchPathElement
+			Get
+				Return New PrefetchPathElement( New <[RootNamespace]>.CollectionClasses.<[RelatedEntityName]>Collection(), _
+					CType(GetRelationsForField("<[MappedFieldNameRelation]>")(0), IEntityRelation), CType(<[RootNamespace]>.EntityType.<[CurrentEntityName]>Entity, Integer), CType(<[RootNamespace]>.EntityType.<[RelatedEntityName]>Entity, Integer), 0, Nothing, Nothing, Nothing, "<[MappedFieldNameRelation]>", SD.LLBLGen.Pro.ORMSupportClasses.RelationType.OneToMany)
+			End Get
+		End Property
+	<[EndIf]><[NextForeach]>
+	<[Foreach RelatedEntity ManyToMany]><[If Not MappedFieldRelationIsHidden]>
+		''' <summary>Creates a New PrefetchPathElement object which contains all the information to prefetch the related entities of type '<[RelatedEntityName]>' 
+		''' for this entity. Add the object Returned by this property to an existing PrefetchPath instance.</summary>
+		''' <Returns>Ready to use IPrefetchPathElement implementation.</Returns>
+		Public Shared ReadOnly Property PrefetchPath<[MappedFieldNameRelation]>() As IPrefetchPathElement
+			Get
+				Dim intermediateRelation As IEntityRelation = <[CurrentEntityName]>Entity.Relations.<[IntermediateEntityName]>EntityUsing<[Foreach RelationField OneToMany]><[RelatedEntityRelationFieldName]><[NextForeach]>
+				intermediateRelation.SetAliases(String.Empty, "<[IntermediateEntityName]>_")
+				Return New PrefetchPathElement( New <[RootNamespace]>.CollectionClasses.<[RelatedEntityName]>Collection(), intermediateRelation, _
+					CType(<[RootNamespace]>.EntityType.<[CurrentEntityName]>Entity, Integer), CType(<[RootNamespace]>.EntityType.<[RelatedEntityName]>Entity, Integer), 0, Nothing, Nothing, GetRelationsForField("<[MappedFieldNameRelation]>"), "<[MappedFieldNameRelation]>", SD.LLBLGen.Pro.ORMSupportClasses.RelationType.ManyToMany)
+			End Get
+		End Property
+	<[EndIf]><[NextForeach]>
+	<[Foreach RelatedEntity ManyToOne]><[If Not MappedFieldRelationIsHidden]>
+		''' <summary>Creates a New PrefetchPathElement object which contains all the information to prefetch the related entities of type '<[RelatedEntityName]>' 
+		''' for this entity. Add the object Returned by this property to an existing PrefetchPath instance.</summary>
+		''' <Returns>Ready to use IPrefetchPathElement implementation.</Returns>
+		Public Shared ReadOnly Property PrefetchPath<[MappedFieldNameRelation]>() As IPrefetchPathElement
+			Get
+				Return New PrefetchPathElement( New <[RootNamespace]>.CollectionClasses.<[RelatedEntityName]>Collection(), _
+					CType(GetRelationsForField("<[MappedFieldNameRelation]>")(0), IEntityRelation), CType(<[RootNamespace]>.EntityType.<[CurrentEntityName]>Entity, Integer), CType(<[RootNamespace]>.EntityType.<[RelatedEntityName]>Entity, Integer), 0, Nothing, Nothing, Nothing, "<[MappedFieldNameRelation]>", SD.LLBLGen.Pro.ORMSupportClasses.RelationType.ManyToOne)
+			End Get
+		End Property
+	<[EndIf]><[NextForeach]>
+	<[Foreach RelatedEntity OneToOne]><[If Not MappedFieldRelationIsHidden]>
+		''' <summary>Creates a New PrefetchPathElement object which contains all the information to prefetch the related entities of type '<[RelatedEntityName]>' 
+		''' for this entity. Add the object Returned by this property to an existing PrefetchPath2 instance.</summary>
+		''' <Returns>Ready to use IPrefetchPathElement implementation.</Returns>
+		Public Shared ReadOnly Property PrefetchPath<[MappedFieldNameRelation]>() As IPrefetchPathElement
+			Get
+				Return New PrefetchPathElement( New <[RootNamespace]>.CollectionClasses.<[RelatedEntityName]>Collection(), _
+					CType(GetRelationsForField("<[MappedFieldNameRelation]>")(0), IEntityRelation), CType(<[RootNamespace]>.EntityType.<[CurrentEntityName]>Entity, Integer), CType(<[RootNamespace]>.EntityType.<[RelatedEntityName]>Entity, Integer), 0, Nothing, Nothing, Nothing, "<[MappedFieldNameRelation]>", SD.LLBLGen.Pro.ORMSupportClasses.RelationType.OneToOne)
+			End Get
+		End Property
+	<[EndIf]><[NextForeach]>
+
+		''' <summary>Returns the full name For this entity, which Is important For the DAO To find back persistence info For this entity.</summary>
+		<Browsable(False), XmlIgnore> _
+		Public Overrides ReadOnly Property LLBLGenProEntityName As String
+			Get
+				Return "<[CurrentEntityName]>Entity"
+			End Get
+		End Property
+
+		''' <summary>The custom properties for the type of this entity instance.</summary>
+		''' <remarks>The data returned from this property should be considered read-only: it is not thread safe to alter this data at runtime.</remarks>
+		<Browsable(False), XmlIgnore> _
+		Public Overrides ReadOnly Property CustomPropertiesOfType() As Dictionary(Of String, String)
+			Get
+				Return <[CurrentEntityName]>Entity.CustomProperties
+			End Get
+		End Property
+
+		''' <summary>The custom properties for the fields of this entity type. The returned Hashtable contains per fieldname a hashtable of name-value
+		''' pairs. </summary>
+		''' <remarks>The data returned from this property should be considered read-only: it is not thread safe to alter this data at runtime.</remarks>
+		Public <[If IsSubType]>Shadows<[EndIf]> Shared ReadOnly Property FieldsCustomProperties() As Dictionary(Of String, Dictionary(Of String, String))
+			Get
+				Return _fieldsCustomProperties
+			End Get
+		End Property
+
+		''' <summary>The custom properties for the fields of the type of this entity instance. The returned Hashtable contains per fieldname a hashtable of name-value
+		''' pairs. </summary>
+		''' <remarks>The data returned from this property should be considered read-only: it is not thread safe to alter this data at runtime.</remarks>
+		<Browsable(False), XmlIgnore> _
+		Public Overrides ReadOnly Property FieldsCustomPropertiesOfType() As Dictionary(Of String, Dictionary(Of String, String))
+			Get
+				Return <[CurrentEntityName]>Entity.FieldsCustomProperties
+			End Get
+		End Property
+
+	<[Foreach EntityField]>
+		''' <summary>The <[EntityFieldName]> property of the Entity <[CurrentEntityName]><br/><br/>
+		''' <[Foreach CustomProperty EntityField]>
+		''' <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]></summary>
+		''' <remarks>
+		''' Mapped on <[ CaseCamel TargetType ]> field: "<[SourceObjectName]>"."<[SourceColumnName]>"<br/>
+		''' <[ TargetType ]> field type characteristics (type, precision, scale, length): <[SourceColumnDbType]>, <[SourceColumnPrecision]>, <[SourceColumnScale]>, <[SourceColumnMaxLength]><br/>
+		''' <[ TargetType ]> field behavior characteristics (is nullable, is PK, is identity): <[SourceColumnIsNullable]>, <[IsPrimaryKey]>, <[IsIdentity]>
+		''' </remarks>
+		Public <[If EntityFieldOverrides]>Overrides<[Else]>Overridable<[EndIf]> <[If IsReadOnly ]><[If Not IsPrimaryKey ]>ReadOnly <[EndIf]><[EndIf]>Property [<[EntityFieldName]>]() As <[If GenerateAsNullableType]>Nullable(Of <[TypeOfField]>)<[Else]><[TypeOfField]><[EndIf]>
+			Get
+				Return CType(GetValue(CInt(<[CurrentEntityName]>FieldIndex.<[EntityFieldName]>), <[If GenerateAsNullableType]>False<[Else]>True<[EndIf]>), <[If GenerateAsNullableType]>Nullable(Of <[TypeOfField]>)<[Else]><[TypeOfField]><[EndIf]>)
+			End Get
+<[If IsReadOnly ]><[If IsPrimaryKey ]>			Set
+				SetValue(CInt(<[CurrentEntityName]>FieldIndex.<[EntityFieldName]>), value, True)
+			End Set<[EndIf]>
+<[Else]>			Set
+				SetValue(CInt(<[CurrentEntityName]>FieldIndex.<[EntityFieldName]>), value, True)
+			End Set<[EndIf]>
+		End Property
+	<[NextForeach]>
+	<[Foreach RelatedEntity OneToMany]><[If Not MappedFieldRelationIsHidden]>
+		''' <summary>Retrieves all related entities of type '<[RelatedEntityName]>Entity' Imports a relation of type '1:n'.</summary>
+		''' <remarks>This property is added for databinding conveniance, however it is recommeded to use the method 'GetMulti<[MappedFieldNameRelation]>()', because 
+		''' this property is rather expensive and a method tells the user to cache the result when it has to be used more than once in the
+		''' same scope.</remarks>
+		Public Overridable ReadOnly Property [<[MappedFieldNameRelation]>]() As <[RootNamespace]>.CollectionClasses.<[RelatedEntityName]>Collection
+			Get
+				Return GetMulti<[MappedFieldNameRelation]>(False)
+			End Get
+		End Property
+
+		''' <summary>Gets / sets the lazy loading flag for <[MappedFieldNameRelation]>. When set to true, <[MappedFieldNameRelation]> is always refetched from the 
+		''' persistent storage. When set to false, the data is only fetched the first time <[MappedFieldNameRelation]> is accessed. You can always execute
+		''' a forced fetch by calling GetMulti<[MappedFieldNameRelation]>(True).</summary>
+		<Browsable(False)> _
+		Public Property AlwaysFetch<[MappedFieldNameRelation]> As Boolean
+			Get
+				Return _alwaysFetch<[MappedFieldNameRelation]>
+			End Get
+			Set
+				_alwaysFetch<[MappedFieldNameRelation]> = value
+			End Set	
+		End Property
+
+		''' <summary>Gets / Sets the lazy loading flag If the Property <[MappedFieldNameRelation]> already has been fetched. Setting this Property To False when <[MappedFieldNameRelation]> has been fetched
+		''' will clear the <[MappedFieldNameRelation]> collection well. Setting this Property To True While <[MappedFieldNameRelation]> hasn't been fetched disables lazy loading for <[MappedFieldNameRelation]></summary>
+		<Browsable(False)> _
+		Public Property AlreadyFetched<[MappedFieldNameRelation]> As Boolean
+			Get 
+				Return _alreadyFetched<[MappedFieldNameRelation]>
+			End Get
+			Set 
+				If _alreadyFetched<[MappedFieldNameRelation]> AndAlso Not value AndAlso Not (_<[CaseCamel MappedFieldNameRelation]> Is Nothing) Then
+					_<[CaseCamel MappedFieldNameRelation]>.Clear()
+				End If
+				_alreadyFetched<[MappedFieldNameRelation]> = value
+			End Set
+		End Property
+	<[EndIf]><[NextForeach]>
+	<[Foreach RelatedEntity ManyToMany]><[If Not MappedFieldRelationIsHidden]>
+		''' <summary>Retrieves all related entities of type '<[RelatedEntityName]>Entity' Imports a relation of type 'm:n'.</summary>
+		''' <remarks>This property is added for databinding conveniance, however it is recommeded to use the method 'GetMulti<[MappedFieldNameRelation]>()', because 
+		''' this property is rather expensive and a method tells the user to cache the result when it has to be used more than once in the
+		''' same scope.</remarks>
+		Public Overridable ReadOnly Property [<[MappedFieldNameRelation]>]() As <[RootNamespace]>.CollectionClasses.<[RelatedEntityName]>Collection
+			Get
+				Return GetMulti<[MappedFieldNameRelation]>(False)
+			End Get
+		End Property
+
+		''' <summary>Gets / sets the lazy loading flag for <[MappedFieldNameRelation]>. When set to true, <[MappedFieldNameRelation]> is always refetched from the 
+		''' persistent storage. When set to false, the data is only fetched the first time <[MappedFieldNameRelation]> is accessed. You can always execute
+		''' a forced fetch by calling GetMulti<[MappedFieldNameRelation]>(True).</summary>
+		<Browsable(False)> _
+		Public Property AlwaysFetch<[MappedFieldNameRelation]> As Boolean
+			Get
+				Return _alwaysFetch<[MappedFieldNameRelation]>
+			End Get
+			Set
+				_alwaysFetch<[MappedFieldNameRelation]> = value
+			End Set	
+		End Property
+		
+		''' <summary>Gets / Sets the lazy loading flag If the Property <[MappedFieldNameRelation]> already has been fetched. Setting this Property To False when <[MappedFieldNameRelation]> has been fetched
+		''' will clear the <[MappedFieldNameRelation]> collection well. Setting this Property To True While <[MappedFieldNameRelation]> hasn't been fetched disables lazy loading for <[MappedFieldNameRelation]></summary>
+		<Browsable(False)> _
+		Public Property AlreadyFetched<[MappedFieldNameRelation]> As Boolean
+			Get 
+				Return _alreadyFetched<[MappedFieldNameRelation]>
+			End Get
+			Set 
+				If _alreadyFetched<[MappedFieldNameRelation]> AndAlso Not value AndAlso Not (_<[CaseCamel MappedFieldNameRelation]> Is Nothing) Then
+					_<[CaseCamel MappedFieldNameRelation]>.Clear()
+				End If
+				_alreadyFetched<[MappedFieldNameRelation]> = value
+			End Set
+		End Property
+	<[EndIf]><[NextForeach]>
+	<[Foreach RelatedEntity ManyToOne]><[If Not MappedFieldRelationIsHidden]>
+		''' <summary>Gets / sets related entity of type '<[RelatedEntityName]>Entity'. This property is not visible in databound grids.
+		''' Setting this property to a new object will make the load-on-demand feature to stop fetching data from the database, until you set this
+		''' property to Nothing. Setting this property to an entity will make sure that FK-PK relations are synchronized when appropriate.</summary>
+		''' <remarks>This property is added for conveniance, however it is recommeded to use the method 'GetSingle<[MappedFieldNameRelation]>()', because 
+		''' this property is rather expensive and a method tells the user to cache the result when it has to be used more than once in the
+		''' same scope. The property is marked non-browsable to make it hidden in bound controls, f.e. datagrids.</remarks>
+<[If HideFromDatabinding]>		<Browsable(False)> _
+<[EndIf]>		Public Overridable Property [<[MappedFieldNameRelation]>]() As <[RelatedEntityName]>Entity
+			Get
+				Return GetSingle<[MappedFieldNameRelation]>(False)
+			End Get
+			Set
+				If MyBase.IsDeserializing Then
+					SetupSync<[MappedFieldNameRelation]>(value)
+				Else
+					If value Is Nothing Then
+						If Not _<[CaseCamel MappedFieldNameRelation]> Is Nothing Then
+<[If OppositeRelationPresent Full]>							_<[CaseCamel MappedFieldNameRelation]>.UnsetRelatedEntity(Me, "<[RelatedMappedFieldNameRelation]>")<[Else]>							UnsetRelatedEntity(_<[CaseCamel MappedFieldNameRelation]>, "<[MappedFieldNameRelation]>")<[EndIf]>
+						End If
+					Else
+						If Not _<[CaseCamel MappedFieldNameRelation]> Is value Then
+<[If OppositeRelationPresent Full]>							CType(value, IEntity).SetRelatedEntity(Me, "<[RelatedMappedFieldNameRelation]>")<[Else]>							SetRelatedEntity(CType(value, IEntity), "<[MappedFieldNameRelation]>")<[EndIf]>
+						End If
+					End If
+				End If
+			End Set
+		End Property
+
+		''' <summary>Gets / sets the lazy loading flag for <[MappedFieldNameRelation]>. When set to true, <[MappedFieldNameRelation]> is always refetched from the 
+		''' persistent storage. When set to false, the data is only fetched the first time <[MappedFieldNameRelation]> is accessed. You can always execute
+		''' a forced fetch by calling GetSingle<[MappedFieldNameRelation]>(True).</summary>
+		<Browsable(False)> _
+		Public Property AlwaysFetch<[MappedFieldNameRelation]> As Boolean
+			Get
+				Return _alwaysFetch<[MappedFieldNameRelation]>
+			End Get
+			Set
+				_alwaysFetch<[MappedFieldNameRelation]> = value
+			End Set	
+		End Property
+
+		''' <summary>Gets / Sets the lazy loading flag If the Property <[MappedFieldNameRelation]> already has been fetched. Setting this Property To False when <[MappedFieldNameRelation]> has been fetched
+		''' will set <[MappedFieldNameRelation]> to Nothing as well. Setting this Property To True While <[MappedFieldNameRelation]> hasn't been fetched disables lazy loading for <[MappedFieldNameRelation]></summary>
+		<Browsable(False)> _
+		Public Property AlreadyFetched<[MappedFieldNameRelation]> As Boolean
+			Get 
+				Return _alreadyFetched<[MappedFieldNameRelation]>
+			End Get
+			Set 
+				If _alreadyFetched<[MappedFieldNameRelation]> AndAlso Not value Then
+					_<[MappedFieldNameRelation]> = Nothing
+				End If
+				_alreadyFetched<[MappedFieldNameRelation]> = value
+			End Set
+		End Property
+
+		''' <summary>Gets / sets the flag for what to do if the related entity available through the property <[MappedFieldNameRelation]> is not found
+		''' in the database. When set to true, <[MappedFieldNameRelation]> will return a new entity instance if the related entity is not found, otherwise 
+		''' null be returned if the related entity is not found. Default: <[LazyLoadingWithoutResultReturnsNew]>.</summary>
+		<Browsable(False)> _
+		Public Property <[MappedFieldNameRelation]>ReturnsNewIfNotFound As Boolean
+			Get
+				Return _<[CaseCamel MappedFieldNameRelation]>ReturnsNewIfNotFound
+			End Get
+			Set
+				_<[CaseCamel MappedFieldNameRelation]>ReturnsNewIfNotFound = value
+			End Set	
+		End Property
+	<[EndIf]><[NextForeach]>
+	<[Foreach RelatedEntity OneToOne]><[If Not MappedFieldRelationIsHidden]>
+		''' <summary>Gets / Sets related entity of type '<[RelatedEntityName]>Entity'. This property is not visible in databound grids.
+		''' Setting this property to a new object will make the load-on-demand feature to stop fetching data from the database, until you set this
+		''' property to Nothing. Setting this property to an entity will make sure that FK-PK relations are synchronized when appropriate.</summary>
+		''' <remarks>This property is added for conveniance, however it is recommeded to use the method 'GetSingle<[MappedFieldNameRelation]>()', because 
+		''' this property is rather expensive and a method tells the user to cache the result when it has to be used more than once in the
+		''' same scope. The property is marked non-browsable to make it hidden in bound controls, f.e. datagrids.</remarks>
+<[If HideFromDatabinding]>		<Browsable(False)> _
+<[EndIf]>		Public Overridable Property [<[MappedFieldNameRelation]>]() As <[RelatedEntityName]>Entity
+			Get
+				Return GetSingle<[MappedFieldNameRelation]>(False)
+			End Get
+			Set
+				If MyBase.IsDeserializing Then
+					SetupSync<[MappedFieldNameRelation]>(value)
+				Else
+					If value Is Nothing Then
+						Dim raisePropertyChanged As Boolean = Not (_<[CaseCamel MappedFieldNameRelation]> Is Nothing)
+<[If OppositeRelationPresent Full]>						DesetupSync<[MappedFieldNameRelation]>(True, True)<[Else]>						DesetupSync<[MappedFieldNameRelation]>(False, True)<[EndIf]>
+						If raisePropertyChanged Then
+							OnPropertyChanged("<[MappedFieldNameRelation]>")
+						End If
+					Else
+						If Not _<[CaseCamel MappedFieldNameRelation]> Is value Then
+							Dim relatedEntity As IEntity = CType(value, IEntity)
+<[If OppositeRelationPresent Full]>							relatedEntity.SetRelatedEntity(Me, "<[RelatedMappedFieldNameRelation]>")<[EndIf]>
+							SetupSync<[MappedFieldNameRelation]>(relatedEntity)
+						End If
+					End If
+				End If
+			End Set
+		End Property
+
+		''' <summary>Gets / sets the lazy loading flag for <[MappedFieldNameRelation]>. When set to true, <[MappedFieldNameRelation]> is always refetched from the 
+		''' persistent storage. When set to false, the data is only fetched the first time <[MappedFieldNameRelation]> is accessed. You can always execute
+		''' a forced fetch by calling GetSingle<[MappedFieldNameRelation]>(True).</summary>
+		<Browsable(False)> _
+		Public Property AlwaysFetch<[MappedFieldNameRelation]> As Boolean
+			Get
+				Return _alwaysFetch<[MappedFieldNameRelation]>
+			End Get
+			Set
+				_alwaysFetch<[MappedFieldNameRelation]> = value
+			End Set	
+		End Property
+
+		''' <summary>Gets / Sets the lazy loading flag If the Property <[MappedFieldNameRelation]> already has been fetched. Setting this Property To False when <[MappedFieldNameRelation]> has been fetched
+		''' will set <[MappedFieldNameRelation]> to Nothing as well. Setting this Property To True While <[MappedFieldNameRelation]> hasn't been fetched disables lazy loading for <[MappedFieldNameRelation]></summary>
+		<Browsable(False)> _
+		Public Property AlreadyFetched<[MappedFieldNameRelation]> As Boolean
+			Get 
+				Return _alreadyFetched<[MappedFieldNameRelation]>
+			End Get
+			Set 
+				If _alreadyFetched<[MappedFieldNameRelation]> AndAlso Not value Then
+					_<[MappedFieldNameRelation]> = Nothing
+				End If
+				_alreadyFetched<[MappedFieldNameRelation]> = value
+			End Set
+		End Property
+
+		''' <summary>Gets / sets the flag for what to do if the related entity available through the property <[MappedFieldNameRelation]> is not found
+		''' in the database. When set to true, <[MappedFieldNameRelation]> will return a new entity instance if the related entity is not found, otherwise 
+		''' null be returned if the related entity is not found. Default: <[LazyLoadingWithoutResultReturnsNew]>.</summary>
+		<Browsable(False)> _
+		Public Property <[MappedFieldNameRelation]>ReturnsNewIfNotFound As Boolean
+			Get
+				Return _<[CaseCamel MappedFieldNameRelation]>ReturnsNewIfNotFound
+			End Get
+			Set
+				_<[CaseCamel MappedFieldNameRelation]>ReturnsNewIfNotFound = value
+			End Set	
+		End Property
+	<[EndIf]><[NextForeach]>
+	
+<[ Foreach RelatedEntityField ]> 
+		''' <summary>Gets <[ If Not IsReadOnly ]>/ Sets <[ EndIf ]>the value of the related field this.<[ MappedFieldNameRelation ]>.<[ RelatedEntityFieldName ]>.</summary>
+		Public Overridable <[ If IsReadOnly ]>ReadOnly <[ EndIf ]>Property <[ MappedFieldNameRelatedField ]> As <[If GenerateAsNullableType]>Nullable(Of <[TypeOfField]>)<[Else]><[TypeOfField]><[EndIf]>
+			Get
+				Dim relatedEntity As <[RelatedEntityName]>Entity = Me.<[ MappedFieldNameRelation ]>
+				If Not relatedEntity Is Nothing Then
+					Return relatedEntity.<[ RelatedEntityFieldName ]>
+				Else
+					Return CType(TypeDefaultValue.GetDefaultValue(GetType(<[If GenerateAsNullableType]>Nullable(Of <[TypeOfField]>)<[Else]><[TypeOfField]><[EndIf]>)), <[If GenerateAsNullableType]>Nullable(Of <[TypeOfField]>)<[Else]><[TypeOfField]><[EndIf]>)
+				End If
+			End Get
+<[ If Not IsReadOnly ]>			Set
+				Dim relatedEntity As <[RelatedEntityName]>Entity = Me.<[ MappedFieldNameRelation ]>
+				If Not relatedEntity Is Nothing Then
+					relatedEntity.<[ RelatedEntityFieldName ]> = value
+				End If
+			End Set<[ EndIf ]>
+		End Property
+<[ NextForeach ]>
+		
+		''' <summary>Gets the type of the hierarchy this entity Is In. </summary>
+		<Browsable(False), XmlIgnore> _
+		Protected Overrides ReadOnly Property LLBLGenProIsInHierarchyOfType As InheritanceHierarchyType
+			Get 
+				Return InheritanceHierarchyType.<[If IsInHierarchyType TargetPerEntity]>TargetPerEntity<[Else]><[If IsInHierarchyType TargetPerEntityHierarchy]>TargetPerEntityHierarchy<[Else]>None<[EndIf]><[EndIf]>
+			End Get
+		End Property
+
+		''' <summary>Gets Or sets a value indicating whether this entity Is a subtype</summary>
+		<Browsable(False), XmlIgnore> _
+		Protected Overrides ReadOnly Property LLBLGenProIsSubType As Boolean
+			Get 
+				Return <[If IsSubType]>True<[Else]>False<[EndIf]>
+			End Get
+		End Property		
+		
+		''' <summary>Returns the <[RootNamespace]>.EntityType Enum value For this entity.</summary>
+		<Browsable(False), XmlIgnore> _
+		Public Overrides ReadOnly Property LLBLGenProEntityTypeValue As Integer
+			Get 
+				Return CInt(<[RootNamespace]>.EntityType.<[CurrentEntityName]>Entity)
+			End Get
+		End Property
+#End Region

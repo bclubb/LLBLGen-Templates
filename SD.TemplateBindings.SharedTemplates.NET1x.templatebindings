@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<templateBindings xmlns="http://sd/llblgen/pro/templateBindingsDefinition.xsd" name="SD.TemplateBindings.SharedTemplates.NET1x"
+				  description ="Template bindings for the templates which are shared among all database types. Specific for .NET 1.x based platforms"
+				  precedenceLevel="10">
+	<supportedPlatforms>
+		<platform name=".NET 1.0"/>
+		<platform name=".NET 1.1"/>
+		<platform name="CF.NET 1.0"/>
+	</supportedPlatforms>
+
+	<language name="C#">
+		<!-- Generic template bindings -->
+		<templateBinding templateID="SD_AppConfigTemplate" filename="SharedTemplates\Net1.x\C#\appConfig.template" />
+		<templateBinding templateID="SD_AssemblyInfoTemplate" filename="SharedTemplates\Net1.x\C#\assemblyInfo.template" />
+		<templateBinding templateID="SD_ConstantsEnumsTemplate" filename="SharedTemplates\Net1.x\C#\constantsEnums.template" />
+		<templateBinding templateID="SD_DAOFactoryTemplate" filename="SharedTemplates\Net1.x\C#\daoFactory.template" />
+		<templateBinding templateID="SD_EntityBaseTemplate" filename="SharedTemplates\Net1.x\C#\entityBase.template" />
+		<templateBinding templateID="SD_EntityCollectionAdapterTemplate" filename="SharedTemplates\Net1.x\C#\entityCollectionAdapter.template" />
+		<templateBinding templateID="SD_EntityCollectionTemplate" filename="SharedTemplates\Net1.x\C#\entityCollection.template" />
+		<templateBinding templateID="SD_EntityDAOTemplate" filename="SharedTemplates\Net1.x\C#\dao.template" />
+		<templateBinding templateID="SD_EntityFactoriesTemplate" filename="SharedTemplates\Net1.x\C#\entityFactories.template" />
+		<templateBinding templateID="SD_EntityFactoriesAdapterTemplate" filename="SharedTemplates\Net1.x\C#\entityFactoriesAdapter.template" />
+		<templateBinding templateID="SD_EntityFieldFactoryAdapterTemplate" filename="SharedTemplates\Net1.x\C#\entityFieldFactoryAdapter.template" />
+		<templateBinding templateID="SD_EntityFieldsFactoryAdapterTemplate" filename="SharedTemplates\Net1.x\C#\entityFieldsFactoryAdapter.template" />
+		<templateBinding templateID="SD_EntityFieldsFactoryTemplate" filename="SharedTemplates\Net1.x\C#\entityFieldsFactory.template" />
+		<templateBinding templateID="SD_EntityRelationsTemplate" filename="SharedTemplates\Net1.x\C#\entityRelations.template" />
+		<templateBinding templateID="SD_EntityTemplate" filename="SharedTemplates\Net1.x\C#\entity.template" />
+		<templateBinding templateID="SD_EntityAdapterTemplate" filename="SharedTemplates\Net1.x\C#\entityAdapter.template" />
+		<templateBinding templateID="SD_EntityUsingEntityBaseTemplate" filename="SharedTemplates\Net1.x\C#\entityUsingEntityBase.template" />
+		<templateBinding templateID="SD_EntityValidatorTemplate" filename="SharedTemplates\Net1.x\C#\entityValidator.template" />
+		<templateBinding templateID="SD_PredicateFactoryAdapterTemplate" filename="SharedTemplates\Net1.x\C#\predicateFactoryAdapter.template" />
+		<templateBinding templateID="SD_PredicateFactoryTemplate" filename="SharedTemplates\Net1.x\C#\predicateFactory.template" />
+		<templateBinding templateID="SD_ResultsetFieldsAdapterTemplate" filename="SharedTemplates\Net1.x\C#\resultsetFieldsAdapter.template" />
+		<templateBinding templateID="SD_ResultsetFieldsTemplate" filename="SharedTemplates\Net1.x\C#\resultsetFields.template" />
+		<templateBinding templateID="SD_SortClauseFactoryAdapterTemplate" filename="SharedTemplates\Net1.x\C#\sortClauseFactoryAdapter.template" />
+		<templateBinding templateID="SD_SortClauseFactoryTemplate" filename="SharedTemplates\Net1.x\C#\sortClauseFactory.template" />
+		<templateBinding templateID="SD_TransactionTemplate" filename="SharedTemplates\Net1.x\C#\transaction.template" />
+		<templateBinding templateID="SD_TransactionComPlusTemplate" filename="SharedTemplates\Net1.x\C#\transactionComPlus.template" />
+		<templateBinding templateID="SD_TypeDefaultValueTemplate" filename="SharedTemplates\Net1.x\C#\typeDefaultValue.template" />
+		<templateBinding templateID="SD_TypedListDAOTemplate" filename="SharedTemplates\Net1.x\C#\typedListDao.template" />
+		<templateBinding templateID="SD_TypedListAdapterTemplate" filename="SharedTemplates\Net1.x\C#\typedListAdapter.template" />
+		<templateBinding templateID="SD_TypedListTemplate" filename="SharedTemplates\Net1.x\C#\typedList.template" />
+		<templateBinding templateID="SD_TypedViewAdapterTemplate" filename="SharedTemplates\Net1.x\C#\typedViewAdapter.template" />
+		<templateBinding templateID="SD_TypedViewTemplate" filename="SharedTemplates\Net1.x\C#\typedView.template" />
+		<templateBinding templateID="SD_VsNet2002AdapterTemplate" filename="SharedTemplates\Net1.x\C#\vsnet2002ProjectFileAdapter.template" />
+		<templateBinding templateID="SD_VsNet2003AdapterTemplate" filename="SharedTemplates\Net1.x\C#\vsnet2003ProjectFileAdapter.template" />
+		<templateBinding templateID="SD_InheritanceInfoProviderTemplate" filename="SharedTemplates\Net1.x\C#\inheritanceInfoProvider.template" />
+		<templateBinding templateID="SD_FieldCreationClassesTemplate" filename="SharedTemplates\Net1.x\C#\fieldCreationClasses.template" />
+		<templateBinding templateID="SD_FieldCreationClassesAdapterTemplate" filename="SharedTemplates\Net1.x\C#\fieldCreationClassesAdapter.template" />
+		<templateBinding templateID="SD_FieldInfoProviderTemplate" filename="SharedTemplates\Net1.x\C#\fieldInfoProvider.template" />
+		<templateBinding templateID="SD_EntityFieldFactoryTemplate" filename="SharedTemplates\Net1.x\C#\entityFieldFactory.template" />
+		<templateBinding templateID="SD_VsNet2003CFAdapterTemplate" filename="SharedTemplates\Net1.x\C#\vsnet2003CFPPCProjectFileAdapter.template" />
+		<templateBinding templateID="SD_DynamicRelationTemplate" filename="SharedTemplates\Net1.x\C#\dynamicRelation.template" />
+		<!-- Generic include template bindings -->
+		<templateBinding templateID="SD_TypeDefaultValueIncludeTemplate" filename="SharedTemplates\Net1.x\C#\typeDefaultValueInclude.template" />
+		<templateBinding templateID="SD_EntityFactoryIncludeTemplate" filename="SharedTemplates\Net1.x\C#\entityFactoryInclude.template" />
+		<templateBinding templateID="SD_EntityIncludeTemplate" filename="SharedTemplates\Net1.x\C#\entityInclude.template" />
+		<templateBinding templateID="SD_EntityIncludeAdapterTemplate" filename="SharedTemplates\Net1.x\C#\entityIncludeAdapter.template" />
+		<!-- Derived Entity classes for Adapter specific bindings -->
+		<templateBinding templateID="SD_EntityAdapterDerivedTemplate" filename="SharedTemplates\Net1.x\C#\entityUsingDerivedAdapter.template" />
+		<templateBinding templateID="SD_InheritanceInfoProviderDerivedTemplate" filename="SharedTemplates\Net1.x\C#\inheritanceInfoProviderDerived.template" />
+		<templateBinding templateID="SD_DerivedEntityFactoriesAdapterTemplate" filename="SharedTemplates\Net1.x\C#\derivedEntityFactoriesAdapter.template" />
+		<templateBinding templateID="SD_DerivedEntityAdapterTemplate" filename="SharedTemplates\Net1.x\C#\derivedEntityAdapter.template" />
+	</language>
+	<language name="VB.NET">
+		<!-- Generic template bindings -->
+		<templateBinding templateID="SD_AppConfigTemplate" filename="SharedTemplates\Net1.x\VB.NET\appConfig.template" />
+		<templateBinding templateID="SD_AssemblyInfoTemplate" filename="SharedTemplates\Net1.x\VB.NET\assemblyInfo.template" />
+		<templateBinding templateID="SD_ConstantsEnumsTemplate" filename="SharedTemplates\Net1.x\VB.NET\constantsEnums.template" />
+		<templateBinding templateID="SD_DAOFactoryTemplate" filename="SharedTemplates\Net1.x\VB.NET\daoFactory.template" />
+		<templateBinding templateID="SD_EntityBaseTemplate" filename="SharedTemplates\Net1.x\VB.NET\entityBase.template" />
+		<templateBinding templateID="SD_EntityCollectionAdapterTemplate" filename="SharedTemplates\Net1.x\VB.NET\entityCollectionAdapter.template" />
+		<templateBinding templateID="SD_EntityCollectionTemplate" filename="SharedTemplates\Net1.x\VB.NET\entityCollection.template" />
+		<templateBinding templateID="SD_EntityDAOTemplate" filename="SharedTemplates\Net1.x\VB.NET\dao.template" />
+		<templateBinding templateID="SD_EntityFactoriesAdapterTemplate" filename="SharedTemplates\Net1.x\VB.NET\entityFactoriesAdapter.template" />
+		<templateBinding templateID="SD_EntityFactoriesTemplate" filename="SharedTemplates\Net1.x\VB.NET\entityFactories.template" />
+		<templateBinding templateID="SD_EntityFieldFactoryAdapterTemplate" filename="SharedTemplates\Net1.x\VB.NET\entityFieldFactoryAdapter.template" />
+		<templateBinding templateID="SD_EntityFieldsFactoryAdapterTemplate" filename="SharedTemplates\Net1.x\VB.NET\entityFieldsFactoryAdapter.template" />
+		<templateBinding templateID="SD_EntityFieldsFactoryTemplate" filename="SharedTemplates\Net1.x\VB.NET\entityFieldsFactory.template" />
+		<templateBinding templateID="SD_EntityRelationsTemplate" filename="SharedTemplates\Net1.x\VB.NET\entityRelations.template" />
+		<templateBinding templateID="SD_EntityTemplate" filename="SharedTemplates\Net1.x\VB.NET\entity.template" />
+		<templateBinding templateID="SD_EntityAdapterTemplate" filename="SharedTemplates\Net1.x\VB.NET\entityAdapter.template" />
+		<templateBinding templateID="SD_EntityUsingEntityBaseTemplate" filename="SharedTemplates\Net1.x\VB.NET\entityUsingEntityBase.template" />
+		<templateBinding templateID="SD_EntityValidatorTemplate" filename="SharedTemplates\Net1.x\VB.NET\entityValidator.template" />
+		<templateBinding templateID="SD_PredicateFactoryAdapterTemplate" filename="SharedTemplates\Net1.x\VB.NET\predicateFactoryAdapter.template" />
+		<templateBinding templateID="SD_PredicateFactoryTemplate" filename="SharedTemplates\Net1.x\VB.NET\predicateFactory.template" />
+		<templateBinding templateID="SD_ResultsetFieldsAdapterTemplate" filename="SharedTemplates\Net1.x\VB.NET\resultsetFieldsAdapter.template" />
+		<templateBinding templateID="SD_ResultsetFieldsTemplate" filename="SharedTemplates\Net1.x\VB.NET\resultsetFields.template" />
+		<templateBinding templateID="SD_SortClauseFactoryAdapterTemplate" filename="SharedTemplates\Net1.x\VB.NET\sortClauseFactoryAdapter.template" />
+		<templateBinding templateID="SD_SortClauseFactoryTemplate" filename="SharedTemplates\Net1.x\VB.NET\sortClauseFactory.template" />
+		<templateBinding templateID="SD_TransactionTemplate" filename="SharedTemplates\Net1.x\VB.NET\transaction.template" />
+		<templateBinding templateID="SD_TransactionComPlusTemplate" filename="SharedTemplates\Net1.x\VB.NET\transactionComPlus.template" />
+		<templateBinding templateID="SD_TypeDefaultValueTemplate" filename="SharedTemplates\Net1.x\VB.NET\typeDefaultValue.template" />
+		<templateBinding templateID="SD_TypedListDAOTemplate" filename="SharedTemplates\Net1.x\VB.NET\typedListDao.template" />
+		<templateBinding templateID="SD_TypedListAdapterTemplate" filename="SharedTemplates\Net1.x\VB.NET\typedListAdapter.template" />
+		<templateBinding templateID="SD_TypedListTemplate" filename="SharedTemplates\Net1.x\VB.NET\typedList.template" />
+		<templateBinding templateID="SD_TypedViewAdapterTemplate" filename="SharedTemplates\Net1.x\VB.NET\typedViewAdapter.template" />
+		<templateBinding templateID="SD_TypedViewTemplate" filename="SharedTemplates\Net1.x\VB.NET\typedView.template" />
+		<templateBinding templateID="SD_VsNet2002AdapterTemplate" filename="SharedTemplates\Net1.x\VB.NET\vsnet2002ProjectFileAdapter.template" />
+		<templateBinding templateID="SD_VsNet2003AdapterTemplate" filename="SharedTemplates\Net1.x\VB.NET\vsnet2003ProjectFileAdapter.template" />
+		<templateBinding templateID="SD_InheritanceInfoProviderTemplate" filename="SharedTemplates\Net1.x\VB.NET\inheritanceInfoProvider.template" />
+		<templateBinding templateID="SD_FieldCreationClassesTemplate" filename="SharedTemplates\Net1.x\VB.NET\fieldCreationClasses.template" />
+		<templateBinding templateID="SD_FieldCreationClassesAdapterTemplate" filename="SharedTemplates\Net1.x\VB.NET\fieldCreationClassesAdapter.template" />
+		<templateBinding templateID="SD_FieldInfoProviderTemplate" filename="SharedTemplates\Net1.x\VB.NET\fieldInfoProvider.template" />
+		<templateBinding templateID="SD_EntityFieldFactoryTemplate" filename="SharedTemplates\Net1.x\VB.NET\entityFieldFactory.template" />
+		<templateBinding templateID="SD_VsNet2003CFAdapterTemplate" filename="SharedTemplates\Net1.x\VB.NET\vsnet2003CFPPCProjectFileAdapter.template" />
+		<templateBinding templateID="SD_DynamicRelationTemplate" filename="SharedTemplates\Net1.x\VB.NET\dynamicRelation.template" />
+		<!-- Generic include template bindings -->
+		<templateBinding templateID="SD_TypeDefaultValueIncludeTemplate" filename="SharedTemplates\Net1.x\VB.NET\typeDefaultValueInclude.template" />
+		<templateBinding templateID="SD_EntityFactoryIncludeTemplate" filename="SharedTemplates\Net1.x\VB.NET\entityFactoryInclude.template" />
+		<templateBinding templateID="SD_EntityIncludeTemplate" filename="SharedTemplates\Net1.x\VB.NET\entityInclude.template" />
+		<templateBinding templateID="SD_EntityIncludeAdapterTemplate" filename="SharedTemplates\Net1.x\VB.NET\entityIncludeAdapter.template" />
+		<!-- Derived Entity classes for Adapter specific bindings -->
+		<templateBinding templateID="SD_EntityAdapterDerivedTemplate" filename="SharedTemplates\Net1.x\VB.NET\entityUsingDerivedAdapter.template" />
+		<templateBinding templateID="SD_InheritanceInfoProviderDerivedTemplate" filename="SharedTemplates\Net1.x\VB.NET\inheritanceInfoProviderDerived.template" />
+		<templateBinding templateID="SD_DerivedEntityFactoriesAdapterTemplate" filename="SharedTemplates\Net1.x\VB.NET\derivedEntityFactoriesAdapter.template" />
+		<templateBinding templateID="SD_DerivedEntityAdapterTemplate" filename="SharedTemplates\Net1.x\VB.NET\derivedEntityAdapter.template" />
+	</language>
+</templateBindings>
+

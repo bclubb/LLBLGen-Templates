@@ -1,0 +1,80 @@
+﻿'///////////////////////////////////////////////////////////////
+' This is generated code. If you modify this code, be aware
+' of the fact that when you re-generate the code, your changes
+' are lost. If you want to keep your changes, make this file read-only
+' when you have finished your changes, however it is recommended that
+' you inherit from this class to extend the functionality of this generated
+' class or you modify / extend the templates used to generate this code.
+'//////////////////////////////////////////////////////////////
+' Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+' Code is generated on: <[Time]>
+' Code is generated using templates: <[TemplateName]>
+' Templates vendor: Solutions Design.
+' Templates version: <[TemplateVersion]>
+'///////////////////////////////////////////////////////////////
+Imports System
+Imports SD.LLBLGen.Pro.ORMSupportClasses
+
+<[ UserCodeRegion "AdditionalNamespaces" ]>
+' __LLBLGENPRO_USER_CODE_REGION_START AdditionalNamespaces
+' __LLBLGENPRO_USER_CODE_REGION_END
+<[ EndUserCodeRegion ]>
+Namespace <[RootNamespace]>.HelperClasses
+	''' <summary>
+	''' Singleton implementation of the FieldInfoProvider. This Class Is the singleton wrapper through which the actual instance Is retrieved.
+	''' </summary>
+	''' <remarks>It uses a Single instance of an internal Class. The access isn't marked with locks as the FieldInfoProviderBase class is threadsafe.</remarks>
+	Friend NotInheritable Class FieldInfoProviderSingleton
+#Region "Class Member Declarations"
+		Private Shared ReadOnly _providerInstance As IFieldInfoProvider = New FieldInfoProviderCore()
+#End Region
+		
+		''' <summary>Private ctor To prevent instances of this Class.</summary>
+		Private Sub New()
+		End Sub
+
+		''' <summary>Dummy Static constructor To make sure threadsafe initialization Is performed.</summary>
+		Shared Sub New()
+		End Sub
+
+		''' <summary>Gets the singleton instance of the FieldInfoProviderCore</summary>
+		''' <returns>Instance of the FieldInfoProvider.</returns>
+		Public Shared Function GetInstance() As IFieldInfoProvider 
+			Return _providerInstance
+		End Function
+	End Class
+
+	''' <summary>Actual implementation of the FieldInfoProvider. Used by singleton wrapper.</summary>
+	Friend Class FieldInfoProviderCore 
+		Inherits FieldInfoProviderBase
+		''' <summary>Initializes a New instance of the <see cref="FieldInfoProviderCore"/> Class.</summary>
+		Friend Sub New()
+			Init()
+		End Sub
+
+		''' <summary>Method which initializes the internal datastores</summary>
+		Private Sub Init()
+			MyBase.InitClass( (<[AmountOfElements Entity ]> + <[AmountOfElements TypedView ]>))
+<[Foreach Entity CrLf]>			Init<[CurrentEntityName]>EntityInfos()<[NextForeach]>
+<[Foreach TypedView CrLf]>			Init<[CurrentTypedViewName]>TypedViewInfos()<[NextForeach]>
+			MyBase.ConstructElementFieldStructures(InheritanceInfoProviderSingleton.GetInstance())
+		End Sub
+<[Foreach Entity ]>
+		''' <summary>Inits <[CurrentEntityName]>Entity's FieldInfo objects</summary>
+		Private Sub Init<[CurrentEntityName]>EntityInfos()
+<[If HasFields]><[ Foreach EntityField CrLf]>			MyBase.AddElementFieldInfo("<[CurrentEntityName]>Entity", "<[EntityFieldName]>", GetType(<[TypeOfField]>), <[IsPrimaryKey]>, <[IsForeignKey]>, <[ IsReadOnly ]>, <[ IsNullable ]>, CInt(<[CurrentEntityName]>FieldIndex.<[EntityFieldName]>), <[SourceColumnMaxLength]>, <[SourceColumnScale]>, <[SourceColumnPrecision]>)<[ NextForeach]><[EndIf]>
+		End Sub<[NextForeach]>
+<[Foreach TypedView]>
+		''' <summary>Inits <[CurrentEntityName]>View's FieldInfo objects</summary>
+		Private Sub Init<[CurrentTypedViewName]>TypedViewInfos()
+<[If HasFields]><[ Foreach TypedViewField CrLf]>			MyBase.AddElementFieldInfo("<[CurrentTypedViewName]>TypedView", "<[TypedViewFieldName]>", GetType(<[TypeOfTypedViewField]>), False, False, True, False, CInt(<[CurrentTypedViewName]>FieldIndex.<[TypedViewFieldName]>), <[SourceColumnMaxLength]>, <[SourceColumnScale]>, <[SourceColumnPrecision]>)<[ NextForeach]><[EndIf]>
+		End Sub<[NextForeach]>
+	End Class
+End Namespace
+
+
+
+
+
+
+

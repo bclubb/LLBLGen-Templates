@@ -1,0 +1,253 @@
+﻿' ///////////////////////////////////////////////////////////////
+' This is generated code. If you modify this code, be aware
+' of the fact that when you re-generate the code, your changes
+' are lost. If you want to keep your changes, make this file read-only
+' when you have finished your changes, however it is recommended that
+' you inherit from this class to extend the functionality of this generated
+' class or you modify / extend the templates used to generate this code.
+' //////////////////////////////////////////////////////////////
+' Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+' Code is generated on: <[Time]>
+' Code is generated using templates: <[TemplateName]>
+' Templates vendor: Solutions Design.
+' Templates version: <[TemplateVersion]>
+' //////////////////////////////////////////////////////////////
+Imports System
+Imports System.Data
+Imports System.Data.Common
+Imports System.Collections
+
+Imports <[RootNamespace]>.EntityClasses
+Imports <[RootNamespace]>.FactoryClasses
+Imports <[RootNamespace]>.CollectionClasses
+Imports <[RootNamespace]>.HelperClasses
+Imports <[RootNamespace]>
+
+Imports SD.LLBLGen.Pro.ORMSupportClasses
+<# SD_DAOIncludeTemplate #>
+
+<[ UserCodeRegion "AdditionalNamespaces" ]>
+' __LLBLGENPRO_USER_CODE_REGION_START AdditionalNamespaces
+' __LLBLGENPRO_USER_CODE_REGION_END
+<[ EndUserCodeRegion ]>
+Namespace <[RootNamespace]>.DaoClasses
+
+	''' <summary>
+	''' General DAO class for the <[CurrentEntityName]> Entity. It will perform database oriented actions for
+	''' a entity of type '<[CurrentEntityName]>Entity'. This DAO works on an EntityFields object. 
+	''' </summary>
+	Public Class <[CurrentEntityName]>DAO 
+		Inherits <[If IsSubType]><[SuperTypeName]>DAO<[Else]>DaoBase<[EndIf]>
+		
+		''' <summary>CTor</summary>
+		Public Sub New()
+			MyBase.New(InheritanceInfoProviderSingleton.GetInstance(), New DynamicQueryEngine(), InheritanceHierarchyType.<[If IsInHierarchyType TargetPerEntity]>TargetPerEntity<[Else]><[If IsInHierarchyType TargetPerEntityHierarchy]>TargetPerEntityHierarchy<[Else]>None<[EndIf]><[EndIf]>, "<[CurrentEntityName]>Entity", New <[CurrentEntityName]>EntityFactory())
+		End Sub
+		
+		''' <summary>CTor</summary>
+		''' <param name="inheritanceInfoProviderToUse">Inheritance info provider to use.</param>
+		''' <param name="dqeToUse">Dqe to use.</param>
+		''' <param name="typeOfInheritance">Type of inheritance.</param>
+		''' <param name="entityName">Name of the entity.</param>
+		''' <param name="entityFactory">Entity factory.</param>
+		Friend Sub New (inheritanceInfoProviderToUse As IInheritanceInfoProvider, dqeToUse As DynamicQueryEngineBase, typeOfInheritance As InheritanceHierarchyType, entityName As String, entityFactory As IEntityFactory)
+			MyBase.New(inheritanceInfoProviderToUse, dqeToUse, typeOfInheritance, entityName, entityFactory)
+		End Sub
+<[Foreach UniqueConstraint]>
+		''' <summary>
+		''' Reads an entity based On a unique constraint. Which entity Is read Is determined from the passed In fields For the UniqueConstraint.
+		''' </summary>
+		''' <param name="entityToFetch">The entity to fetch. Contained data will be overwritten.</param>
+		''' <param name="containingTransaction">A containing transaction, if caller is added to a transaction, or Nothing if not.</param>
+<[Foreach UniqueConstraintEntityField CrLf]>		''' <param name="<[CaseCamel EntityFieldName]>">Value for a field in the UniqueConstraint, which is used to retrieve the contents.</param><[NextForeach]>
+		''' <param name="prefetchPathToUse">the PrefetchPath which defines the graph of objects to fetch.</param>
+		''' <param name="contextToUse">The context to fetch the prefetch path with.</param>
+		''' <param name="excludedIncludedFields">The list of IEntityField objects which have To be excluded For the fetch. If null Or empty, all fields are fetched (Default)</param>
+		Public Sub Fetch<[CurrentEntityName]>UsingUC<[Foreach UniqueConstraintEntityField]><[EntityFieldName]><[NextForeach]>(entityToFetch As IEntity, containingTransaction As ITransaction, <[Foreach UniqueConstraintEntityField Comma]><[CaseCamel EntityFieldName]> As <[If IsNullable]><[If IsValueType]>Nullable(Of <[TypeOfField]>)<[Else]><[TypeOfField]><[EndIf]><[Else]><[TypeOfField]><[EndIf]><[NextForeach]>, prefetchPathToUse As IPrefetchPath, contextToUse As Context, excludedIncludedFields As ExcludeIncludeFieldsList)
+			Dim selectFilter As IPredicateExpression = New PredicateExpression()
+<[Foreach UniqueConstraintEntityField CrLf]>			selectFilter.Add(New FieldCompareValuePredicate(entityToFetch.Fields(CInt(<[CurrentEntityName]>FieldIndex.<[EntityFieldName]>)), ComparisonOperator.Equal, <[CaseCamel EntityFieldName]>))<[NextForeach]> 
+			PerformFetchEntityAction(entityToFetch, containingTransaction, selectFilter, prefetchPathToUse, contextToUse, excludedIncludedFields)
+		End Sub
+
+<[If Not IsInHierarchyType None]>
+		''' <summary>
+		''' Reads the entity's data into EntityFields object and returns that object. Which entity is read is determined from the passed in fields for the UniqueConstraint.
+		''' </summary>
+		''' <param name="containingTransaction">A containing transaction, If caller Is added To a transaction, Or null If Not.</param>
+<[Foreach UniqueConstraintEntityField CrLf]>		''' <param name="<[CaseCamel EntityFieldName]>">Value For a field In the UniqueConstraint, which Is used To retrieve the contents.</param><[NextForeach]>
+		''' <param name="contextToUse">The context To fetch the prefetch path With.</param>
+		''' <param name="excludedIncludedFields">The list of IEntityField objects which have To be excluded For the fetch. If null Or empty, all fields are fetched (Default)</param>
+		''' <returns>Entity instance which Is represented by the passed In UC</returns>
+		Friend Function Fetch<[CurrentEntityName]>PolyUsingUC<[Foreach UniqueConstraintEntityField]><[EntityFieldName]><[NextForeach]>(containingTransaction As ITransaction, <[Foreach UniqueConstraintEntityField Comma]><[CaseCamel EntityFieldName]> As <[If IsNullable]><[If IsValueType]>Nullable(Of <[TypeOfField]>)<[Else]><[TypeOfField]><[EndIf]><[Else]><[TypeOfField]><[EndIf]><[NextForeach]>, contextToUse As Context, excludedIncludedFields As ExcludeIncludeFieldsList) As <[CurrentEntityName]>Entity 
+			Dim selectFilter As IPredicateExpression = New PredicateExpression()
+<[Foreach UniqueConstraintEntityField CrLf]>			selectFilter.Add(New FieldCompareValuePredicate(<[CurrentEntityName]>Fields.<[EntityFieldName]>, ComparisonOperator.Equal, <[CaseCamel EntityFieldName]>))<[NextForeach]> 
+			Return CType(PerformPolymorphicEntityFetch(containingTransaction, selectFilter, contextToUse, excludedIncludedFields), <[CurrentEntityName]>Entity)
+		End Function<[EndIf]>
+<[NextForeach]>
+<[If HasRelation ManyToOne]>
+		''' <summary>
+		''' Retrieves in the calling <[CurrentEntityName]>Collection object all <[CurrentEntityName]>Entity objects which have data in common
+		''' with the specified related Entities. If one is omitted, that entity is not used as a filter. 
+		''' </summary>
+		''' <param name="containingTransaction">A containing transaction, if caller is added to a transaction, or Nothing if not.</param>
+		''' <param name="collectionToFill">Collection to fill with the entity objects retrieved</param>
+		''' <param name="maxNumberOfItemsToReturn"> The maximum number of items to return with this retrieval query. 
+		''' If the used Dynamic Query Engine supports it, 'TOP' is used to limit the amount of rows to return. When set to 0, no limitations are specified.</param>
+		''' <param name="sortClauses">The order by specifications for the sorting of the resultset. When not specified, no sorting is applied.</param>
+		''' <param name="entityFactoryToUse">The EntityFactory to use when creating entity objects during a GetMulti() call.</param>
+		''' <param name="filter">Extra filter to limit the resultset. Predicate expression can be Nothing, in which case it will be ignored.</param>
+<[Foreach RelatedEntity ManyToOne IncludeInherited CrLf]>		''' <param name="<[CaseCamel MappedFieldNameRelation]>Instance"><[RelatedEntityName]>Entity instance to use as a filter for the <[CurrentEntityName]>Entity objects to return</param><[NextForeach]>
+		''' <param name="pageNumber">The page number to retrieve.</param>
+		''' <param name="pageSize">The page size of the page to retrieve.</param>
+		Public Overloads Function GetMulti(containingTransaction As ITransaction, collectionToFill As IEntityCollection, maxNumberOfItemsToReturn As Long, sortClauses As ISortExpression, entityFactoryToUse As IEntityFactory, Filter As IPredicateExpression, <[Foreach RelatedEntity ManyToOne IncludeInherited Comma]><[CaseCamel MappedFieldNameRelation]>Instance As IEntity<[NextForeach]>, pageNumber As Integer, pageSize As Integer) As Boolean
+			MyBase.EntityFactoryToUse = entityFactoryToUse
+			Dim fieldsToReturn  As IEntityFields = EntityFieldsFactory.CreateEntityFieldsObject(<[RootNamespace]>.EntityType.<[CurrentEntityName]>Entity)
+			Dim selectFilter As IPredicateExpression= CreateFilterUsingForeignKeys(<[Foreach RelatedEntity ManyToOne IncludeInherited Comma]><[CaseCamel MappedFieldNameRelation]>Instance<[NextForeach]>, fieldsToReturn)
+			If Not Filter Is Nothing Then
+				' add contents to select filter, with AND
+				selectFilter.AddWithAnd(Filter)
+			End If
+			Return MyBase.PerformGetMultiAction(containingTransaction, collectionToFill, maxNumberOfItemsToReturn, sortClauses, selectFilter, Nothing, Nothing, Nothing, pageNumber, pageSize)
+		End Function
+<[EndIf]>
+		''' <summary>
+		''' Retrieves entities of the type '<[CurrentEntityName]>Entity' in a datatable which match the specified filter. It will always create a new connection to the database.
+		''' </summary>
+		''' <param name="maxNumberOfItemsToReturn"> The maximum number of items to return with this retrieval query. 
+		''' If the used Dynamic Query Engine supports it, 'TOP' is used to limit the amount of rows to return. When set to 0, no limitations are specified.</param>
+		''' <param name="sortClauses">The order by specifications for the sorting of the resultset. When not specified, no sorting is applied.</param>
+		''' <param name="selectFilter">A predicate or predicate expression which should be used as filter for the entities to retrieve.</param>
+		''' <param name="relations">The set of relations to walk to construct to total query.</param>
+		''' <param name="pageNumber">The page number to retrieve.</param>
+		''' <param name="pageSize">The page size of the page to retrieve.</param>
+		''' <returns>a filled datatable if succeeded, false otherwise</returns>
+		Public <[If IsSubType]>Overrides<[Else]>Overridable<[EndIf]> Function GetMultiAsDataTable(maxNumberOfItemsToReturn As Long, sortClauses As ISortExpression, selectFilter As IPredicate, relations As IRelationCollection, pageNumber As Integer, pageSize As Integer) As  DataTable
+			Return MyBase.PerformGetMultiAsDataTableAction(maxNumberOfItemsToReturn, sortClauses, selectFilter, relations, pageNumber, pageSize)
+		End Function
+<[If HasRelation ManyToMany]>
+	<[Foreach RelatedEntity ManyToMany]><[If Not MappedFieldRelationIsHidden]>
+		''' <summary>
+		''' Retrieves in the calling <[CurrentEntityName]>Collection object all <[CurrentEntityName]>Entity objects
+		''' which are related via a relation of type 'm:n' with the passed in <[RelatedEntityName]>Entity. 
+		''' </summary>
+		''' <param name="containingTransaction">A containing transaction, if caller is added to a transaction, or Nothing if not.</param>
+		''' <param name="collectionToFill">Collection to fill with the entity objects retrieved</param>
+		''' <param name="maxNumberOfItemsToReturn"> The maximum number of items to return with this retrieval query. 
+		''' If the used Dynamic Query Engine supports it, 'TOP' is used to limit the amount of rows to return. When set to 0, no limitations are specified.</param>
+		''' <param name="sortClauses">The order by specifications for the sorting of the resultset. When not specified, no sorting is applied.</param>
+		''' <param name="entityFactoryToUse">The EntityFactory to use when creating entity objects during a GetMulti() call.</param>
+		''' <param name="<[CaseCamel RelatedEntityName]>Instance"><[RelatedEntityName]>Entity object to be used as a filter in the m:n relation</param>
+		''' <param name="pageNumber">The page number to retrieve.</param>
+		''' <param name="pageSize">The page size of the page to retrieve.</param>
+		''' <returns>true if succeeded, false otherwise</returns>
+		Public Function GetMultiUsing<[MappedFieldNameRelation]>(containingTransaction As ITransaction, collectionToFill As IEntityCollection, maxNumberOfItemsToReturn As Long, sortClauses As ISortExpression, entityFactoryToUse As IEntityFactory, <[CaseCamel RelatedEntityName]>Instance As IEntity, pageNumber As Integer, pageSize As Integer) As Boolean
+			Dim fieldsToReturn As IEntityFields = EntityFieldsFactory.CreateEntityFieldsObject(<[RootNamespace]>.EntityType.<[CurrentEntityName]>Entity)
+			Dim relations As New RelationCollection()
+			relations.Add(<[CurrentEntityName]>Entity.Relations.<[IntermediateEntityName]>EntityUsing<[Foreach RelationField OneToMany]><[RelatedEntityRelationFieldName]><[NextForeach]>, "<[IntermediateEntityName]>_")
+			relations.Add(<[IntermediateEntityName]>Entity.Relations.<[RelatedEntityName]>EntityUsing<[Foreach RelationField ManyToOne]><[RelationFieldName]><[NextForeach]>, "<[IntermediateEntityName]>_", String.Empty, JoinHint.None)
+			Dim selectFilter As IPredicateExpression = New PredicateExpression()
+			<[Foreach RelatedEntityPrimaryKeyField CrLf]>selectFilter.Add(New FieldCompareValuePredicate(<[CaseCamel RelatedEntityName]>Instance.Fields(CInt(<[RelatedEntityName]>FieldIndex.<[RelatedEntityPrimaryKeyFieldName]>)), ComparisonOperator.Equal))<[NextForeach]>
+			Return GetMulti(containingTransaction, collectionToFill, maxNumberOfItemsToReturn, sortClauses, entityFactoryToUse, selectFilter, relations, pageNumber, pageSize)
+		End Function
+
+		''' <summary>
+		''' Retrieves in the calling <[CurrentEntityName]>Collection object all <[CurrentEntityName]>Entity objects
+		''' which are related via a relation of type 'm:n' with the passed in <[RelatedEntityName]>Entity. 
+		''' </summary>
+		''' <param name="containingTransaction">A containing transaction, if caller is added to a transaction, or Nothing if not.</param>
+		''' <param name="collectionToFill">Collection to fill with the entity objects retrieved</param>
+		''' <param name="maxNumberOfItemsToReturn"> The maximum number of items to return with this retrieval query. 
+		''' If the used Dynamic Query Engine supports it, 'TOP' is used to limit the amount of rows to return. When set to 0, no limitations are specified.</param>
+		''' <param name="sortClauses">The order by specifications for the sorting of the resultset. When not specified, no sorting is applied.</param>
+		''' <param name="entityFactoryToUse">The EntityFactory to use when creating entity objects during a GetMulti() call.</param>
+		''' <param name="<[CaseCamel RelatedEntityName]>Instance"><[RelatedEntityName]>Entity object to be used as a filter in the m:n relation</param>
+		''' <param name="prefetchPathToUse">the PrefetchPath which defines the graph of objects to fetch.</param>
+		''' <returns>true if succeeded, false otherwise</returns>
+		Public Function GetMultiUsing<[MappedFieldNameRelation]>(containingTransaction As ITransaction, collectionToFill As IEntityCollection, maxNumberOfItemsToReturn As Long, sortClauses As ISortExpression, entityFactoryToUse As IEntityFactory, <[CaseCamel RelatedEntityName]>Instance As IEntity, prefetchPathToUse As IPrefetchPath) As Boolean
+			Dim fieldsToReturn As IEntityFields = EntityFieldsFactory.CreateEntityFieldsObject(<[RootNamespace]>.EntityType.<[CurrentEntityName]>Entity)
+			Dim relations As  New RelationCollection()
+			relations.Add(<[CurrentEntityName]>Entity.Relations.<[IntermediateEntityName]>EntityUsing<[Foreach RelationField OneToMany]><[RelatedEntityRelationFieldName]><[NextForeach]>, "<[IntermediateEntityName]>_")
+			relations.Add(<[IntermediateEntityName]>Entity.Relations.<[RelatedEntityName]>EntityUsing<[Foreach RelationField ManyToOne]><[RelationFieldName]><[NextForeach]>, "<[IntermediateEntityName]>_", String.Empty, JoinHint.None)
+			Dim selectFilter As IPredicateExpression = New PredicateExpression()
+			<[Foreach RelatedEntityPrimaryKeyField CrLf]>selectFilter.Add(New FieldCompareValuePredicate(<[CaseCamel RelatedEntityName]>Instance.Fields(CInt(<[RelatedEntityName]>FieldIndex.<[RelatedEntityPrimaryKeyFieldName]>)), ComparisonOperator.Equal))<[NextForeach]>
+			Return GetMulti(containingTransaction, collectionToFill, maxNumberOfItemsToReturn, sortClauses, entityFactoryToUse, selectFilter, relations, prefetchPathToUse)
+		End Function
+	<[EndIf]><[NextForeach]>
+<[EndIf]>
+	<[If HasRelation ManyToOne]>
+		''' <summary>
+		''' Deletes from the persistent storage all '<[CurrentEntityName]>' entities which have data in common
+		''' with the specified related Entities. If one is omitted, that entity is not used as a filter. 
+		''' </summary>
+		''' <param name="containingTransaction">A containing transaction, if caller is added to a transaction, or Nothing if not.</param>
+<[Foreach RelatedEntity ManyToOne IncludeInherited CrLf]>		''' <param name="<[CaseCamel MappedFieldNameRelation]>Instance"><[RelatedEntityName]>Entity instance to use as a filter for the <[CurrentEntityName]>Entity objects to delete</param><[NextForeach]>
+		''' <returns>Amount of entities affected, if the used persistent storage has rowcounting enabled.</returns>
+		Public Overloads Function DeleteMulti(containingTransaction As ITransaction, <[Foreach RelatedEntity ManyToOne IncludeInherited Comma]><[CaseCamel MappedFieldNameRelation]>Instance As IEntity<[NextForeach]>) As Integer
+			Dim fields As IEntityFields = EntityFieldsFactory.CreateEntityFieldsObject(<[RootNamespace]>.EntityType.<[CurrentEntityName]>Entity)
+			Dim deleteFilter As IPredicateExpression = CreateFilterUsingForeignKeys(<[Foreach RelatedEntity ManyToOne IncludeInherited Comma]><[CaseCamel MappedFieldNameRelation]>Instance<[NextForeach]>, fields)
+			Return MyBase.DeleteMulti(containingTransaction, deleteFilter)
+		End Function
+
+		''' <summary>
+		''' Updates all entities of the same type or subtype of the entity <i>entityWithNewValues</i> directly in the persistent storage if they match the filter
+		''' supplied in <i>filterBucket</i>. Only the fields changed in entityWithNewValues are updated for these fields. Entities of a subtype of the type
+		''' of <i>entityWithNewValues</i> which are affected by the filterBucket's filter will thus also be updated. 
+		''' </summary>
+		''' <param name="entityWithNewValues">IEntity instance which holds the new values for the matching entities to update. Only changed fields are taken into account</param>
+		''' <param name="containingTransaction">A containing transaction, if caller is added to a transaction, or Nothing if not.</param>
+<[Foreach RelatedEntity ManyToOne IncludeInherited CrLf]>		''' <param name="<[CaseCamel MappedFieldNameRelation]>Instance"><[RelatedEntityName]>Entity instance to use as a filter for the <[CurrentEntityName]>Entity objects to update</param><[NextForeach]>
+		''' <returns>Amount of entities affected, if the used persistent storage has rowcounting enabled.</returns>
+		Public Overloads Function UpdateMulti(entityWithNewValues As IEntity, containingTransaction As ITransaction, <[Foreach RelatedEntity ManyToOne IncludeInherited Comma]><[CaseCamel MappedFieldNameRelation]>Instance As IEntity<[NextForeach]>) As Integer
+			Dim fields As IEntityFields = EntityFieldsFactory.CreateEntityFieldsObject(<[RootNamespace]>.EntityType.<[CurrentEntityName]>Entity)
+			Dim updateFilter As IPredicateExpression = CreateFilterUsingForeignKeys(<[Foreach RelatedEntity ManyToOne IncludeInherited Comma]><[CaseCamel MappedFieldNameRelation]>Instance<[NextForeach]>, fields)
+			Return MyBase.UpdateMulti(entityWithNewValues, containingTransaction, updateFilter)
+		End Function
+	<[EndIf]>
+<[If Not IsSubType]>
+		''' <summary>
+		''' Determines the connection to use. If transaction to use is Nothing, a new connection is created, otherwise the connection of the transaction is used.
+		''' </summary>
+		''' <param name="transactionToUse">Transaction to use.</param>
+		''' <returns>a ready to use connection object.</returns>
+		Protected Overrides Function DetermineConnectionToUse(transactionToUse As ITransaction) As IDbConnection
+			Return DbUtils.DetermineConnectionToUse(transactionToUse)
+		End Function
+		
+		''' <summary>
+		''' Creates a new ADO.NET data adapter.
+		''' </summary>
+		''' <returns>ready to use ADO.NET data-adapter</returns>
+		Protected Overrides Function CreateDataAdapter() As  DbDataAdapter
+			Return DbUtils.CreateDataAdapter()
+		End Function
+<[EndIf]>
+<[If HasRelation ManyToOne]>
+		''' <summary>
+		''' Creates a PredicateExpression which should be used as a filter when any combination of available foreign keys is specified.
+		''' </summary>
+<[Foreach RelatedEntity ManyToOne IncludeInherited CrLf]>		''' <param name="<[CaseCamel MappedFieldNameRelation]>Instance"><[RelatedEntityName]>Entity instance to use as a filter for the <[CurrentEntityName]>Entity objects</param><[NextForeach]>
+		''' <param name="fieldsToReturn">IEntityFields implementation which forms the definition of the fieldset of the target entity.</param>
+		''' <returns>A ready to use PredicateExpression based on the passed in foreign key value holders.</returns>
+		Private Function CreateFilterUsingForeignKeys(<[Foreach RelatedEntity ManyToOne IncludeInherited Comma]><[CaseCamel MappedFieldNameRelation]>Instance As IEntity<[NextForeach]>, fieldsToReturn As IEntityFields) As IPredicateExpression
+			Dim selectFilter As IPredicateExpression = New PredicateExpression()
+			<[Foreach RelatedEntity ManyToOne IncludeInherited]>
+			If Not <[CaseCamel MappedFieldNameRelation]>Instance Is Nothing Then
+				<[Foreach RelationField CrLf]>selectFilter.Add(New FieldCompareValuePredicate(fieldsToReturn(CInt(<[CurrentEntityName]>FieldIndex.<[RelationFieldName]>)), ComparisonOperator.Equal, CType(<[CaseCamel MappedFieldNameRelation]>Instance, <[ RelatedEntityName ]>Entity).<[RelatedEntityRelationFieldName]>))<[NextForeach]>
+			End If<[NextForeach]>
+			Return selectFilter
+		End Function
+<[EndIf]>
+
+#Region "Custom DAO code"
+		<[ UserCodeRegion "CustomDAOCode" ]>
+		' __LLBLGENPRO_USER_CODE_REGION_START CustomDAOCode
+		' __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>
+#End Region
+		
+#Region "Included Code"
+<# Custom_EntityDAOTemplate #>
+#End Region
+
+	End Class
+End Namespace

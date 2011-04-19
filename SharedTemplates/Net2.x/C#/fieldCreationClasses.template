@@ -1,0 +1,37 @@
+﻿///////////////////////////////////////////////////////////////
+// This is generated code. 
+//////////////////////////////////////////////////////////////
+// Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+// Code is generated on: <[Time]>
+// Code is generated using templates: <[TemplateName]>
+// Templates vendor: Solutions Design.
+// Templates version: <[TemplateVersion]>
+//////////////////////////////////////////////////////////////
+using System;
+using SD.LLBLGen.Pro.ORMSupportClasses;
+using <[RootNamespace]>.FactoryClasses;
+using <[RootNamespace]>;
+
+namespace <[RootNamespace]>.HelperClasses
+{<[Foreach Entity CrLf]>
+	/// <summary>Field Creation Class for entity <[CurrentEntityName]>Entity</summary>
+	public <[If UsePartialClasses]>partial <[EndIf]>class <[CurrentEntityName]>Fields
+	{<[Foreach EntityField IncludeInherited]>
+		/// <summary>Creates a new <[CurrentEntityName]>Entity.<[EntityFieldName]><[If EntityFieldIsOverriden]><[If Not EntityFieldContainedInCurrentEntity]>_<[EntityFieldEntityName]><[EndIf]><[EndIf]> field instance</summary>
+		public static EntityField <[EntityFieldName]><[If EntityFieldIsOverriden]><[If Not EntityFieldContainedInCurrentEntity]>_<[EntityFieldEntityName]><[EndIf]><[EndIf]>
+		{
+			get { return (EntityField)EntityFieldFactory.Create(<[CurrentEntityName]>FieldIndex.<[EntityFieldName]><[If EntityFieldIsOverriden]><[If Not EntityFieldContainedInCurrentEntity]>_<[EntityFieldEntityName]><[EndIf]><[EndIf]>);}
+		}<[NextForeach]>
+	}<[NextForeach]>
+	
+<[Foreach TypedView CrLf]><[If HasFields]>
+	/// <summary>Field Creation Class for typedview <[CurrentTypedViewName]>TypedView</summary>
+	public <[If UsePartialClasses]>partial <[EndIf]>class <[CurrentTypedViewName]>Fields
+	{<[Foreach TypedViewField CrLf]>
+		/// <summary>Creates a new <[CurrentTypedViewName]>TypedView.<[TypedViewFieldName]> field instance</summary>
+		public static EntityField <[TypedViewFieldName]>
+		{
+			get { return (EntityField)EntityFieldFactory.Create(<[CurrentTypedViewName]>FieldIndex.<[TypedViewFieldName]>);}
+		}<[NextForeach]>
+	}<[EndIf]><[NextForeach]>
+}

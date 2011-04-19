@@ -1,0 +1,141 @@
+﻿///////////////////////////////////////////////////////////////
+// This is generated code. 
+//////////////////////////////////////////////////////////////
+// Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+// Code is generated on: <[Time]>
+// Code is generated using templates: <[TemplateName]>
+// Templates vendor: Solutions Design.
+// Templates version: <[TemplateVersion]>
+//////////////////////////////////////////////////////////////
+using System;
+using System.Xml.Serialization;
+using System.Xml.Schema;
+using System.Xml;
+using System.IO;
+
+using <[RootNamespace]>;
+using <[RootNamespace]>.HelperClasses;
+using <[RootNamespace]>.FactoryClasses;
+using <[RootNamespace]>.RelationClasses;
+
+using SD.LLBLGen.Pro.ORMSupportClasses;
+
+#region Entity Classes
+namespace <[RootNamespace]>.EntityClasses
+{
+<[Foreach Entity]>
+    [XmlSchemaProvider("GetEntitySchema")]
+    public partial class <[CurrentEntityName]>Entity
+    {
+        /// <summary>
+        /// Method which provides a schema for IXmlSerializable implementation so no proxies are generated.
+        /// </summary>
+        /// <param name="schemaSet">schema set which is the current schema for the type to produce</param>
+        /// <returns></returns>
+        public <[If IsSubType]>new<[EndIf]> static XmlQualifiedName GetEntitySchema(XmlSchemaSet schemaSet)
+        {
+            string namespaceToUse = "http://<[RootNamespace]>/xml/serialization";
+            XmlSchema xs = XmlSchema.Read(
+                new StringReader(
+                    string.Format("<xs:schema id='<[CurrentEntityName]>EntitySchema' targetNamespace='{0}' elementFormDefault='qualified' xmlns='{0}' xmlns:mstns='{0}' xmlns:xs='http://www.w3.org/2001/XMLSchema'><xs:complexType name='<[CurrentEntityName]>Entity'><xs:sequence><xs:any minOccurs='0'/></xs:sequence></xs:complexType></xs:schema>",
+                        namespaceToUse)), null);
+            schemaSet.XmlResolver = new XmlUrlResolver();
+            schemaSet.Add(xs);
+            return new XmlQualifiedName("<[CurrentEntityName]>Entity", namespaceToUse);
+        }
+		
+    }
+<[NextForeach]>
+}
+#endregion
+
+#region EntityCollection
+namespace <[RootNamespace]>.HelperClasses
+{
+	[XmlSchemaProvider("GetEntityCollectionSchema")]
+	public partial class EntityCollection
+	{
+		/// <summary>
+		/// Method which provides a schema for IXmlSerializable implementation so no proxies are generated.
+		/// </summary>
+		/// <param name="schemaSet">schema set which is the current schema for the type to produce</param>
+		/// <returns></returns>
+		public static XmlQualifiedName GetEntityCollectionSchema(XmlSchemaSet schemaSet)
+		{
+			string namespaceToUse = "http://<[RootNamespace]>/xml/serialization";
+			XmlSchema xs = XmlSchema.Read(
+				new StringReader(
+					string.Format("<xs:schema id='EntityCollectionSchema' targetNamespace='{0}' elementFormDefault='qualified' xmlns='{0}' xmlns:mstns='{0}' xmlns:xs='http://www.w3.org/2001/XMLSchema'><xs:complexType name='EntityCollection'></xs:complexType></xs:schema>",
+						namespaceToUse)), null);
+			schemaSet.XmlResolver = new XmlUrlResolver();
+			schemaSet.Add(xs);
+			return new XmlQualifiedName("EntityCollection", namespaceToUse);
+		}
+	}
+}
+#endregion
+
+#region TypedView Classes
+namespace <[RootNamespace]>.TypedViewClasses
+{
+<[Foreach TypedView CrLf]>
+    [XmlSchemaProvider("GetTypedViewSchema")]
+    public partial class <[CurrentTypedViewName]>TypedView
+    {
+        /// <summary>
+        /// Method which provides a schema for IXmlSerializable implementation so no proxies are generated.
+        /// </summary>
+        /// <param name="schemaSet">schema set which is the current schema for the type to produce</param>
+        /// <returns></returns>
+        public static XmlQualifiedName GetTypedViewSchema(XmlSchemaSet schemaSet)
+        {
+            string namespaceToUse = "http://<[RootNamespace]>/xml/serialization";
+            XmlSchema xs = XmlSchema.Read(
+                new StringReader(
+                    string.Format("<xs:schema id='<[CurrentTypedViewName]>TypedViewSchema' targetNamespace='{0}' elementFormDefault='qualified' xmlns='{0}' xmlns:mstns='{0}' xmlns:xs='http://www.w3.org/2001/XMLSchema'><xs:complexType name='<[CurrentTypedViewName]>TypedView'><xs:sequence><xs:any minOccurs='0'/></xs:sequence></xs:complexType></xs:schema>",
+                        namespaceToUse)), null);
+            schemaSet.XmlResolver = new XmlUrlResolver();
+            schemaSet.Add(xs);
+            return new XmlQualifiedName("<[CurrentTypedViewName]>TypedView", namespaceToUse);
+        }
+
+        protected override System.Xml.Schema.XmlSchema GetSchema()
+        {
+            return null;
+        }
+    }<[NextForeach]>
+}
+#endregion
+
+
+#region TypedList Classes
+namespace <[RootNamespace]>.TypedListClasses
+{
+<[Foreach TypedList CrLf]>
+    [XmlSchemaProvider("GetTypedListSchema")]
+    public partial class <[CurrentTypedListName]>TypedList
+    {
+        /// <summary>
+        /// Method which provides a schema for IXmlSerializable implementation so no proxies are generated.
+        /// </summary>
+        /// <param name="schemaSet">schema set which is the current schema for the type to produce</param>
+        /// <returns></returns>
+        public static XmlQualifiedName GetTypedListSchema(XmlSchemaSet schemaSet)
+        {
+            string namespaceToUse = "http://<[RootNamespace]>/xml/serialization";
+            XmlSchema xs = XmlSchema.Read(
+                new StringReader(
+                    string.Format("<xs:schema id='<[CurrentTypedListName]>TypedListSchema' targetNamespace='{0}' elementFormDefault='qualified' xmlns='{0}' xmlns:mstns='{0}' xmlns:xs='http://www.w3.org/2001/XMLSchema'><xs:complexType name='<[CurrentTypedListName]>TypedList'><xs:sequence><xs:any minOccurs='0'/></xs:sequence></xs:complexType></xs:schema>",
+                        namespaceToUse)), null);
+            schemaSet.XmlResolver = new XmlUrlResolver();
+            schemaSet.Add(xs);
+            return new XmlQualifiedName("<[CurrentTypedListName]>TypedList", namespaceToUse);
+        }
+
+        protected override System.Xml.Schema.XmlSchema GetSchema()
+        {
+            return null;
+        }
+    }<[NextForeach]>
+}
+#endregion

@@ -1,0 +1,49 @@
+﻿///////////////////////////////////////////////////////////////
+// This is generated code. 
+//////////////////////////////////////////////////////////////
+// Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+// Code is generated on: <[Time]>
+// Code is generated using templates: <[TemplateName]>
+// Templates vendor: Solutions Design.
+// Templates version: <[TemplateVersion]>
+//////////////////////////////////////////////////////////////
+using System;
+
+using <[RootNamespace]>.DaoClasses;
+using <[RootNamespace]>.HelperClasses;
+
+using SD.LLBLGen.Pro.ORMSupportClasses;
+
+namespace <[RootNamespace]>.FactoryClasses
+{
+	/// <summary>
+	/// Generic factory for DAO objects. 
+	/// </summary>
+	public <[If UsePartialClasses]>partial <[EndIf]>class DAOFactory
+	{
+		/// <summary>
+		/// Private CTor, no instantiation possible.
+		/// </summary>
+		private DAOFactory()
+		{
+		}
+<[Foreach Entity CrLf]>
+		/// <summary>Creates a new <[CurrentEntityName]>DAO object</summary>
+		/// <returns>the new DAO object ready to use for <[CurrentEntityName]> Entities</returns>
+		public static <[CurrentEntityName]>DAO Create<[CurrentEntityName]>DAO()
+		{
+			return new <[CurrentEntityName]>DAO();
+		}<[NextForeach]>
+
+		/// <summary>Creates a new TypedListDAO object</summary>
+		/// <returns>The new DAO object ready to use for Typed Lists</returns>
+		public static TypedListDAO CreateTypedListDAO()
+		{
+			return new TypedListDAO();
+		}
+
+		#region Included Code
+<# Custom_DAOFactoryTemplate #>
+		#endregion
+	}
+}

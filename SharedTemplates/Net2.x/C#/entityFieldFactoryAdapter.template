@@ -1,0 +1,57 @@
+﻿///////////////////////////////////////////////////////////////
+// This is generated code. 
+//////////////////////////////////////////////////////////////
+// Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+// Code is generated on: <[Time]>
+// Code is generated using templates: <[TemplateName]>
+// Templates vendor: Solutions Design.
+// Templates version: <[TemplateVersion]>
+//////////////////////////////////////////////////////////////
+using System;
+
+using <[RootNamespace]>;
+using <[RootNamespace]>.HelperClasses;
+
+using SD.LLBLGen.Pro.ORMSupportClasses;
+
+namespace <[RootNamespace]>.FactoryClasses
+{
+	/// <summary>
+	/// Factory class for IEntityField2 instances, used in IEntityFields2 instances.
+	/// </summary>
+	public <[If UsePartialClasses]>partial <[EndIf]>class EntityFieldFactory
+	{
+		/// <summary> Private CTor, no instantiation possible.</summary>
+		private EntityFieldFactory()
+		{
+		}
+<[Foreach Entity CrLf]>
+		/// <summary> Creates a new IEntityField2 instance for usage in the EntityFields object for the <[CurrentEntityName]>Entity. Which EntityField is created is specified by fieldIndex</summary>
+		/// <param name="fieldIndex">The field which IEntityField2 instance should be created</param>
+		/// <returns>The IEntityField2 instance for the field specified in fieldIndex</returns>
+		public static IEntityField2 Create(<[CurrentEntityName]>FieldIndex fieldIndex)
+		{
+			return new EntityField2(FieldInfoProviderSingleton.GetInstance().GetFieldInfo("<[CurrentEntityName]>Entity", (int)fieldIndex));
+		}<[NextForeach]>
+<[Foreach TypedView CrLf]>
+		/// <summary> Creates a new IEntityField2 instance for usage in the EntityFields object for the <[CurrentTypedViewName]> TypedView. Which EntityField is created is specified by fieldIndex</summary>
+		/// <param name="fieldIndex">The field which IEntityField2 instance should be created</param>
+		/// <returns>The IEntityField2 instance for the field specified in fieldIndex</returns>
+		public static IEntityField2 Create(<[CurrentTypedViewName]>FieldIndex fieldIndex)
+		{
+			return new EntityField2(FieldInfoProviderSingleton.GetInstance().GetFieldInfo("<[CurrentTypedViewName]>TypedView", (int)fieldIndex));
+		}<[NextForeach]>
+
+		/// <summary>Creates a new IEntityField2 instance, which represents the field objectName.fieldName</summary>
+		/// <param name="objectName">the name of the object the field belongs to, like CustomerEntity or OrdersTypedView</param>
+		/// <param name="fieldName">the name of the field to create</param>
+		public static IEntityField2 Create(string objectName, string fieldName)
+        {
+			return new EntityField2(FieldInfoProviderSingleton.GetInstance().GetFieldInfo(objectName, fieldName));
+        }
+
+		#region Included Code
+<# Custom_EntityFieldFactoryAdapterTemplate #>
+		#endregion
+	}
+}

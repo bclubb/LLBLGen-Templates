@@ -1,0 +1,106 @@
+﻿///////////////////////////////////////////////////////////////
+// This is generated code. 
+//////////////////////////////////////////////////////////////
+// Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+// Code is generated on: <[Time]>
+// Code is generated using templates: <[TemplateName]>
+// Templates vendor: Solutions Design.
+// Templates version: <[TemplateVersion]>
+//////////////////////////////////////////////////////////////
+using System;
+using System.Collections.Generic;
+using System.Data;
+using SD.LLBLGen.Pro.ORMSupportClasses;
+
+namespace <[RootNamespace]>.HelperClasses
+{
+	/// <summary>
+	/// Singleton implementation of the PersistenceInfoProvider. This class is the singleton wrapper through which the actual instance is retrieved.
+	/// </summary>
+	/// <remarks>It uses a single instance of an internal class. The access isn't marked with locks as the PersistenceInfoProviderBase class is threadsafe.</remarks>
+	internal sealed class PersistenceInfoProviderSingleton
+	{
+		#region Class Member Declarations
+		private static readonly IPersistenceInfoProvider _providerInstance = new PersistenceInfoProviderCore();
+		#endregion
+		
+		/// <summary>private ctor to prevent instances of this class.</summary>
+		private PersistenceInfoProviderSingleton()
+		{
+		}
+
+		/// <summary>Dummy static constructor to make sure threadsafe initialization is performed.</summary>
+		static PersistenceInfoProviderSingleton()
+		{
+		}
+
+		/// <summary>Gets the singleton instance of the PersistenceInfoProviderCore</summary>
+		/// <returns>Instance of the PersistenceInfoProvider.</returns>
+		public static IPersistenceInfoProvider GetInstance()
+		{
+			return _providerInstance;
+		}
+	}
+
+	/// <summary>Actual implementation of the PersistenceInfoProvider. Used by singleton wrapper.</summary>
+	internal class PersistenceInfoProviderCore : PersistenceInfoProviderBase
+	{
+		private Dictionary<string, int> _dbTypesAsDBFactoryProviderType;
+	
+		/// <summary>Initializes a new instance of the <see cref="PersistenceInfoProviderCore"/> class.</summary>
+		internal PersistenceInfoProviderCore()
+		{
+			Init();
+		}
+
+		/// <summary>Method which initializes the internal datastores with the structure of hierarchical types.</summary>
+		private void Init()
+		{
+			base.InitClass((<[AmountOfElements Entity]> + <[AmountOfElements TypedView ]>));
+			FillDBFactoryTypeConvertArray();
+<[Foreach Entity CrLf]>			Init<[CurrentEntityName]>EntityMappings();<[NextForeach]>
+<[Foreach TypedView CrLf]>			Init<[CurrentTypedViewName]>TypedViewMappings();<[NextForeach]>
+		}
+
+		/// <summary>
+        /// Inits the DBTypes2DBFactoryProviderTypes hashtable
+        /// </summary>
+		private void FillDBFactoryTypeConvertArray()
+        {
+			_dbTypesAsDBFactoryProviderType = new Dictionary<string, int>();
+            _dbTypesAsDBFactoryProviderType["Text"] = (int)DbType.String;
+            _dbTypesAsDBFactoryProviderType["VarChar"] = (int)DbType.String;
+            _dbTypesAsDBFactoryProviderType["Bit"] = (int)DbType.Boolean;
+            _dbTypesAsDBFactoryProviderType["TinyInt"] = (int)DbType.Int16;
+			_dbTypesAsDBFactoryProviderType["Year"] = (int)DbType.Int16;
+            _dbTypesAsDBFactoryProviderType["Decimal"] = (int)DbType.Decimal;
+            _dbTypesAsDBFactoryProviderType["Float"] = (int)DbType.Single;
+            _dbTypesAsDBFactoryProviderType["Double"] = (int)DbType.Double;
+            _dbTypesAsDBFactoryProviderType["BigInt"] = (int)DbType.Int64;
+            _dbTypesAsDBFactoryProviderType["Int"] = (int)DbType.Int32;
+            _dbTypesAsDBFactoryProviderType["SmallInt"] = (int)DbType.Int16;
+            _dbTypesAsDBFactoryProviderType["Date"] = (int)DbType.DateTime;
+            _dbTypesAsDBFactoryProviderType["Time"] = (int)DbType.Time;
+            _dbTypesAsDBFactoryProviderType["DateTime"] = (int)DbType.DateTime;
+            _dbTypesAsDBFactoryProviderType["TimeStamp"] = (int)DbType.DateTime;
+            _dbTypesAsDBFactoryProviderType["VarBinary"] = (int)DbType.Binary;
+            _dbTypesAsDBFactoryProviderType["Binary"] = (int)DbType.Binary;
+            _dbTypesAsDBFactoryProviderType["Blob"] = (int)DbType.Binary;
+            _dbTypesAsDBFactoryProviderType["Char"] = (int)DbType.AnsiStringFixedLength;  
+		}
+<[Foreach Entity ]>
+		/// <summary>Inits <[CurrentEntityName]>Entity's mappings</summary>
+		private void Init<[CurrentEntityName]>EntityMappings()
+		{
+			base.AddElementMapping( "<[CurrentEntityName]>Entity", "<[ElementTargetCatalogName]>", @"<[ElementTargetSchemaName]>", "<[ElementTargetObjectName]>", <[AmountOfEntityFields]> );
+<[If HasFields]><[Foreach EntityField CrLf]>			base.AddElementFieldMapping( "<[CurrentEntityName]>Entity", "<[EntityFieldName]>", "<[SourceColumnName]>", <[SourceColumnIsNullable]>, _dbTypesAsDBFactoryProviderType["<[SourceColumnDbType]>"], <[SourceColumnMaxLength]>, <[SourceColumnScale]>, <[SourceColumnPrecision]>, <[IsIdentity]>, "<[IdentityValueSequenceName]>", <[If HasTypeConverterDefined]> new <[TypeConverterFullName]>()<[Else]>null<[EndIf]>, typeof(<[TypeOfMappedTargetField]>), <[ FieldIndex ]> );<[NextForeach]><[EndIf]>
+		}<[NextForeach]>
+<[Foreach TypedView]>
+		/// <summary>Inits <[CurrentEntityName]>View's mappings</summary>
+		private void Init<[CurrentTypedViewName]>TypedViewMappings()
+		{
+			base.AddElementMapping( "<[CurrentTypedViewName]>TypedView", "<[ElementTargetCatalogName]>", @"<[ElementTargetSchemaName]>", "<[ElementTargetObjectName]>", <[AmountOfTypedViewFields]> );
+<[If HasFields]><[Foreach TypedViewField CrLf]>			base.AddElementFieldMapping( "<[CurrentTypedViewName]>TypedView", "<[TypedViewFieldName]>", "<[SourceColumnName]>", false, _dbTypesAsDBFactoryProviderType["<[SourceColumnDbType]>"], <[SourceColumnMaxLength]>, <[SourceColumnScale]>, <[SourceColumnPrecision]>,false, string.Empty, <[If HasTypeConverterDefined]> new <[TypeConverterFullName]>()<[Else]>null<[EndIf]>, typeof(<[TypeOfMappedTargetField]>), <[ FieldIndex ]> );<[NextForeach]><[EndIf]>
+		}<[NextForeach]>
+	}
+}

@@ -1,0 +1,114 @@
+﻿' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+' // This is generated code. 
+' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+' // Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+' // Code is generated on: <[Time]>
+' // Code is generated using templates: <[TemplateName]>
+' // Templates vendor: Solutions Design.
+' // Templates version: <[TemplateVersion]>
+' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+Imports System
+Imports System.Data
+Imports System.Data.OracleClient
+
+Imports SD.LLBLGen.Pro.ORMSupportClasses
+
+Imports <[RootNamespace]>.HelperClasses
+
+Namespace <[RootNamespace]>.StoredProcedureCallerClasses
+	''' <summary>
+	''' Class which contains the static logic to execute action stored procedures in the database.
+	''' </summary>
+	Public Class ActionProcedures
+		''' <summary>
+		''' Private CTor so no instance can be created.
+		''' </summary>
+		Private Sub New()
+		End Sub
+
+	<[Foreach ActionStoredProcedureCall CrLf]>
+		''' <summary>
+		''' Delegate definition for stored procedure '<[ActualStoredProcedureName]>' to be used in combination of a UnitOfWork object.
+		''' </summary>
+		Delegate Function <[CurrentSPCallName]>CallBack(<[Foreach InputParameter Comma]><[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Nullable(Of <[TypeOfParameter]>)<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]><[If HasInputAndOutputParameters]>, <[EndIf]><[Foreach OutputParameter Comma]>ByRef <[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Nullable(Of <[TypeOfParameter]>)<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]><[If HasParameter]>, <[EndIf]>transactionToUse As ITransaction) As Integer
+
+		''' <summary>
+		''' Calls stored procedure '<[ActualStoredProcedureName]>'.<br/><br/>
+		''' <[Foreach CustomProperty ActionStoredProcedureCall]>
+		''' <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+		''' </summary>
+<[If HasParameter]><[Foreach Parameter CrLf]>		''' <param name="<[CaseCamel CurrentParameterName]>"><[CurrentParameterDirection]> parameter of stored procedure</param><[NextForeach]>
+<[EndIf]>		''' <returns>Amount of rows affected, if the database / routine doesn't surpress rowcounting.</returns>
+		Public Shared Function <[CurrentSPCallName]>(<[Foreach InputParameter Comma]><[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Nullable(Of <[TypeOfParameter]>)<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]><[If HasInputAndOutputParameters]>, <[EndIf]><[Foreach OutputParameter Comma]>ByRef <[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Nullable(Of <[TypeOfParameter]>)<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]>) As Integer
+			' create parameters
+			Dim parameters() As OracleParameter = New OracleParameter(<[AmountOfParameters]> - 1) {}
+<[Foreach Parameter CrLf]>			parameters(<[ParameterIndex]>) = New OracleParameter("<[ActualParameterName]>", OracleType.<[TypeOfActualParameter]>, <[ParameterSize]>, ParameterDirection.<[CurrentParameterDirection]>, True, <[ParameterPrecision]>, <[ParameterScale]>, "",  DataRowVersion.Current, ConvertNullToDBNull(<[CaseCamel CurrentParameterName]>))<[NextForeach]>
+			' Call the stored proc.
+			Dim toReturn As Integer = DbUtils.CallActionStoredProcedure("<[SourceSchemaName]>.<[ActualStoredProcedureName]>", parameters, Nothing)
+<[Foreach OutputParameter CrLf]>			If (Not (ValueConverter.Convert(parameters(<[ParameterIndex]>)) Is Nothing)) AndAlso (Not (ValueConverter.Convert(parameters(<[ParameterIndex]>)) Is System.DBNull.Value)) Then
+				<[CaseCamel CurrentParameterName]> = CType(ValueConverter.Convert(parameters(<[ParameterIndex]>)), <[If IsNullable]><[If IsValueType]>Nullable(Of <[TypeOfParameter]>)<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]>)
+			End If<[NextForeach]>
+
+			Return toReturn
+		End Function
+
+
+		''' <summary>
+		''' Calls stored procedure '<[ActualStoredProcedureName]>'.<br/><br/>
+		''' <[Foreach CustomProperty ActionStoredProcedureCall]>
+		''' <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+		''' </summary>
+<[If HasParameter]><[Foreach Parameter CrLf]>		''' <param name="<[CaseCamel CurrentParameterName]>"><[CurrentParameterDirection]> parameter of stored procedure</param><[NextForeach]>
+<[EndIf]>		''' <param name="transactionToUse">the transaction to use, or null if no transaction is available.</param>
+		''' <returns>Amount of rows affected, if the database / routine doesn't surpress rowcounting.</returns>
+		Public Shared Function <[CurrentSPCallName]>(<[Foreach InputParameter Comma]><[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Nullable(Of <[TypeOfParameter]>)<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]><[If HasInputAndOutputParameters]>, <[EndIf]><[Foreach OutputParameter Comma]>ByRef <[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Nullable(Of <[TypeOfParameter]>)<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]><[If HasParameter NoCursors]>, <[EndIf]>transactionToUse As ITransaction) As Integer
+			' create parameters
+			Dim parameters() As OracleParameter = New OracleParameter(<[AmountOfParameters]> - 1) {}
+<[Foreach Parameter CrLf]>			parameters(<[ParameterIndex]>) = New OracleParameter("<[ActualParameterName]>", OracleType.<[TypeOfActualParameter]>, <[ParameterSize]>, ParameterDirection.<[CurrentParameterDirection]>, True, <[ParameterPrecision]>, <[ParameterScale]>, "",  DataRowVersion.Current, ConvertNullToDBNull(<[CaseCamel CurrentParameterName]>))<[NextForeach]>
+			' Call the stored proc.
+			Dim toReturn As Integer = DbUtils.CallActionStoredProcedure("<[SourceSchemaName]>.<[ActualStoredProcedureName]>", parameters, transactionToUse)
+<[Foreach OutputParameter CrLf]>			If (Not (ValueConverter.Convert(parameters(<[ParameterIndex]>)) Is Nothing)) AndAlso (Not (ValueConverter.Convert(parameters(<[ParameterIndex]>)) Is System.DBNull.Value)) Then
+				<[CaseCamel CurrentParameterName]> = CType(ValueConverter.Convert(parameters(<[ParameterIndex]>)), <[If IsNullable]><[If IsValueType]>Nullable(Of <[TypeOfParameter]>)<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]>)
+			End If<[NextForeach]>
+
+			Return toReturn
+		End Function
+	<[NextForeach]>
+
+		''' <summary>If the passed in value is nothing, convert it to DBNull.Value</summary>
+		''' <param name="value">The value to Convert</param>
+		''' <returns>value, unless value is nothing, then DBNull.Value</returns>
+		Private Shared Function ConvertNullToDBNull(value As Object) As Object
+			If value Is Nothing Then
+				Return DBNull.Value
+			End If
+			Return value
+		End Function
+
+#Region "Included Code"
+<# Custom_ActionProceduresTemplate #>
+#End Region
+	End Class
+		
+		
+	''' <summary>
+	''' Converts parameter values from specific Oracle types To .NET types.
+	''' </summary>
+	Friend Class ValueConverter
+		Friend Shared Function Convert(parameter As OracleParameter) As Object
+			Dim toReturn As Object = DBNull.Value
+			Select Case parameter.OracleType
+				Case OracleType.Clob
+				Case OracleType.NClob
+				Case OracleType.Blob
+					Dim valueAsLob As OracleLob = CType(parameter.Value, OracleLob)
+					If Not valueAsLob.IsNull Then
+						toReturn = valueAsLob.Value
+					End If
+				Case Else
+					toReturn = parameter.Value
+			End Select
+			Return toReturn
+		End Function
+	End Class
+End Namespace

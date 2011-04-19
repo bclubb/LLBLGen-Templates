@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<language xmlns="http://sd/llblgen/pro/languageDefinition.xsd" 
+		  name="C#" fileExtension ="cs" arrayIndexOperatorOpenChar ="[" hasArrayIndexOperatorOnIdentifier ="false"
+		  arrayIndexOperatorCloseChar="]" lineConcatenator="">
+	<keywords>
+		<keyword name ="trueKeyword" value ="true"/>
+		<keyword name ="falseKeyword" value ="false"/>
+		<keyword name ="thisKeyword" value ="this"/>
+		<keyword name ="nullKeyword" value="null"/>
+		<keyword name ="partialKeyword" value ="partial"/>
+	</keywords>
+</language>

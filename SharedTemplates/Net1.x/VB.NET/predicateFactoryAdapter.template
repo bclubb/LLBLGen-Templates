@@ -1,0 +1,274 @@
+﻿' ///////////////////////////////////////////////////////////////
+' // This is generated code. 
+' //////////////////////////////////////////////////////////////
+' // Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+' // Code is generated on: <[Time]>
+' // Code is generated using templates: <[TemplateName]>
+' // Templates vendor: Solutions Design.
+' // Templates version: <[TemplateVersion]>
+' //////////////////////////////////////////////////////////////
+Imports System
+
+Imports <[RootNamespace]>
+
+Imports SD.LLBLGen.Pro.ORMSupportClasses
+
+Namespace <[RootNamespace]>.FactoryClasses
+	''' <summary>
+	''' Class which eases the creation of the different predicate clauses defined in the ORM support classes. 
+	''' Use these methods to create predicate clauses for filters without a lot of code.
+	''' </summary>
+	Public Class PredicateFactory
+
+		''' <summary>
+		''' Static class, no CTor
+		''' </summary>
+		Private Sub New()
+		End Sub
+
+#Region "FieldCompareValuePredicate creators (4 per entity type)"
+	<[Foreach Entity CrLf]>
+		Public Shared Function CompareValue(indexOfField As <[CurrentEntityName]>FieldIndex, operatorToUse As ComparisonOperator, value As Object) As FieldCompareValuePredicate
+			Return New FieldCompareValuePredicate(EntityFieldFactory.Create(indexOfField), Nothing, operatorToUse, value)
+		End Function
+		
+		Public Shared Function CompareValue(indexOfField As <[CurrentEntityName]>FieldIndex, operatorToUse As ComparisonOperator, value As Object, negate As Boolean) As FieldCompareValuePredicate
+			Return New FieldCompareValuePredicate(EntityFieldFactory.Create(indexOfField), Nothing, operatorToUse, value, negate)
+		End Function
+
+		Public Shared Function CompareValue(indexOfField As <[CurrentEntityName]>FieldIndex, operatorToUse As ComparisonOperator, value As Object, objectAlias As String) As FieldCompareValuePredicate
+			Return New FieldCompareValuePredicate(EntityFieldFactory.Create(indexOfField), Nothing, operatorToUse, value, objectAlias)
+		End Function
+		
+		Public Shared Function CompareValue(indexOfField As <[CurrentEntityName]>FieldIndex, operatorToUse As ComparisonOperator, value As Object, objectAlias As String, negate As Boolean) As FieldCompareValuePredicate
+			Return New FieldCompareValuePredicate(EntityFieldFactory.Create(indexOfField), Nothing, operatorToUse, value, objectAlias, negate)
+		End Function
+	<[NextForeach]>
+#End Region
+
+#Region "FieldCompareValuePredicate creators (4 per typed view type)"
+	<[Foreach TypedView CrLf]>
+		Public Shared Function CompareValue(indexOfField As <[CurrentTypedViewName]>FieldIndex, operatorToUse As ComparisonOperator, value As Object) As FieldCompareValuePredicate
+			Return New FieldCompareValuePredicate(EntityFieldFactory.Create(indexOfField), Nothing, operatorToUse, value)
+		End Function
+		
+		Public Shared Function CompareValue(indexOfField As <[CurrentTypedViewName]>FieldIndex, operatorToUse As ComparisonOperator, value As Object, negate As Boolean) As FieldCompareValuePredicate
+			Return New FieldCompareValuePredicate(EntityFieldFactory.Create(indexOfField), Nothing, operatorToUse, value, negate)
+		End Function
+
+		Public Shared Function CompareValue(indexOfField As <[CurrentTypedViewName]>FieldIndex, operatorToUse As ComparisonOperator, value As Object, objectAlias As String) As FieldCompareValuePredicate
+			Return New FieldCompareValuePredicate(EntityFieldFactory.Create(indexOfField), Nothing, operatorToUse, value, objectAlias)
+		End Function
+		
+		Public Shared Function CompareValue(indexOfField As <[CurrentTypedViewName]>FieldIndex, operatorToUse As ComparisonOperator, value As Object, objectAlias As String, negate As Boolean) As FieldCompareValuePredicate
+			Return New FieldCompareValuePredicate(EntityFieldFactory.Create(indexOfField), Nothing, operatorToUse, value, objectAlias, negate)
+		End Function
+	<[NextForeach]>
+#End Region
+
+#Region "FieldCompareNullPredicate creators (4 per entity type)"
+	<[Foreach Entity CrLf]>
+		Public Shared Function CompareNull(indexOfField As <[CurrentEntityName]>FieldIndex) As FieldCompareNullPredicate
+			Return New FieldCompareNullPredicate(EntityFieldFactory.Create(indexOfField), Nothing)
+		End Function
+
+		Public Shared Function CompareNull(indexOfField As <[CurrentEntityName]>FieldIndex, negate As Boolean) As FieldCompareNullPredicate
+			Return New FieldCompareNullPredicate(EntityFieldFactory.Create(indexOfField), Nothing, negate)
+		End Function
+
+		Public Shared Function CompareNull(indexOfField As <[CurrentEntityName]>FieldIndex, objectAlias As String) As FieldCompareNullPredicate
+			Return New FieldCompareNullPredicate(EntityFieldFactory.Create(indexOfField), Nothing, objectAlias)
+		End Function
+
+		Public Shared Function CompareNull(indexOfField As <[CurrentEntityName]>FieldIndex, objectAlias As String, negate As Boolean) As FieldCompareNullPredicate
+			Return New FieldCompareNullPredicate(EntityFieldFactory.Create(indexOfField), Nothing, objectAlias, negate)
+		End Function
+	<[NextForeach]>
+#End Region
+
+#Region "FieldCompareNullPredicate creators (4 per typed view type)"
+	<[Foreach TypedView CrLf]>
+		Public Shared Function CompareNull(indexOfField As <[CurrentTypedViewName]>FieldIndex) As FieldCompareNullPredicate
+			Return New FieldCompareNullPredicate(EntityFieldFactory.Create(indexOfField), Nothing)
+		End Function
+
+		Public Shared Function CompareNull(indexOfField As <[CurrentTypedViewName]>FieldIndex, negate As Boolean) As FieldCompareNullPredicate
+			Return New FieldCompareNullPredicate(EntityFieldFactory.Create(indexOfField), Nothing, negate)
+		End Function
+
+		Public Shared Function CompareNull(indexOfField As <[CurrentTypedViewName]>FieldIndex, objectAlias As String) As FieldCompareNullPredicate
+			Return New FieldCompareNullPredicate(EntityFieldFactory.Create(indexOfField), Nothing, objectAlias)
+		End Function
+
+		Public Shared Function CompareNull(indexOfField As <[CurrentTypedViewName]>FieldIndex, objectAlias As String, negate As Boolean) As FieldCompareNullPredicate
+			Return New FieldCompareNullPredicate(EntityFieldFactory.Create(indexOfField), Nothing, objectAlias, negate)
+		End Function
+	<[NextForeach]>
+#End Region
+
+#Region "FieldBetweenPredicate creators (4 per entity type)"
+	<[Foreach Entity CrLf]>
+		Public Shared Function Between(indexOfField As <[CurrentEntityName]>FieldIndex, valueBegin As Object, valueEnd As Object) As FieldBetweenPredicate
+			Return New FieldBetweenPredicate(EntityFieldFactory.Create(indexOfField), Nothing, valueBegin, valueEnd)
+		End Function
+
+		Public Shared Function Between(indexOfField As <[CurrentEntityName]>FieldIndex, valueBegin As Object, valueEnd As Object, negate As Boolean) As FieldBetweenPredicate
+			Return New FieldBetweenPredicate(EntityFieldFactory.Create(indexOfField), Nothing, valueBegin, valueEnd, negate)
+		End Function
+
+		Public Shared Function Between(indexOfField As <[CurrentEntityName]>FieldIndex, valueBegin As Object, valueEnd As Object, objectAlias As String) As FieldBetweenPredicate
+			Return New FieldBetweenPredicate(EntityFieldFactory.Create(indexOfField), Nothing, valueBegin, valueEnd, objectAlias)
+		End Function
+
+		Public Shared Function Between(indexOfField As <[CurrentEntityName]>FieldIndex, valueBegin As Object, valueEnd As Object, objectAlias As String, negate As Boolean) As FieldBetweenPredicate
+			Return New FieldBetweenPredicate(EntityFieldFactory.Create(indexOfField), Nothing, valueBegin, valueEnd, objectAlias, negate)
+		End Function
+	<[NextForeach]>
+#End Region
+
+#Region "FieldBetweenPredicate creators (4 per typed view type)"
+	<[Foreach TypedView CrLf]>
+		Public Shared Function Between(indexOfField As <[CurrentTypedViewName]>FieldIndex, valueBegin As Object, valueEnd As Object) As FieldBetweenPredicate
+			Return New FieldBetweenPredicate(EntityFieldFactory.Create(indexOfField), Nothing, valueBegin, valueEnd)
+		End Function
+
+		Public Shared Function Between(indexOfField As <[CurrentTypedViewName]>FieldIndex, valueBegin As Object, valueEnd As Object, negate As Boolean) As FieldBetweenPredicate
+			Return New FieldBetweenPredicate(EntityFieldFactory.Create(indexOfField), Nothing, valueBegin, valueEnd, negate)
+		End Function
+
+		Public Shared Function Between(indexOfField As <[CurrentTypedViewName]>FieldIndex, valueBegin As Object, valueEnd As Object, objectAlias As String) As FieldBetweenPredicate
+			Return New FieldBetweenPredicate(EntityFieldFactory.Create(indexOfField), Nothing, valueBegin, valueEnd, objectAlias)
+		End Function
+
+		Public Shared Function Between(indexOfField As <[CurrentTypedViewName]>FieldIndex, valueBegin As Object, valueEnd As Object, objectAlias As String, negate As Boolean) As FieldBetweenPredicate
+			Return New FieldBetweenPredicate(EntityFieldFactory.Create(indexOfField), Nothing, valueBegin, valueEnd, objectAlias, negate)
+		End Function
+	<[NextForeach]>
+#End Region
+
+#Region "FieldLikePredicate creators (4 per entity type)"
+	<[Foreach Entity CrLf]>
+		Public Shared Function [Like](indexOfField As <[CurrentEntityName]>FieldIndex, pattern As String) As FieldLikePredicate
+			Return New FieldLikePredicate(EntityFieldFactory.Create(indexOfField), Nothing, pattern)
+		End Function
+
+		Public Shared Function [Like](indexOfField As <[CurrentEntityName]>FieldIndex, pattern As String, negate As Boolean) As FieldLikePredicate
+			Return New FieldLikePredicate(EntityFieldFactory.Create(indexOfField), Nothing, pattern, negate)
+		End Function
+
+		Public Shared Function [Like](indexOfField As <[CurrentEntityName]>FieldIndex, objectAlias As String, pattern As String) As FieldLikePredicate
+			Return New FieldLikePredicate(EntityFieldFactory.Create(indexOfField), Nothing, objectAlias, pattern)
+		End Function
+
+		Public Shared Function [Like](indexOfField As <[CurrentEntityName]>FieldIndex, objectAlias As String, pattern As String, negate As Boolean) As FieldLikePredicate
+			Return New FieldLikePredicate(EntityFieldFactory.Create(indexOfField), Nothing, objectAlias, pattern, negate)
+		End Function
+	<[NextForeach]>
+#End Region
+
+#Region "FieldLikePredicate creators (4 per typed view type)"
+	<[Foreach TypedView CrLf]>
+		Public Shared Function [Like](indexOfField As <[CurrentTypedViewName]>FieldIndex, pattern As String) As FieldLikePredicate
+			Return New FieldLikePredicate(EntityFieldFactory.Create(indexOfField), Nothing, pattern)
+		End Function
+
+		Public Shared Function [Like](indexOfField As <[CurrentTypedViewName]>FieldIndex, pattern As String, negate As Boolean) As FieldLikePredicate
+			Return New FieldLikePredicate(EntityFieldFactory.Create(indexOfField), Nothing, pattern, negate)
+		End Function
+
+		Public Shared Function [Like](indexOfField As <[CurrentTypedViewName]>FieldIndex, objectAlias As String, pattern As String) As FieldLikePredicate
+			Return New FieldLikePredicate(EntityFieldFactory.Create(indexOfField), Nothing, objectAlias, pattern)
+		End Function
+
+		Public Shared Function [Like](indexOfField As <[CurrentTypedViewName]>FieldIndex, objectAlias As String, pattern As String, negate As Boolean) As FieldLikePredicate
+			Return New FieldLikePredicate(EntityFieldFactory.Create(indexOfField), Nothing, objectAlias, pattern, negate)
+		End Function
+	<[NextForeach]>
+#End Region
+
+#Region "FieldCompareRangePredicate creators (4 per entity type)"
+	<[Foreach Entity CrLf]>
+		Public Shared Function CompareRange(indexOfField As <[CurrentEntityName]>FieldIndex, ParamArray values() As Object) As FieldCompareRangePredicate
+			Return New FieldCompareRangePredicate(EntityFieldFactory.Create(indexOfField), Nothing, values)
+		End Function
+		
+		Public Shared Function CompareRange(indexOfField As <[CurrentEntityName]>FieldIndex, negate As Boolean, ParamArray values() As Object) As FieldCompareRangePredicate
+			Return New FieldCompareRangePredicate(EntityFieldFactory.Create(indexOfField), Nothing, negate, values)
+		End Function
+
+		Public Shared Function CompareRange(indexOfField As <[CurrentEntityName]>FieldIndex, objectAlias As String, ParamArray values() As Object) As FieldCompareRangePredicate
+			Return New FieldCompareRangePredicate(EntityFieldFactory.Create(indexOfField), Nothing, objectAlias, values)
+		End Function
+		
+		Public Shared Function CompareRange(indexOfField As <[CurrentEntityName]>FieldIndex, objectAlias As String, negate As Boolean, ParamArray values() As Object) As FieldCompareRangePredicate
+			Return New FieldCompareRangePredicate(EntityFieldFactory.Create(indexOfField), Nothing, objectAlias, negate, values)
+		End Function
+	<[NextForeach]>
+#End Region
+
+#Region "FieldCompareRangePredicate creators (4 per typed view type)"
+	<[Foreach TypedView CrLf]>
+		Public Shared Function CompareRange(indexOfField As <[CurrentTypedViewName]>FieldIndex, ParamArray values() As Object) As FieldCompareRangePredicate
+			Return New FieldCompareRangePredicate(EntityFieldFactory.Create(indexOfField), Nothing, values)
+		End Function
+		
+		Public Shared Function CompareRange(indexOfField As <[CurrentTypedViewName]>FieldIndex, negate As Boolean, ParamArray values() As Object) As FieldCompareRangePredicate
+			Return New FieldCompareRangePredicate(EntityFieldFactory.Create(indexOfField), Nothing, negate, values)
+		End Function
+
+		Public Shared Function CompareRange(indexOfField As <[CurrentTypedViewName]>FieldIndex, objectAlias As String, ParamArray values() As Object) As FieldCompareRangePredicate
+			Return New FieldCompareRangePredicate(EntityFieldFactory.Create(indexOfField), Nothing, objectAlias, values)
+		End Function
+		
+		Public Shared Function CompareRange(indexOfField As <[CurrentTypedViewName]>FieldIndex, objectAlias As String, negate As Boolean, ParamArray values() As Object) As FieldCompareRangePredicate
+			Return New FieldCompareRangePredicate(EntityFieldFactory.Create(indexOfField), Nothing, objectAlias, negate, values)
+		End Function
+	<[NextForeach]>
+#End Region
+
+#Region "FieldCompareExpressionPredicate creators (4 per entity type)"
+	<[Foreach Entity CrLf]>
+		Public Shared Function CompareExpression(indexOfField As <[CurrentEntityName]>FieldIndex, operatorToUse As ComparisonOperator, expressionToCompareWith As IExpression) As FieldCompareExpressionPredicate
+			Return New FieldCompareExpressionPredicate(EntityFieldFactory.Create(indexOfField), Nothing, operatorToUse, expressionToCompareWith)
+		End Function
+		
+		Public Shared Function CompareExpression(indexOfField As <[CurrentEntityName]>FieldIndex, operatorToUse As ComparisonOperator, expressionToCompareWith As IExpression, negate As Boolean) As FieldCompareExpressionPredicate
+			Return New FieldCompareExpressionPredicate(EntityFieldFactory.Create(indexOfField), Nothing, operatorToUse, expressionToCompareWith, negate)
+		End Function
+
+		Public Shared Function CompareExpression(indexOfField As <[CurrentEntityName]>FieldIndex, operatorToUse As ComparisonOperator, expressionToCompareWith As IExpression, objectAlias As String) As FieldCompareExpressionPredicate
+			Return New FieldCompareExpressionPredicate(EntityFieldFactory.Create(indexOfField), Nothing, operatorToUse, expressionToCompareWith, objectAlias)
+		End Function
+		
+		Public Shared Function CompareExpression(indexOfField As <[CurrentEntityName]>FieldIndex, operatorToUse As ComparisonOperator, expressionToCompareWith As IExpression, objectAlias As String, negate As Boolean) As FieldCompareExpressionPredicate
+			Return New FieldCompareExpressionPredicate(EntityFieldFactory.Create(indexOfField), Nothing, operatorToUse, expressionToCompareWith, objectAlias, negate)
+		End Function
+	<[NextForeach]>
+#End Region
+
+#Region "FieldCompareExpressionPredicate creators (4 per typed view type)"
+	<[Foreach TypedView CrLf]>
+		Public Shared Function CompareExpression(indexOfField As <[CurrentTypedViewName]>FieldIndex, operatorToUse As ComparisonOperator, expressionToCompareWith As IExpression) As FieldCompareExpressionPredicate
+			Return New FieldCompareExpressionPredicate(EntityFieldFactory.Create(indexOfField), Nothing, operatorToUse, expressionToCompareWith)
+		End Function
+		
+		Public Shared Function CompareExpression(indexOfField As <[CurrentTypedViewName]>FieldIndex, operatorToUse As ComparisonOperator, expressionToCompareWith As IExpression, negate As Boolean) As FieldCompareExpressionPredicate
+			Return New FieldCompareExpressionPredicate(EntityFieldFactory.Create(indexOfField), Nothing, operatorToUse, expressionToCompareWith, negate)
+		End Function
+
+		Public Shared Function CompareExpression(indexOfField As <[CurrentTypedViewName]>FieldIndex, operatorToUse As ComparisonOperator, expressionToCompareWith As IExpression, objectAlias As String) As FieldCompareExpressionPredicate
+			Return New FieldCompareExpressionPredicate(EntityFieldFactory.Create(indexOfField), Nothing, operatorToUse, expressionToCompareWith, objectAlias)
+		End Function
+		
+		Public Shared Function CompareExpression(indexOfField As <[CurrentTypedViewName]>FieldIndex, operatorToUse As ComparisonOperator, expressionToCompareWith As IExpression, objectAlias As String, negate As Boolean) As FieldCompareExpressionPredicate
+			Return New FieldCompareExpressionPredicate(EntityFieldFactory.Create(indexOfField), Nothing, operatorToUse, expressionToCompareWith, objectAlias, negate)
+		End Function
+	<[NextForeach]>
+#End Region
+
+#Region "Included Code"
+<# Custom_PredicateFactoryAdapterTemplate #>
+#End Region
+	End Class
+End Namespace
+

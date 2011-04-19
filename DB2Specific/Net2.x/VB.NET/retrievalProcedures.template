@@ -1,0 +1,135 @@
+﻿' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+' // This is generated code. 
+' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+' // Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+' // Code is generated on: <[Time]>
+' // Code is generated using templates: <[TemplateName]>
+' // Templates vendor: Solutions Design.
+' // Templates version: <[TemplateVersion]>
+' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+Imports System
+Imports System.Data
+
+Imports IBM.Data.DB2
+
+Imports SD.LLBLGen.Pro.ORMSupportClasses
+
+Imports <[RootNamespace]>.HelperClasses
+
+Namespace <[RootNamespace]>.StoredProcedureCallerClasses
+	''' <summary>
+	''' Class which contains the static logic to execute retrieval stored procedures in the database.
+	''' </summary>
+	Public Class RetrievalProcedures
+		''' <summary>
+		''' private CTor so no instance can be created.
+		''' </summary>
+		Private Sub New()
+		End Sub
+
+	<[Foreach RetrievalStoredProcedureCall CrLf]>
+		''' <summary>
+		''' Calls stored procedure '<[ActualStoredProcedureName]>'.<br/><br/>
+		''' <[Foreach CustomProperty RetrievalStoredProcedureCall]>
+		''' <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+		''' </summary>
+<[If HasParameter]><[Foreach Parameter CrLf]>		''' <param name="<[CaseCamel CurrentParameterName]>"><[CurrentParameterDirection]> parameter of stored procedure</param><[NextForeach]>
+<[EndIf]>		''' <returns>Filled <[ProcedureOutputType]> with resultset of stored procedure</returns>
+		Public Overloads Shared Function <[CurrentSPCallName]>(<[Foreach InputParameter Comma]><[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Nullable(Of <[TypeOfParameter]>)<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]><[If HasInputAndOutputParameters]>, <[EndIf]><[Foreach OutputParameter Comma]>ByRef <[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Nullable(Of <[TypeOfParameter]>)<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]>) As <[ProcedureOutputType]>
+			Dim parameters() As DB2Parameter = New DB2Parameter(<[AmountOfParameters]> - 1) {}
+<[Foreach InputParameter CrLf]>			parameters(<[ParameterIndex]>) = New DB2Parameter("<[ActualParameterName]>", DB2Type.<[TypeOfActualParameter]>, <[ParameterSize]>, ParameterDirection.Input, True, <[ParameterPrecision]>, <[ParameterScale]>, "",  DataRowVersion.Current, <[CaseCamel CurrentParameterName]>)<[NextForeach]>
+<[Foreach OutputParameter CrLf]>			parameters(<[ParameterIndex]>) = New DB2Parameter("<[ActualParameterName]>", DB2Type.<[TypeOfActualParameter]>, <[ParameterSize]>, ParameterDirection.Output, True, <[ParameterPrecision]>, <[ParameterScale]>, "",  DataRowVersion.Current, <[CaseCamel CurrentParameterName]>)<[NextForeach]>
+			Dim toReturn As New <[ProcedureOutputType]>("<[CurrentSPCallName]>")
+			Dim hasSucceeded As Boolean = DbUtils.CallRetrievalStoredProcedure("""<[SourceSchemaName]>"".""<[ActualStoredProcedureName]>""", parameters, toReturn, Nothing)
+<[Foreach OutputParameter CrLf]>			If Not parameters(<[ParameterIndex]>).Value Is System.DBNull.Value Then
+				<[CaseCamel CurrentParameterName]> = CType(parameters(<[ParameterIndex]>).Value, <[If IsNullable]><[If IsValueType]>Nullable(Of <[TypeOfParameter]>)<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]>)
+			End If<[NextForeach]>
+			Return toReturn
+		End Function
+	
+		''' <summary>
+		''' Calls stored procedure '<[ActualStoredProcedureName]>'.<br/><br/>
+		''' <[Foreach CustomProperty RetrievalStoredProcedureCall]>
+		''' <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+		''' </summary>
+<[If HasParameter]><[Foreach Parameter CrLf]>		''' <param name="<[CaseCamel CurrentParameterName]>"><[CurrentParameterDirection]> parameter of stored procedure</param><[NextForeach]>
+<[EndIf]>		''' <param name="returnValue">Return value of the stored procedure</param>
+		''' <returns>Filled <[ProcedureOutputType]> with resultset of stored procedure</returns>
+		Public Overloads Shared Function <[CurrentSPCallName]>(<[Foreach InputParameter Comma]><[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Nullable(Of <[TypeOfParameter]>)<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]><[If HasInputAndOutputParameters]>, <[EndIf]><[Foreach OutputParameter Comma]>ByRef <[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Nullable(Of <[TypeOfParameter]>)<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]><[If HasParameter]>, <[EndIf]>ByRef returnValue As System.Int32) As <[ProcedureOutputType]>
+			Dim parameters() As DB2Parameter = New DB2Parameter(<[AmountOfParameters]>) {}
+<[Foreach InputParameter CrLf]>			parameters(<[ParameterIndex]>) = New DB2Parameter("<[ActualParameterName]>", DB2Type.<[TypeOfActualParameter]>, <[ParameterSize]>, ParameterDirection.Input, True, <[ParameterPrecision]>, <[ParameterScale]>, "",  DataRowVersion.Current, <[CaseCamel CurrentParameterName]>)<[NextForeach]>
+<[Foreach OutputParameter CrLf]>			parameters(<[ParameterIndex]>) = New DB2Parameter("<[ActualParameterName]>", DB2Type.<[TypeOfActualParameter]>, <[ParameterSize]>, ParameterDirection.Output, True, <[ParameterPrecision]>, <[ParameterScale]>, "",  DataRowVersion.Current, <[CaseCamel CurrentParameterName]>)<[NextForeach]>
+			parameters(<[AmountOfParameters]>) = New DB2Parameter("@RETURNVALUE", DB2Type.Integer, 0, ParameterDirection.ReturnValue, True, 10, 0, "",  DataRowVersion.Current, returnValue)			
+			Dim toReturn As New <[ProcedureOutputType]>("<[CurrentSPCallName]>")
+			Dim hasSucceeded As Boolean = DbUtils.CallRetrievalStoredProcedure("""<[SourceSchemaName]>"".""<[ActualStoredProcedureName]>""", parameters, toReturn, Nothing)
+<[Foreach OutputParameter CrLf]>			If Not parameters(<[ParameterIndex]>).Value Is System.DBNull.Value Then
+				<[CaseCamel CurrentParameterName]> = CType(parameters(<[ParameterIndex]>).Value, <[If IsNullable]><[If IsValueType]>Nullable(Of <[TypeOfParameter]>)<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]>)
+			End If<[NextForeach]>
+			returnValue = CType(parameters(<[AmountOfParameters]>).Value, Integer)
+			Return toReturn
+		End Function
+
+		''' <summary>
+		''' Calls stored procedure '<[ActualStoredProcedureName]>'.<br/><br/>
+		''' <[Foreach CustomProperty RetrievalStoredProcedureCall]>
+		''' <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+		''' </summary>
+<[If HasParameter]><[Foreach Parameter CrLf]>		''' <param name="<[CaseCamel CurrentParameterName]>"><[CurrentParameterDirection]> parameter of stored procedure</param><[NextForeach]>
+<[EndIf]>		''' <param name="transactionToUse">the transaction to use, or null if no transaction is available.</param>
+		''' <returns>Filled <[ProcedureOutputType]> with resultset of stored procedure</returns>
+		Public Overloads Shared Function <[CurrentSPCallName]>(<[Foreach InputParameter Comma]><[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Nullable(Of <[TypeOfParameter]>)<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]><[If HasInputAndOutputParameters]>, <[EndIf]><[Foreach OutputParameter Comma]>ByRef <[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Nullable(Of <[TypeOfParameter]>)<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]><[If HasParameter]>, <[EndIf]>transactionToUse As ITransaction) As <[ProcedureOutputType]>
+			Dim parameters() As DB2Parameter = New DB2Parameter(<[AmountOfParameters]> - 1) {}
+<[Foreach InputParameter CrLf]>			parameters(<[ParameterIndex]>) = New DB2Parameter("<[ActualParameterName]>", DB2Type.<[TypeOfActualParameter]>, <[ParameterSize]>, ParameterDirection.Input, True, <[ParameterPrecision]>, <[ParameterScale]>, "",  DataRowVersion.Current, <[CaseCamel CurrentParameterName]>)<[NextForeach]>
+<[Foreach OutputParameter CrLf]>			parameters(<[ParameterIndex]>) = New DB2Parameter("<[ActualParameterName]>", DB2Type.<[TypeOfActualParameter]>, <[ParameterSize]>, ParameterDirection.Output, True, <[ParameterPrecision]>, <[ParameterScale]>, "",  DataRowVersion.Current, <[CaseCamel CurrentParameterName]>)<[NextForeach]>
+			Dim toReturn As New <[ProcedureOutputType]>("<[CurrentSPCallName]>")
+			Dim hasSucceeded As Boolean = DbUtils.CallRetrievalStoredProcedure("""<[SourceSchemaName]>"".""<[ActualStoredProcedureName]>""", parameters, toReturn, transactionToUse)
+<[Foreach OutputParameter CrLf]>			If Not parameters(<[ParameterIndex]>).Value Is System.DBNull.Value Then
+				<[CaseCamel CurrentParameterName]> = CType(parameters(<[ParameterIndex]>).Value, <[If IsNullable]><[If IsValueType]>Nullable(Of <[TypeOfParameter]>)<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]>)
+			End If<[NextForeach]>
+			Return toReturn
+		End Function
+	
+		''' <summary>
+		''' Calls stored procedure '<[ActualStoredProcedureName]>'.<br/><br/>
+		''' <[Foreach CustomProperty RetrievalStoredProcedureCall]>
+		''' <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+		''' </summary>
+<[If HasParameter]><[Foreach Parameter CrLf]>		''' <param name="<[CaseCamel CurrentParameterName]>"><[CurrentParameterDirection]> parameter of stored procedure</param><[NextForeach]>
+<[EndIf]>		''' <param name="returnValue">Return value of the stored procedure</param>
+		''' <param name="transactionToUse">the transaction to use, or null if no transaction is available.</param>
+		''' <returns>Filled <[ProcedureOutputType]> with resultset of stored procedure</returns>
+		Public Overloads Shared Function <[CurrentSPCallName]>(<[Foreach InputParameter Comma]><[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Nullable(Of <[TypeOfParameter]>)<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]><[If HasInputAndOutputParameters]>, <[EndIf]><[Foreach OutputParameter Comma]>ByRef <[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Nullable(Of <[TypeOfParameter]>)<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]><[If HasParameter]>, <[EndIf]>ByRef returnValue As System.Int32, transactionToUse As ITransaction) As <[ProcedureOutputType]>
+			Dim parameters() As DB2Parameter = New DB2Parameter(<[AmountOfParameters]>) {}
+<[Foreach InputParameter CrLf]>			parameters(<[ParameterIndex]>) = New DB2Parameter("<[ActualParameterName]>", DB2Type.<[TypeOfActualParameter]>, <[ParameterSize]>, ParameterDirection.Input, True, <[ParameterPrecision]>, <[ParameterScale]>, "",  DataRowVersion.Current, <[CaseCamel CurrentParameterName]>)<[NextForeach]>
+<[Foreach OutputParameter CrLf]>			parameters(<[ParameterIndex]>) = new DB2Parameter("<[ActualParameterName]>", DB2Type.<[TypeOfActualParameter]>, <[ParameterSize]>, ParameterDirection.Output, True, <[ParameterPrecision]>, <[ParameterScale]>, "",  DataRowVersion.Current, <[CaseCamel CurrentParameterName]>)<[NextForeach]>
+			parameters(<[AmountOfParameters]>) = New DB2Parameter("@RETURNVALUE", DB2Type.Integer, 0, ParameterDirection.ReturnValue, True, 10, 0, "",  DataRowVersion.Current, returnValue)			
+			Dim toReturn As New <[ProcedureOutputType]>("<[CurrentSPCallName]>")
+			Dim hasSucceeded As Boolean = DbUtils.CallRetrievalStoredProcedure("""<[SourceSchemaName]>"".""<[ActualStoredProcedureName]>""", parameters, toReturn, transactionToUse)
+<[Foreach OutputParameter CrLf]>			If Not parameters(<[ParameterIndex]>).Value Is System.DBNull.Value Then
+				<[CaseCamel CurrentParameterName]> = CType(parameters(<[ParameterIndex]>).Value, <[If IsNullable]><[If IsValueType]>Nullable(Of <[TypeOfParameter]>)<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]>)
+			End If<[NextForeach]>
+			returnValue = CType(parameters(<[AmountOfParameters]>).Value, Integer)
+			Return toReturn
+		End Function
+
+		''' <summary>Creates an IRetrievalQuery Object For a Call To the procedure '<[ActualStoredProcedureName]>'.
+		''' <[Foreach CustomProperty RetrievalStoredProcedureCall]>
+		''' <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+		''' </summary>
+<[If HasParameter InputParameter]><[Foreach InputParameter CrLf]>		''' <param name="<[CaseCamel CurrentParameterName]>"><[CurrentParameterDirection]> parameter of stored procedure</param><[NextForeach]>
+<[EndIf]>		''' <returns>IRetrievalQuery Object which Is ready To use For datafetching</returns>
+		Public Shared Function Get<[CurrentSPCallName]>CallAsQuery( <[Foreach InputParameter Comma]><[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Nullable(Of <[TypeOfParameter]>)<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]>) As IRetrievalQuery 
+			Dim procName As String = SD.LLBLGen.Pro.DQE.DB2.DynamicQueryEngine.GetNewStoredProcedureName("""<[SourceSchemaName]>"".""<[ActualStoredProcedureName]>""" )
+			Dim toReturn As New RetrievalQuery( New DB2Command(procName) )
+<[Foreach InputParameter CrLf]>			toReturn.Parameters.Add(New DB2Parameter("<[ActualParameterName]>", DB2Type.<[TypeOfActualParameter]>, <[ParameterSize]>, ParameterDirection.Input, True, <[ParameterPrecision]>, <[ParameterScale]>, "",  DataRowVersion.Current, <[CaseCamel CurrentParameterName]>))<[NextForeach]>
+<[Foreach OutputParameter CrLf]>			toReturn.Parameters.Add(New DB2Parameter("<[ActualParameterName]>", DB2Type.<[TypeOfActualParameter]>, <[ParameterSize]>, ParameterDirection.Output, True, <[ParameterPrecision]>, <[ParameterScale]>, "",  DataRowVersion.Current, Nothing))<[NextForeach]>
+			toReturn.Command.CommandType = CommandType.StoredProcedure
+			Return toReturn
+		End Function
+	<[NextForeach]>
+
+#Region "Included Code"
+<# Custom_RetrievalProceduresTemplate #>
+#End Region
+	End Class
+End Namespace

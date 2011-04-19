@@ -1,0 +1,99 @@
+///////////////////////////////////////////////////////////////
+// This is generated code. 
+//////////////////////////////////////////////////////////////
+// Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+// Code is generated on: <[Time]>
+// Code is generated using templates: <[TemplateName]>
+// Templates vendor: Solutions Design.
+// Templates version: <[TemplateVersion]>
+//////////////////////////////////////////////////////////////
+using System;
+using System.Data;
+using System.Data.Common;
+using System.Configuration;
+using System.EnterpriseServices;
+using Oracle.DataAccess.Client;
+
+using SD.LLBLGen.Pro.ORMSupportClasses;
+
+namespace <[RootNamespace]>.HelperClasses
+{
+	/// <summary>
+	/// General utility class for COM+ transactions. 
+	/// </summary>
+	[Transaction(TransactionOption.Required)]
+	public <[If UsePartialClasses]>partial <[EndIf]>class DbUtilsComPlus : ServicedComponent
+	{
+		#region Public Static Members
+		public static string ActualConnectionString = string.Empty;
+		#endregion
+
+		#region Constants
+		private const string connectionKeyString = "<[ConnectionStringKeyName]>";
+		#endregion
+
+		#region Class Member Declarations
+		private static int _commandTimeOut = 30;
+		#endregion
+
+		/// <summary>
+		/// CTor
+		/// </summary>
+		public DbUtilsComPlus()
+		{
+		}
+
+
+		/// <summary>
+		/// Creates a new OracleConnection
+		/// </summary>
+		/// <param name="connectionString">Conectionstring To use</param>
+		/// <returns>A ready to use, closed, OracleConnection object</returns>
+		public OracleConnection CreateConnection(string connectionString)
+		{
+			return new OracleConnection(connectionString);
+		}
+
+		/// <summary>
+		/// Creates a new closed OracleConnection object based on the connection string read from the *.config file of the appdomain.
+		/// The connection string is stored in a key with the name defined in the constant connectionKeyString, mentioned above.
+		/// </summary>
+		/// <returns>A ready to use, closed, OracleConnection object</returns>
+		public OracleConnection CreateConnection()
+		{
+			if(ActualConnectionString==string.Empty)
+			{
+				// read the connection string from the *.config file.
+				AppSettingsReader configReader = new AppSettingsReader();
+				ActualConnectionString = configReader.GetValue(connectionKeyString, typeof(string)).ToString();
+			}
+
+			return CreateConnection(ActualConnectionString);
+		}
+		
+		#region Class Property Declarations
+		/// <summary>
+		/// Gets / sets the command time out (in seconds). This is a global setting, so every Command object created after you've set this
+		/// property to a value will have that value as CommandTimeOut. Default is 30 seconds which is the ADO.NET default.
+		/// </summary>
+		public static int CommandTimeOut
+		{
+			get
+			{
+				return _commandTimeOut;
+			}
+			set
+			{
+				_commandTimeOut = value;
+				SD.LLBLGen.Pro.DQE.Oracle.DynamicQueryEngine.CommandTimeOut = _commandTimeOut;
+			}
+		}
+
+		#endregion
+
+
+		#region Included Code
+<# Custom_DbUtilsComPlusTemplate #>
+		#endregion
+	}
+}

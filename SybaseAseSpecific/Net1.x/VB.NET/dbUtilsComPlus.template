@@ -1,0 +1,87 @@
+﻿' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+' // This is generated code. 
+' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+' // Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+' // Code is generated on: <[Time]>
+' // Code is generated using templates: <[TemplateName]>
+' // Templates vendor: Solutions Design.
+' // Templates version: <[TemplateVersion]>
+' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+Imports System
+Imports System.Data
+Imports Sybase.Data.AseClient
+Imports System.Data.Common
+Imports System.Configuration
+Imports System.EnterpriseServices
+
+Imports SD.LLBLGen.Pro.ORMSupportClasses
+
+Namespace <[RootNamespace]>.HelperClasses
+	''' <summary>
+	''' General utility class for COM+ transactions. 
+	''' </summary>
+	<Transaction(TransactionOption.Required)> Public Class DbUtilsComPlus 
+		Inherits ServicedComponent
+		
+#Region "Public Static Members"
+		Public Shared ActualConnectionString As String = String.Empty
+#End Region
+
+#Region "Constants"
+		Private Const connectionKeyString As String = "<[ConnectionStringKeyName]>"
+#End Region
+
+#Region "Class Member Declarations"
+		Private Shared _commandTimeOut As Integer = 30
+#End Region
+
+		''' <summary>
+		''' CTor
+		''' </summary>
+		Public Sub New()
+		End Sub
+		
+		''' <summary>
+		''' Creates a new AseConnection
+		''' </summary>
+		''' <param name="connectionString">Conectionstring To use</param>
+		''' <returns>A ready to use, closed, AseConnection Object</returns>
+		Public Function CreateConnection(connectionString As String) As AseConnection
+			Return New AseConnection(connectionString)
+		End Function
+
+		''' <summary>
+		''' Creates a new closed AseConnection Object based on the connection string read from the *.config file of the appdomain.
+		''' The connection string is stored in a key with the name defined in the constant connectionKeyString, mentioned above.
+		''' </summary>
+		''' <returns>A ready to use, closed, AseConnection Object</returns>
+		Public Function CreateConnection() As AseConnection
+			If ActualConnectionString = String.Empty Then
+				' read the connection string from the *.config file.
+				Dim configReader As New AppSettingsReader()
+				ActualConnectionString = configReader.GetValue(connectionKeyString, GetType(string)).ToString()
+			End If
+			Return CreateConnection(ActualConnectionString)
+		End Function
+
+#Region "Class Property Declarations"
+		''' <summary>
+		''' Gets / sets the command time out (in seconds). This is a global setting, so every Command object created after you've set this
+		''' property to a value will have that value as CommandTimeOut. Default is 30 seconds which is the ADO.NET default.
+		''' </summary>
+		Public Shared Property CommandTimeOut As Integer
+			Get
+				Return _commandTimeOut
+			End Get
+			Set
+				_commandTimeOut = value
+				SD.LLBLGen.Pro.DQE.SybaseAse.DynamicQueryEngine.CommandTimeOut = _commandTimeOut
+			End Set
+		End Property
+#End Region
+
+#Region "Included Code"
+<# Custom_DbUtilsComPlusTemplate #>
+#End Region
+	End Class
+End Namespace

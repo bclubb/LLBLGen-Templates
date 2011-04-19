@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<language xmlns="http://sd/llblgen/pro/languageDefinition.xsd" 
+		  name="VB.NET" fileExtension ="vb" arrayIndexOperatorOpenChar ="(" hasArrayIndexOperatorOnIdentifier ="true"
+		  arrayIndexOperatorCloseChar=")" lineConcatenator="_" >
+	<keywords>
+		<keyword name ="trueKeyword" value ="True"/>
+		<keyword name ="falseKeyword" value ="False"/>
+		<keyword name ="thisKeyword" value ="Me"/>
+		<keyword name ="nullKeyword" value="Nothing"/>
+		<keyword name ="partialKeyword" value ="Partial"/>
+	</keywords>
+</language>

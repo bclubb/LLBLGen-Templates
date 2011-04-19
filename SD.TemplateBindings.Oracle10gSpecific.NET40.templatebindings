@@ -1,0 +1,17 @@
+﻿<?xml version="1.0"?>
+<templateBindings xmlns="http://sd/llblgen/pro/templateBindingsDefinition.xsd" name="SD.TemplateBindings.Oracle10gSpecific.NET40"
+				  description ="Template bindings for the templates which are specific for Oracle 10g/11g based databases using ODP.NET. For .NET 4.0 based platforms"
+				  databaseDriverID="A8034CB0-319D-4cdd-BC7D-1E7CFDBA3B74" precedenceLevel="10">
+	<supportedPlatforms>
+		<platform name=".NET 4.0"/>
+	</supportedPlatforms>
+
+	<language name="C#">
+		<templateBinding templateID="SD_VsNet2010Template" filename="Oracle10gSpecific\Net4.0\C#\vsnet2010ProjectFile.template" />
+		<templateBinding templateID="SD_VsNet2010DBSpecificAdapterTemplate" filename="Oracle10gSpecific\Net4.0\C#\vsnet2010DBSpecificProjectFileAdapter.template" />
+	</language>
+	<language name="VB.NET">
+		<templateBinding templateID="SD_VsNet2010Template" filename="Oracle10gSpecific\Net4.0\VB.NET\vsnet2010ProjectFile.template" />
+		<templateBinding templateID="SD_VsNet2010DBSpecificAdapterTemplate" filename="Oracle10gSpecific\Net4.0\VB.NET\vsnet2010DBSpecificProjectFileAdapter.template" />
+	</language>
+</templateBindings>

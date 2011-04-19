@@ -1,0 +1,133 @@
+﻿' ///////////////////////////////////////////////////////////////
+' // This is generated code. 
+' //
+' // Do not try to run this code on another version of the database than the database
+' // which was used to generate this code. This means that when you used f.e. SqlServer 2000
+' // to generate this code, it is likely that you will not be able to use that code on
+' // SqlServer 7 due to SQL syntax mismatches. 
+' //////////////////////////////////////////////////////////////
+' // Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+' // Code is generated on: <[Time]>
+' // Code is generated using templates: <[TemplateName]>
+' // Templates vendor: Solutions Design.
+' // Templates version: <[TemplateVersion]>
+' //////////////////////////////////////////////////////////////
+Imports System
+Imports System.Data
+Imports System.Data.SqlClient
+Imports SD.LLBLGen.Pro.ORMSupportClasses
+
+Namespace <[RootNamespace]><[DbSpecificNamespaceSuffix]>
+	''' <summary>
+	''' Class which contains the Shared logic to execute retrieval stored procedures in the database.
+	''' </summary>
+	Public Class RetrievalProcedures
+		
+		''' <summary>
+		''' private CTor so no instance can be created.
+		''' </summary>
+		Private Sub New()
+		End Sub
+
+	<[Foreach RetrievalStoredProcedureCall CrLf]>
+		''' <summary>
+		''' Calls stored procedure '<[ActualStoredProcedureName]>'.<br/><br/>
+		''' <[Foreach CustomProperty RetrievalStoredProcedureCall]>
+		''' <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+		''' </summary>
+<[If HasParameter]><[Foreach Parameter CrLf]>		''' <param name="<[CaseCamel CurrentParameterName]>"><[CurrentParameterDirection]> parameter of stored procedure</param><[NextForeach]>
+<[EndIf]>		''' <returns>Filled <[ProcedureOutputType]> with resultset(s) of stored procedure</returns>
+		Public Shared Function <[CurrentSPCallName]>(<[Foreach InputParameter Comma]><[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]><[If HasInputAndOutputParameters]>, <[EndIf]><[Foreach OutputParameter Comma]>ByRef <[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]>) As <[ProcedureOutputType]>
+			Dim adapter As New DataAccessAdapter()
+			Try
+				Return <[CurrentSPCallName]>(<[Foreach InputParameter Comma]><[CaseCamel CurrentParameterName]><[NextForeach]><[If HasInputAndOutputParameters]>, <[EndIf]><[Foreach OutputParameter Comma]><[CaseCamel CurrentParameterName]><[NextForeach]><[If HasParameter]>, <[EndIf]> adapter)
+			Finally
+				adapter.Dispose()
+			End Try
+		End Function
+
+
+		''' <summary>
+		''' Calls stored procedure '<[ActualStoredProcedureName]>'.<br/><br/>
+		''' <[Foreach CustomProperty RetrievalStoredProcedureCall]>
+		''' <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+		''' </summary>
+<[If HasParameter]><[Foreach Parameter CrLf]>		''' <param name="<[CaseCamel CurrentParameterName]>"><[CurrentParameterDirection]> parameter of stored procedure</param><[NextForeach]>
+<[EndIf]>		''' <param name="adapter">The DataAccessAdapter object to use for the call</param>
+		''' <returns>Filled <[ProcedureOutputType]> with resultset(s) of stored procedure</returns>
+		Public Shared Function <[CurrentSPCallName]>(<[Foreach InputParameter Comma]><[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]><[If HasInputAndOutputParameters]>, <[EndIf]><[Foreach OutputParameter Comma]>ByRef <[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]><[If HasParameter]>, <[EndIf]>adapter As DataAccessAdapter ) As <[ProcedureOutputType]>
+			Dim parameters() As SqlParameter = New SqlParameter(<[AmountOfParameters]> - 1) {}
+<[Foreach InputParameter CrLf]>			parameters(<[ParameterIndex]>) = New SqlParameter("<[ActualParameterName]>", SqlDbType.<[TypeOfActualParameter]>, <[ParameterSize]>, ParameterDirection.Input, True, <[ParameterPrecision]>, <[ParameterScale]>, "",  DataRowVersion.Current, <[CaseCamel CurrentParameterName]>)<[NextForeach]>
+<[Foreach OutputParameter CrLf]>			parameters(<[ParameterIndex]>) = New SqlParameter("<[ActualParameterName]>", SqlDbType.<[TypeOfActualParameter]>, <[ParameterSize]>, ParameterDirection.InputOutput, True, <[ParameterPrecision]>, <[ParameterScale]>, "",  DataRowVersion.Current, <[CaseCamel CurrentParameterName]>)<[NextForeach]>
+			Dim toReturn As <[ProcedureOutputType]> = New <[ProcedureOutputType]>("<[CurrentSPCallName]>")
+			Dim hasSucceeded As Boolean = adapter.CallRetrievalStoredProcedure("[<[SourceCatalogName]>].[<[SourceSchemaName]>].[<[ActualStoredProcedureName]>]", parameters, toReturn)
+<[Foreach OutputParameter CrLf]>			If Not parameters(<[ParameterIndex]>).Value Is System.DBNull.Value Then
+				<[CaseCamel CurrentParameterName]> = CType(parameters(<[ParameterIndex]>).Value, <[If IsNullable]><[If IsValueType]>Object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]>)
+			End If<[NextForeach]>
+			Return toReturn
+		End Function
+
+
+		''' <summary>
+		''' Calls stored procedure '<[ActualStoredProcedureName]>'. This version also returns the Return value of the stored procedure.<br/><br/>
+		''' <[Foreach CustomProperty RetrievalStoredProcedureCall]>
+		''' <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+		''' </summary>
+<[If HasParameter]><[Foreach Parameter CrLf]>		''' <param name="<[CaseCamel CurrentParameterName]>"><[CurrentParameterDirection]> parameter of stored procedure</param><[NextForeach]>
+<[EndIf]>		''' <param name="returnValue">Return value of the stored procedure</param>
+		''' <returns>Filled <[ProcedureOutputType]> with resultset(s) of stored procedure</returns>
+		Public Shared Function <[CurrentSPCallName]>(<[Foreach InputParameter Comma]><[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]><[If HasInputAndOutputParameters]>, <[EndIf]><[Foreach OutputParameter Comma]>ByRef <[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]><[If HasParameter]>, <[EndIf]>ByRef returnValue As System.Int32) As <[ProcedureOutputType]>
+			Dim adapter As New DataAccessAdapter()
+			Try
+				Return <[CurrentSPCallName]>(<[Foreach InputParameter Comma]><[CaseCamel CurrentParameterName]><[NextForeach]><[If HasInputAndOutputParameters]>, <[EndIf]><[Foreach OutputParameter Comma]><[CaseCamel CurrentParameterName]><[NextForeach]><[If HasParameter]>, <[EndIf]>returnValue, adapter)
+			Finally
+				adapter.Dispose()
+			End Try
+		End Function
+	
+	
+		''' <summary>
+		''' Calls stored procedure '<[ActualStoredProcedureName]>'. This version also returns the Return value of the stored procedure.<br/><br/>
+		''' <[Foreach CustomProperty RetrievalStoredProcedureCall]>
+		''' <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+		''' </summary>
+<[If HasParameter]><[Foreach Parameter CrLf]>		''' <param name="<[CaseCamel CurrentParameterName]>"><[CurrentParameterDirection]> parameter of stored procedure</param><[NextForeach]>
+<[EndIf]>		''' <param name="returnValue">Return value of the stored procedure</param>
+		''' <param name="adapter">The DataAccessAdapter object to use for the call</param>
+		''' <returns>Filled <[ProcedureOutputType]> with resultset(s) of stored procedure</returns>
+		Public Shared Function <[CurrentSPCallName]>(<[Foreach InputParameter Comma]><[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]><[If HasInputAndOutputParameters]>, <[EndIf]><[Foreach OutputParameter Comma]>ByRef <[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]><[If HasParameter]>, <[EndIf]>ByRef returnValue As System.Int32, adapter As DataAccessAdapter) As <[ProcedureOutputType]> 
+			' create parameters. Add 1 to make room for the Return value parameter.
+			Dim parameters() As SqlParameter = New SqlParameter(<[AmountOfParameters]>) {}
+<[Foreach InputParameter CrLf]>			parameters(<[ParameterIndex]>) = New SqlParameter("<[ActualParameterName]>", SqlDbType.<[TypeOfActualParameter]>, <[ParameterSize]>, ParameterDirection.Input, True, <[ParameterPrecision]>, <[ParameterScale]>, "",  DataRowVersion.Current, <[CaseCamel CurrentParameterName]>)<[NextForeach]>
+<[Foreach OutputParameter CrLf]>			parameters(<[ParameterIndex]>) = new SqlParameter("<[ActualParameterName]>", SqlDbType.<[TypeOfActualParameter]>, <[ParameterSize]>, ParameterDirection.InputOutput, True, <[ParameterPrecision]>, <[ParameterScale]>, "",  DataRowVersion.Current, <[CaseCamel CurrentParameterName]>)<[NextForeach]>
+			parameters(<[AmountOfParameters]>) = New SqlParameter("RETURNVALUE", SqlDbType.Int, 0, ParameterDirection.ReturnValue, True, 10, 0, "",  DataRowVersion.Current, returnValue)
+			Dim toReturn As <[ProcedureOutputType]> = New <[ProcedureOutputType]>("<[CurrentSPCallName]>")
+			Dim hasSucceeded As Boolean = adapter.CallRetrievalStoredProcedure("[<[SourceCatalogName]>].[<[SourceSchemaName]>].[<[ActualStoredProcedureName]>]", parameters, toReturn)
+<[Foreach OutputParameter CrLf]>			If Not parameters(<[ParameterIndex]>).Value Is System.DBNull.Value Then
+				<[CaseCamel CurrentParameterName]> = CType(parameters(<[ParameterIndex]>).Value, <[If IsNullable]><[If IsValueType]>Object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]>)
+			End If<[NextForeach]>
+
+			returnValue = CType(parameters(<[AmountOfParameters]>).Value, Integer)
+			Return toReturn
+		End Function
+
+		''' <summary>Creates an IRetrievalQuery Object For a Call To the procedure '<[ActualStoredProcedureName]>'.
+		''' <[Foreach CustomProperty RetrievalStoredProcedureCall]>
+		''' <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+		''' </summary>
+<[If HasParameter InputParameter]><[Foreach InputParameter CrLf]>		''' <param name="<[CaseCamel CurrentParameterName]>"><[CurrentParameterDirection]> parameter of stored procedure</param><[NextForeach]>
+<[EndIf]>		''' <returns>IRetrievalQuery Object which Is ready To use For datafetching</returns>
+		Public Shared Function Get<[CurrentSPCallName]>CallAsQuery( <[Foreach InputParameter Comma]><[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]>) As IRetrievalQuery 
+			Dim toReturn As New RetrievalQuery( New SqlCommand( "[<[SourceCatalogName]>].[<[SourceSchemaName]>].[<[ActualStoredProcedureName]>]" ) )
+<[Foreach InputParameter CrLf]>			toReturn.Parameters.Add(New SqlParameter("<[ActualParameterName]>", SqlDbType.<[TypeOfActualParameter]>, <[ParameterSize]>, ParameterDirection.Input, True, <[ParameterPrecision]>, <[ParameterScale]>, "",  DataRowVersion.Current, <[CaseCamel CurrentParameterName]>))<[NextForeach]>
+<[Foreach OutputParameter CrLf]>			toReturn.Parameters.Add(New SqlParameter("<[ActualParameterName]>", SqlDbType.<[TypeOfActualParameter]>, <[ParameterSize]>, ParameterDirection.Output, True, <[ParameterPrecision]>, <[ParameterScale]>, "",  DataRowVersion.Current, Nothing))<[NextForeach]>
+			toReturn.Command.CommandType = CommandType.StoredProcedure
+			Return toReturn
+		End Function
+	<[NextForeach]>
+
+#Region "Included Code"
+<# Custom_RetrievalProceduresAdapterTemplate #>
+#End Region
+	End Class
+End Namespace

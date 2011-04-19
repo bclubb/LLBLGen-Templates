@@ -1,0 +1,360 @@
+﻿///////////////////////////////////////////////////////////////
+// This is generated code. 
+//////////////////////////////////////////////////////////////
+// Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+// Code is generated on: <[Time]>
+// Code is generated using templates: <[TemplateName]>
+// Templates vendor: Solutions Design.
+// Templates version: <[TemplateVersion]>
+//////////////////////////////////////////////////////////////
+using System;
+
+using <[RootNamespace]>;
+
+using SD.LLBLGen.Pro.ORMSupportClasses;
+
+namespace <[RootNamespace]>.FactoryClasses
+{
+	/// <summary>
+	/// Class which eases the creation of the different predicate clauses defined in the ORM support classes. 
+	/// Use these methods to create predicate clauses for filters without a lot of code.
+	/// </summary>
+	public <[If UsePartialClasses]>partial <[EndIf]>class PredicateFactory
+	{
+		/// <summary>
+		/// Static class, no CTor
+		/// </summary>
+		private PredicateFactory()
+		{
+		}
+
+		#region FieldCompareValuePredicate creators (4 per entity type)
+<[Foreach Entity]>
+		/// <summary>FieldCompareValuePredicate factory for <[CurrentEntityName]>Entity.</summary>
+		public static FieldCompareValuePredicate CompareValue(<[CurrentEntityName]>FieldIndex indexOfField, ComparisonOperator operatorToUse, object value)
+		{
+			return new FieldCompareValuePredicate(EntityFieldFactory.Create(indexOfField), operatorToUse, value);
+		}
+		
+		/// <summary>FieldCompareValuePredicate factory for <[CurrentEntityName]>Entity.</summary>
+		public static FieldCompareValuePredicate CompareValue(<[CurrentEntityName]>FieldIndex indexOfField, ComparisonOperator operatorToUse, object value, bool negate)
+		{
+			return new FieldCompareValuePredicate(EntityFieldFactory.Create(indexOfField), operatorToUse, value, negate);
+		}
+
+		/// <summary>FieldCompareValuePredicate factory for <[CurrentEntityName]>Entity.</summary>
+		public static FieldCompareValuePredicate CompareValue(<[CurrentEntityName]>FieldIndex indexOfField, ComparisonOperator operatorToUse, object value, string objectAlias)
+		{
+			return new FieldCompareValuePredicate(EntityFieldFactory.Create(indexOfField), operatorToUse, value, objectAlias);
+		}
+		
+		/// <summary>FieldCompareValuePredicate factory for <[CurrentEntityName]>Entity.</summary>
+		public static FieldCompareValuePredicate CompareValue(<[CurrentEntityName]>FieldIndex indexOfField, ComparisonOperator operatorToUse, object value, string objectAlias, bool negate)
+		{
+			return new FieldCompareValuePredicate(EntityFieldFactory.Create(indexOfField), operatorToUse, value, objectAlias, negate);
+		}<[NextForeach]>
+		#endregion
+
+		#region FieldCompareValuePredicate creators (4 per typed view type)
+<[Foreach TypedView]>
+		/// <summary>FieldCompareValuePredicate factory for <[CurrentTypedViewName]>TypedView.</summary>
+		public static FieldCompareValuePredicate CompareValue(<[CurrentTypedViewName]>FieldIndex indexOfField, ComparisonOperator operatorToUse, object value)
+		{
+			return new FieldCompareValuePredicate(EntityFieldFactory.Create(indexOfField), operatorToUse, value);
+		}
+		
+		/// <summary>FieldCompareValuePredicate factory for <[CurrentTypedViewName]>TypedView.</summary>
+		public static FieldCompareValuePredicate CompareValue(<[CurrentTypedViewName]>FieldIndex indexOfField, ComparisonOperator operatorToUse, object value, bool negate)
+		{
+			return new FieldCompareValuePredicate(EntityFieldFactory.Create(indexOfField), operatorToUse, value, negate);
+		}
+
+		/// <summary>FieldCompareValuePredicate factory for <[CurrentTypedViewName]>TypedView.</summary>
+		public static FieldCompareValuePredicate CompareValue(<[CurrentTypedViewName]>FieldIndex indexOfField, ComparisonOperator operatorToUse, object value, string objectAlias)
+		{
+			return new FieldCompareValuePredicate(EntityFieldFactory.Create(indexOfField), operatorToUse, value, objectAlias);
+		}
+		
+		/// <summary>FieldCompareValuePredicate factory for <[CurrentTypedViewName]>TypedView.</summary>
+		public static FieldCompareValuePredicate CompareValue(<[CurrentTypedViewName]>FieldIndex indexOfField, ComparisonOperator operatorToUse, object value, string objectAlias, bool negate)
+		{
+			return new FieldCompareValuePredicate(EntityFieldFactory.Create(indexOfField), operatorToUse, value, objectAlias, negate);
+		}<[NextForeach]>
+		#endregion
+
+		#region FieldCompareNullPredicate creators (4 per entity type)
+<[Foreach Entity]>
+		/// <summary>FieldCompareNullPredicate factory for <[CurrentEntityName]>Entity.</summary>
+		public static FieldCompareNullPredicate CompareNull(<[CurrentEntityName]>FieldIndex indexOfField)
+		{
+			return new FieldCompareNullPredicate(EntityFieldFactory.Create(indexOfField));
+		}
+
+		/// <summary>FieldCompareNullPredicate factory for <[CurrentEntityName]>Entity.</summary>
+		public static FieldCompareNullPredicate CompareNull(<[CurrentEntityName]>FieldIndex indexOfField, bool negate)
+		{
+			return new FieldCompareNullPredicate(EntityFieldFactory.Create(indexOfField), negate);
+		}
+
+		/// <summary>FieldCompareNullPredicate factory for <[CurrentEntityName]>Entity.</summary>
+		public static FieldCompareNullPredicate CompareNull(<[CurrentEntityName]>FieldIndex indexOfField, string objectAlias)
+		{
+			return new FieldCompareNullPredicate(EntityFieldFactory.Create(indexOfField), objectAlias);
+		}
+
+		/// <summary>FieldCompareNullPredicate factory for <[CurrentEntityName]>Entity.</summary>
+		public static FieldCompareNullPredicate CompareNull(<[CurrentEntityName]>FieldIndex indexOfField, string objectAlias, bool negate)
+		{
+			return new FieldCompareNullPredicate(EntityFieldFactory.Create(indexOfField), objectAlias, negate);
+		}<[NextForeach]>
+		#endregion
+
+		#region FieldCompareNullPredicate creators (4 per typed view type)
+<[Foreach TypedView]>
+		/// <summary>FieldCompareNullPredicate factory for <[CurrentTypedViewName]>TypedView.</summary>
+		public static FieldCompareNullPredicate CompareNull(<[CurrentTypedViewName]>FieldIndex indexOfField)
+		{
+			return new FieldCompareNullPredicate(EntityFieldFactory.Create(indexOfField));
+		}
+
+		/// <summary>FieldCompareNullPredicate factory for <[CurrentTypedViewName]>TypedView.</summary>
+		public static FieldCompareNullPredicate CompareNull(<[CurrentTypedViewName]>FieldIndex indexOfField, bool negate)
+		{
+			return new FieldCompareNullPredicate(EntityFieldFactory.Create(indexOfField), negate);
+		}
+
+		/// <summary>FieldCompareNullPredicate factory for <[CurrentTypedViewName]>TypedView.</summary>
+		public static FieldCompareNullPredicate CompareNull(<[CurrentTypedViewName]>FieldIndex indexOfField, string objectAlias)
+		{
+			return new FieldCompareNullPredicate(EntityFieldFactory.Create(indexOfField), objectAlias);
+		}
+
+		/// <summary>FieldCompareNullPredicate factory for <[CurrentTypedViewName]>TypedView.</summary>
+		public static FieldCompareNullPredicate CompareNull(<[CurrentTypedViewName]>FieldIndex indexOfField, string objectAlias, bool negate)
+		{
+			return new FieldCompareNullPredicate(EntityFieldFactory.Create(indexOfField), objectAlias, negate);
+		}<[NextForeach]>
+		#endregion
+
+		#region FieldBetweenPredicate creators (4 per entity type)
+<[Foreach Entity]>
+		/// <summary>FieldBetweenPredicate factory for <[CurrentEntityName]>Entity.</summary>
+		public static FieldBetweenPredicate Between(<[CurrentEntityName]>FieldIndex indexOfField, object valueBegin, object valueEnd)
+		{
+			return new FieldBetweenPredicate(EntityFieldFactory.Create(indexOfField), valueBegin, valueEnd);
+		}
+
+		/// <summary>FieldBetweenPredicate factory for <[CurrentEntityName]>Entity.</summary>
+		public static FieldBetweenPredicate Between(<[CurrentEntityName]>FieldIndex indexOfField, object valueBegin, object valueEnd, bool negate)
+		{
+			return new FieldBetweenPredicate(EntityFieldFactory.Create(indexOfField), valueBegin, valueEnd, negate);
+		}
+
+		/// <summary>FieldBetweenPredicate factory for <[CurrentEntityName]>Entity.</summary>
+		public static FieldBetweenPredicate Between(<[CurrentEntityName]>FieldIndex indexOfField, object valueBegin, object valueEnd, string objectAlias)
+		{
+			return new FieldBetweenPredicate(EntityFieldFactory.Create(indexOfField), valueBegin, valueEnd, objectAlias);
+		}
+
+		/// <summary>FieldBetweenPredicate factory for <[CurrentEntityName]>Entity.</summary>
+		public static FieldBetweenPredicate Between(<[CurrentEntityName]>FieldIndex indexOfField, object valueBegin, object valueEnd, string objectAlias, bool negate)
+		{
+			return new FieldBetweenPredicate(EntityFieldFactory.Create(indexOfField), valueBegin, valueEnd, objectAlias, negate);
+		}<[NextForeach]>
+		#endregion
+
+		#region FieldBetweenPredicate creators (4 per typed view type)
+<[Foreach TypedView]>
+		/// <summary>FieldBetweenPredicate factory for <[CurrentTypedViewName]>TypedView.</summary>
+		public static FieldBetweenPredicate Between(<[CurrentTypedViewName]>FieldIndex indexOfField, object valueBegin, object valueEnd)
+		{
+			return new FieldBetweenPredicate(EntityFieldFactory.Create(indexOfField), valueBegin, valueEnd);
+		}
+
+		/// <summary>FieldBetweenPredicate factory for <[CurrentTypedViewName]>TypedView.</summary>
+		public static FieldBetweenPredicate Between(<[CurrentTypedViewName]>FieldIndex indexOfField, object valueBegin, object valueEnd, bool negate)
+		{
+			return new FieldBetweenPredicate(EntityFieldFactory.Create(indexOfField), valueBegin, valueEnd, negate);
+		}
+
+		/// <summary>FieldBetweenPredicate factory for <[CurrentTypedViewName]>TypedView.</summary>
+		public static FieldBetweenPredicate Between(<[CurrentTypedViewName]>FieldIndex indexOfField, object valueBegin, object valueEnd, string objectAlias)
+		{
+			return new FieldBetweenPredicate(EntityFieldFactory.Create(indexOfField), valueBegin, valueEnd, objectAlias);
+		}
+
+		/// <summary>FieldBetweenPredicate factory for <[CurrentTypedViewName]>TypedView.</summary>
+		public static FieldBetweenPredicate Between(<[CurrentTypedViewName]>FieldIndex indexOfField, object valueBegin, object valueEnd, string objectAlias, bool negate)
+		{
+			return new FieldBetweenPredicate(EntityFieldFactory.Create(indexOfField), valueBegin, valueEnd, objectAlias, negate);
+		}<[NextForeach]>
+		#endregion
+
+		#region FieldLikePredicate creators (4 per entity type)
+<[Foreach Entity]>
+		/// <summary>FieldLikePredicate factory for <[CurrentEntityName]>Entity.</summary>
+		public static FieldLikePredicate Like(<[CurrentEntityName]>FieldIndex indexOfField, string pattern)
+		{
+			return new FieldLikePredicate(EntityFieldFactory.Create(indexOfField), pattern);
+		}
+
+		/// <summary>FieldLikePredicate factory for <[CurrentEntityName]>Entity.</summary>
+		public static FieldLikePredicate Like(<[CurrentEntityName]>FieldIndex indexOfField, string pattern, bool negate)
+		{
+			return new FieldLikePredicate(EntityFieldFactory.Create(indexOfField), pattern, negate);
+		}
+
+		/// <summary>FieldLikePredicate factory for <[CurrentEntityName]>Entity.</summary>
+		public static FieldLikePredicate Like(<[CurrentEntityName]>FieldIndex indexOfField, string objectAlias, string pattern)
+		{
+			return new FieldLikePredicate(EntityFieldFactory.Create(indexOfField), objectAlias, pattern);
+		}
+
+		/// <summary>FieldLikePredicate factory for <[CurrentEntityName]>Entity.</summary>
+		public static FieldLikePredicate Like(<[CurrentEntityName]>FieldIndex indexOfField, string objectAlias, string pattern, bool negate)
+		{
+			return new FieldLikePredicate(EntityFieldFactory.Create(indexOfField), objectAlias, pattern, negate);
+		}<[NextForeach]>
+		#endregion
+
+		#region FieldLikePredicate creators (4 per typed view type)
+<[Foreach TypedView]>
+		/// <summary>FieldLikePredicate factory for <[CurrentTypedViewName]>TypedView.</summary>
+		public static FieldLikePredicate Like(<[CurrentTypedViewName]>FieldIndex indexOfField, string pattern)
+		{
+			return new FieldLikePredicate(EntityFieldFactory.Create(indexOfField), pattern);
+		}
+
+		/// <summary>FieldLikePredicate factory for <[CurrentTypedViewName]>TypedView.</summary>
+		public static FieldLikePredicate Like(<[CurrentTypedViewName]>FieldIndex indexOfField, string pattern, bool negate)
+		{
+			return new FieldLikePredicate(EntityFieldFactory.Create(indexOfField), pattern, negate);
+		}
+
+		/// <summary>FieldLikePredicate factory for <[CurrentTypedViewName]>TypedView.</summary>
+		public static FieldLikePredicate Like(<[CurrentTypedViewName]>FieldIndex indexOfField, string objectAlias, string pattern)
+		{
+			return new FieldLikePredicate(EntityFieldFactory.Create(indexOfField), objectAlias, pattern);
+		}
+
+		/// <summary>FieldLikePredicate factory for <[CurrentTypedViewName]>TypedView.</summary>
+		public static FieldLikePredicate Like(<[CurrentTypedViewName]>FieldIndex indexOfField, string objectAlias, string pattern, bool negate)
+		{
+			return new FieldLikePredicate(EntityFieldFactory.Create(indexOfField), objectAlias, pattern, negate);
+		}<[NextForeach]>
+		#endregion
+		
+		
+		#region FieldCompareRangePredicate creators (4 per entity type)
+<[Foreach Entity]>
+		/// <summary>FieldCompareRangePredicate factory for <[CurrentEntityName]>Entity.</summary>
+		public static FieldCompareRangePredicate CompareRange(<[CurrentEntityName]>FieldIndex indexOfField, params object[] values)
+		{
+			return new FieldCompareRangePredicate(EntityFieldFactory.Create(indexOfField), values);
+		}
+		
+		/// <summary>FieldCompareValuePredicate factory for <[CurrentEntityName]>Entity.</summary>
+		public static FieldCompareRangePredicate CompareRange(<[CurrentEntityName]>FieldIndex indexOfField, bool negate, params object[] values)
+		{
+			return new FieldCompareRangePredicate(EntityFieldFactory.Create(indexOfField), negate, values);
+		}
+
+		/// <summary>FieldCompareRangePredicate factory for <[CurrentEntityName]>Entity.</summary>
+		public static FieldCompareRangePredicate CompareRange(<[CurrentEntityName]>FieldIndex indexOfField, string objectAlias, params object[] values)
+		{
+			return new FieldCompareRangePredicate(EntityFieldFactory.Create(indexOfField), objectAlias, values);
+		}
+		
+		/// <summary>FieldCompareValuePredicate factory for <[CurrentEntityName]>Entity.</summary>
+		public static FieldCompareRangePredicate CompareRange(<[CurrentEntityName]>FieldIndex indexOfField, string objectAlias, bool negate, params object[] values)
+		{
+			return new FieldCompareRangePredicate(EntityFieldFactory.Create(indexOfField), objectAlias, negate, values);
+		}<[NextForeach]>
+		#endregion
+
+		#region FieldCompareRangePredicate creators (4 per typed view type)
+<[Foreach TypedView]>
+		/// <summary>FieldCompareRangePredicate factory for <[CurrentTypedViewName]>TypedView.</summary>
+		public static FieldCompareRangePredicate CompareRange(<[CurrentTypedViewName]>FieldIndex indexOfField, params object[] values)
+		{
+			return new FieldCompareRangePredicate(EntityFieldFactory.Create(indexOfField), values);
+		}
+		
+		/// <summary>FieldCompareRangePredicate factory for <[CurrentTypedViewName]>TypedView.</summary>
+		public static FieldCompareRangePredicate CompareRange(<[CurrentTypedViewName]>FieldIndex indexOfField, bool negate, params object[] values)
+		{
+			return new FieldCompareRangePredicate(EntityFieldFactory.Create(indexOfField), negate, values);
+		}
+
+		/// <summary>FieldCompareRangePredicate factory for <[CurrentTypedViewName]>TypedView.</summary>
+		public static FieldCompareRangePredicate CompareRange(<[CurrentTypedViewName]>FieldIndex indexOfField, string objectAlias, params object[] values)
+		{
+			return new FieldCompareRangePredicate(EntityFieldFactory.Create(indexOfField), objectAlias, values);
+		}
+		
+		/// <summary>FieldCompareRangePredicate factory for <[CurrentTypedViewName]>TypedView.</summary>
+		public static FieldCompareRangePredicate CompareRange(<[CurrentTypedViewName]>FieldIndex indexOfField, string objectAlias, bool negate, params object[] values)
+		{
+			return new FieldCompareRangePredicate(EntityFieldFactory.Create(indexOfField), objectAlias, negate, values);
+		}<[NextForeach]>
+		#endregion
+
+		#region FieldCompareExpressionPredicate creators (4 per entity type)
+<[Foreach Entity]>
+		/// <summary>FieldCompareExpressionPredicate factory for <[CurrentEntityName]>Entity.</summary>
+		public static FieldCompareExpressionPredicate CompareExpression(<[CurrentEntityName]>FieldIndex indexOfField, ComparisonOperator operatorToUse, IExpression expressionToCompareWith)
+		{
+			return new FieldCompareExpressionPredicate(EntityFieldFactory.Create(indexOfField), operatorToUse, expressionToCompareWith);
+		}
+		
+		/// <summary>FieldCompareExpressionPredicate factory for <[CurrentEntityName]>Entity.</summary>
+		public static FieldCompareExpressionPredicate CompareExpression(<[CurrentEntityName]>FieldIndex indexOfField, ComparisonOperator operatorToUse, IExpression expressionToCompareWith, bool negate)
+		{
+			return new FieldCompareExpressionPredicate(EntityFieldFactory.Create(indexOfField), operatorToUse, expressionToCompareWith, negate);
+		}
+
+		/// <summary>FieldCompareExpressionPredicate factory for <[CurrentEntityName]>Entity.</summary>
+		public static FieldCompareExpressionPredicate CompareExpression(<[CurrentEntityName]>FieldIndex indexOfField, ComparisonOperator operatorToUse, IExpression expressionToCompareWith, string objectAlias)
+		{
+			return new FieldCompareExpressionPredicate(EntityFieldFactory.Create(indexOfField), operatorToUse, expressionToCompareWith, objectAlias);
+		}
+		
+		/// <summary>FieldCompareExpressionPredicate factory for <[CurrentEntityName]>Entity.</summary>
+		public static FieldCompareExpressionPredicate CompareExpression(<[CurrentEntityName]>FieldIndex indexOfField, ComparisonOperator operatorToUse, IExpression expressionToCompareWith, string objectAlias, bool negate)
+		{
+			return new FieldCompareExpressionPredicate(EntityFieldFactory.Create(indexOfField), operatorToUse, expressionToCompareWith, objectAlias, negate);
+		}<[NextForeach]>
+		#endregion
+
+		#region FieldCompareExpressionPredicate creators (4 per typed view type)
+<[Foreach TypedView]>
+		/// <summary>FieldCompareExpressionPredicate factory for <[CurrentTypedViewName]>TypedView.</summary>
+		public static FieldCompareExpressionPredicate CompareExpression(<[CurrentTypedViewName]>FieldIndex indexOfField, ComparisonOperator operatorToUse, IExpression expressionToCompareWith)
+		{
+			return new FieldCompareExpressionPredicate(EntityFieldFactory.Create(indexOfField), operatorToUse, expressionToCompareWith);
+		}
+		
+		/// <summary>FieldCompareExpressionPredicate factory for <[CurrentTypedViewName]>TypedView.</summary>
+		public static FieldCompareExpressionPredicate CompareExpression(<[CurrentTypedViewName]>FieldIndex indexOfField, ComparisonOperator operatorToUse, IExpression expressionToCompareWith, bool negate)
+		{
+			return new FieldCompareExpressionPredicate(EntityFieldFactory.Create(indexOfField), operatorToUse, expressionToCompareWith, negate);
+		}
+
+		/// <summary>FieldCompareExpressionPredicate factory for <[CurrentTypedViewName]>TypedView.</summary>
+		public static FieldCompareExpressionPredicate CompareExpression(<[CurrentTypedViewName]>FieldIndex indexOfField, ComparisonOperator operatorToUse, IExpression expressionToCompareWith, string objectAlias)
+		{
+			return new FieldCompareExpressionPredicate(EntityFieldFactory.Create(indexOfField), operatorToUse, expressionToCompareWith, objectAlias);
+		}
+		
+		/// <summary>FieldCompareExpressionPredicate factory for <[CurrentTypedViewName]>TypedView.</summary>
+		public static FieldCompareExpressionPredicate CompareExpression(<[CurrentTypedViewName]>FieldIndex indexOfField, ComparisonOperator operatorToUse, IExpression expressionToCompareWith, string objectAlias, bool negate)
+		{
+			return new FieldCompareExpressionPredicate(EntityFieldFactory.Create(indexOfField), operatorToUse, expressionToCompareWith, objectAlias, negate);
+		}<[NextForeach]>
+		#endregion
+
+		#region Included Code
+<# Custom_PredicateFactoryTemplate #>
+		#endregion
+	}
+}

@@ -1,0 +1,111 @@
+﻿'///////////////////////////////////////////////////////////////
+'// This is generated code. 
+'//////////////////////////////////////////////////////////////
+'// Code is generated Imports LLBLGen Pro version: <[LLBLGenVersion]>
+'// Code is generated on: <[Time]>
+'// Code is generated Imports templates: <[TemplateName]>
+'// Templates vendor: Solutions Design.
+'//////////////////////////////////////////////////////////////
+Imports System
+Imports System.Collections.Generic
+Imports SD.LLBLGen.Pro.LinqSupportClasses
+Imports SD.LLBLGen.Pro.ORMSupportClasses
+
+Imports <[RootNamespace]>
+Imports <[RootNamespace]>.EntityClasses
+Imports <[RootNamespace]>.FactoryClasses
+Imports <[RootNamespace]>.HelperClasses
+Imports <[RootNamespace]>.RelationClasses
+
+Namespace <[RootNamespace]>.Linq
+	''' <summary>Meta-data Class For the construction of Linq queries which are To be executed using LLBLGen Pro code.</summary>
+	Public Class LinqMetaData
+		Implements ILinqMetaData
+
+#Region "Class Member Declarations"
+		Private _adapterToUse As IDataAccessAdapter
+		Private _customFunctionMappings As FunctionMappingStore
+		Private _contextToUse As Context
+#End Region
+		
+		''' <summary>CTor. Using this ctor will leave the IDataAccessAdapter Object To use empty. To be able To execute the query, an IDataAccessAdapter instance
+		''' Is required, And has To be Set On the LLBLGenProProvider2 Object In the query To execute. </summary>
+		Public Sub New()
+			Me.New(Nothing, Nothing)
+		End Sub
+		
+		''' <summary>CTor which accepts an IDataAccessAdapter implementing Object, which will be used To execute queries created With this metadata Class.</summary>
+		''' <param name="adapterToUse">the IDataAccessAdapter To use In queries created With this meta data</param>
+		''' <remarks> Be aware that the IDataAccessAdapter Object Set via this Property Is kept alive by the LLBLGenProQuery objects created With this meta data
+		''' till they go out of scope.</remarks>
+		Public Sub New(adapterToUse As IDataAccessAdapter)
+			Me.New(adapterToUse, Nothing)
+		End Sub
+
+		''' <summary>CTor which accepts an IDataAccessAdapter implementing Object, which will be used To execute queries created With this metadata Class.</summary>
+		''' <param name="adapterToUse">the IDataAccessAdapter To use In queries created With this meta data</param>
+		''' <param name="customFunctionMappings">The custom Function mappings To use. These take higher precedence than the ones In the DQE To use.</param>
+		''' <remarks> Be aware that the IDataAccessAdapter Object Set via this Property Is kept alive by the LLBLGenProQuery objects created With this meta data
+		''' till they go out of scope.</remarks>
+		Public Sub New(adapterToUse As IDataAccessAdapter, customFunctionMappings As FunctionMappingStore)
+			_adapterToUse = adapterToUse
+			_customFunctionMappings = customFunctionMappings
+		End Sub
+		
+		''' <summary>returns the datasource To use In a Linq query For the entity type specified</summary>
+		''' <param name="typeOfEntity">the type of the entity To Get the datasource For</param>
+		''' <returns>the requested datasource</returns>
+		Public Function GetQueryableForEntity(typeOfEntity As Integer) As IDataSource Implements ILinqMetaData.GetQueryableForEntity
+			Dim toReturn As IDataSource = Nothing
+<[If HasEntity]>			Select Case CType(typeOfEntity, <[RootNamespace]>.EntityType)
+<[ Foreach Entity CrLf]>				Case <[RootNamespace]>.EntityType.<[CurrentEntityName]>Entity
+					toReturn = Me.<[CurrentEntityName]><[ NextForeach ]>
+				Case Else
+					toReturn = Nothing
+			End Select<[EndIf]>
+			Return toReturn
+		End Function
+
+<[ Foreach Entity CrLf]>		''' <summary>returns the datasource to use in a Linq query when targeting <[CurrentEntityName]>Entity instances in the database.</summary>
+		Public Readonly Property [<[CurrentEntityName]>] As DataSource2(Of <[CurrentEntityName]>Entity)
+			Get 
+				Return New DataSource2(Of <[CurrentEntityName]>Entity)(_adapterToUse, new ElementCreator(), _customFunctionMappings, _contextToUse) 
+			End Get
+		End Property
+		<[ NextForeach ]>
+				
+#Region "Class Property Declarations"
+		''' <summary> Gets / sets the IDataAccessAdapter To use For the queries created With this meta data Object.</summary>
+		''' <remarks> Be aware that the IDataAccessAdapter Object Set via this Property Is kept alive by the LLBLGenProQuery objects created With this meta data
+		''' till they go out of scope.</remarks>
+		Public Property AdapterToUse As IDataAccessAdapter
+			Get 
+				Return _adapterToUse
+			End Get
+			Set 
+				_adapterToUse = value
+			End Set
+		End Property
+		
+		''' <summary>Gets Or sets the custom Function mappings To use. These take higher precedence than the ones In the DQE To use</summary>
+		Public Property CustomFunctionMappings As FunctionMappingStore 
+			Get 
+				Return _customFunctionMappings
+			End Get
+			Set 
+				_customFunctionMappings = value
+			End Set
+		End Property
+						
+		''' <summary>Gets Or sets the Context instance To use For entity fetches.</summary>
+		Public Property ContextToUse As Context
+			Get 
+				Return _contextToUse
+			End Get
+			Set 
+				_contextToUse = value
+			End Set
+		End Property
+#End Region	
+	End Class
+End Namespace

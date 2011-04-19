@@ -1,0 +1,16 @@
+﻿<?xml version="1.0"?>
+<templateBindings xmlns="http://sd/llblgen/pro/templateBindingsDefinition.xsd" name="SD.TemplateBindings.SharedTemplates.NET40"
+				  description ="Template bindings for the templates which are shared among all database types. Specific for .NET 4.0 based platforms"
+				  precedenceLevel="10">
+	<supportedPlatforms>
+		<platform name=".NET 4.0"/>
+	</supportedPlatforms>
+
+	<language name="C#">
+		<templateBinding templateID="SD_VsNet2010AdapterTemplate" filename="SharedTemplates\Net4.0\C#\vsnet2010ProjectFileAdapter.template" />
+	</language>
+	<language name="VB.NET">
+		<templateBinding templateID="SD_VsNet2010AdapterTemplate" filename="SharedTemplates\Net4.0\VB.NET\vsnet2010ProjectFileAdapter.template" />
+	</language>
+</templateBindings>
+

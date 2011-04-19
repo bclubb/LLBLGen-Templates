@@ -1,0 +1,50 @@
+﻿			object valueToReturn=null;
+
+			switch(Type.GetTypeCode(defaultValueType))
+			{
+<[ If ConvertNulledReferenceTypesToDefaultValue]>				case TypeCode.String:
+					valueToReturn=string.Empty;
+					break;<[EndIf]>
+				case TypeCode.Boolean:
+					valueToReturn = false;
+					break;
+				case TypeCode.Byte:
+					valueToReturn = (byte)0;
+					break;
+				case TypeCode.DateTime:
+					valueToReturn = DateTime.MinValue;
+					break;
+				case TypeCode.Decimal:
+					valueToReturn = 0.0M;
+					break;
+				case TypeCode.Double:
+					valueToReturn = 0.0;
+					break;
+				case TypeCode.Int16:
+					valueToReturn = (short)0;
+					break;
+				case TypeCode.Int32:
+					valueToReturn = (int)0;
+					break;
+				case TypeCode.Int64:
+					valueToReturn = (long)0;
+					break;
+				case TypeCode.Object:
+					switch(defaultValueType.UnderlyingSystemType.FullName)
+					{
+						case "System.Guid":
+							valueToReturn = Guid.Empty;
+							break;
+<[ If ConvertNulledReferenceTypesToDefaultValue]>						case "System.Byte[]":
+							valueToReturn = new byte[0];
+							break;<[EndIf]>
+					}
+					break;					
+				case TypeCode.Single:
+					valueToReturn = 0.0f;
+					break;
+				default:
+					// do nothing, return null.
+					break;
+			}
+			return valueToReturn;

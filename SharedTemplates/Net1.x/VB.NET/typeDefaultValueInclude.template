@@ -1,0 +1,34 @@
+﻿			Dim valueToReturn As Object = Nothing
+
+			Select Case Type.GetTypeCode(defaultValueType)
+				Case TypeCode.Boolean
+					valueToReturn = False
+				Case TypeCode.Byte
+					valueToReturn = CByte(0)
+				Case TypeCode.DateTime
+					valueToReturn = DateTime.MinValue
+				Case TypeCode.Decimal
+					valueToReturn = 0.0D
+				Case TypeCode.Double
+					valueToReturn = 0.0R
+				Case TypeCode.Int16
+					valueToReturn = CShort(0)
+				Case TypeCode.Int32
+					valueToReturn = CInt(0)
+				Case TypeCode.Int64
+					valueToReturn = CLng(0)
+				Case TypeCode.Object
+					Select Case defaultValueType.UnderlyingSystemType.FullName
+<[ If ConvertNulledReferenceTypesToDefaultValue]>						Case "System.Byte[]"
+							valueToReturn = New Byte(-1) {}<[EndIf]>
+						Case "System.Guid"
+							valueToReturn = Guid.Empty
+					End Select
+<[ If ConvertNulledReferenceTypesToDefaultValue]>				Case TypeCode.String
+					valueToReturn=String.Empty<[EndIf]>
+				Case TypeCode.Single
+					valueToReturn = 0.0F
+				Case Else
+					' do nothing, return Nothing.
+			End Select
+			Return valueToReturn

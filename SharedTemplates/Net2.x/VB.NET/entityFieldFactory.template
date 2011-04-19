@@ -1,0 +1,49 @@
+﻿' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+' // This is generated code. 
+' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+' // Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+' // Code is generated on: <[Time]>
+' // Code is generated using templates: <[TemplateName]>
+' // Templates vendor: Solutions Design.
+' // Templates version: <[TemplateVersion]>
+' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+Imports System
+Imports System.Data
+Imports <[RootNamespace]>
+Imports <[RootNamespace]>.HelperClasses
+Imports SD.LLBLGen.Pro.ORMSupportClasses
+
+Namespace <[RootNamespace]>.FactoryClasses
+	''' <summary>Factory class for IEntityField instances, used in IEntityFields instances.</summary>
+	Public Class EntityFieldFactory
+		''' <summary>Private CTor, no instantiation possible.</summary>
+		Private Sub New()
+		End Sub
+<[Foreach Entity CrLf]>
+		''' <summary>Creates a new IEntityField instance for usage in the EntityFields Object for the <[CurrentEntityName]>Entity.  Which EntityField is created is specified by fieldIndex</summary>
+		''' <param name="fieldIndex">The field which IEntityField instance should be created</param>
+		''' <returns>The IEntityField instance for the field specified in fieldIndex</returns>
+		Public Shared Function Create(fieldIndex As <[CurrentEntityName]>FieldIndex) As IEntityField
+			Dim info As IFieldInfo = FieldInfoProviderSingleton.GetInstance().GetFieldInfo("<[CurrentEntityName]>Entity", CInt(fieldIndex))
+			Return New EntityField(info, PersistenceInfoProviderSingleton.GetInstance().GetFieldPersistenceInfo(info.ContainingObjectName, info.Name))
+		End Function<[NextForeach]>
+<[Foreach TypedView CrLf]>
+		''' <summary>Creates a new IEntityField instance for usage in the EntityFields Object for the <[CurrentTypedViewName]> TypedView. Which EntityField is created is specified by fieldIndex </summary>
+		''' <param name="fieldIndex">The field which IEntityField instance should be created</param>
+		''' <returns>The IEntityField instance for the field specified in fieldIndex</returns>
+		Public Shared Function Create(fieldIndex As <[CurrentTypedViewName]>FieldIndex) As IEntityField
+			Return New EntityField(FieldInfoProviderSingleton.GetInstance().GetFieldInfo("<[CurrentTypedViewName]>TypedView", CInt(fieldIndex)), PersistenceInfoProviderSingleton.GetInstance().GetFieldPersistenceInfo("<[CurrentTypedViewName]>TypedView", fieldIndex.ToString()))
+		End Function<[NextForeach]>
+
+		''' <summary>Creates a New IEntityField instance, which represents the field objectName.fieldName</summary>
+		''' <param name="objectName">the name of the Object the field belongs To, like CustomerEntity Or OrdersTypedView</param>
+		''' <param name="fieldName">the name of the field To create</param>
+		Public Shared Function Create(objectName As String, fieldName As String) As IEntityField
+			Return New EntityField(FieldInfoProviderSingleton.GetInstance().GetFieldInfo(objectName, fieldName), PersistenceInfoProviderSingleton.GetInstance().GetFieldPersistenceInfo(objectName, fieldName))
+        End Function
+
+#Region "Included Code"
+<# Custom_EntityFieldFactoryTemplate #>
+#End Region
+	End Class
+End Namespace

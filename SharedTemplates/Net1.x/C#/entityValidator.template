@@ -1,0 +1,57 @@
+﻿///////////////////////////////////////////////////////////////
+// This is generated code. 
+//////////////////////////////////////////////////////////////
+// Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+// Code is generated on: <[Time]>
+// Code is generated using templates: <[TemplateName]>
+// Templates vendor: Solutions Design.
+// Templates version: <[TemplateVersion]>
+//////////////////////////////////////////////////////////////
+using System;
+using <[RootNamespace]>;
+using <[RootNamespace]>.EntityClasses;
+using SD.LLBLGen.Pro.ORMSupportClasses;
+
+namespace <[RootNamespace]>.ValidatorClasses
+{
+	<[ UserCodeRegion "AdditionalNamespaces" ]>
+	// __LLBLGENPRO_USER_CODE_REGION_START AdditionalNamespaces
+	// __LLBLGENPRO_USER_CODE_REGION_END
+	<[ EndUserCodeRegion ]>
+	/// <summary>Implementation of the <[CurrentEntityName]> Validator class. This class is the default location for validation rules for the
+	/// <[CurrentEntityName]>Entity class. 	/// This class is generated. A special user code region is available for you to add your own validation logic by overriding the base class methods. This code is preserved between code generation cycles.
+	/// </summary>
+	[Serializable]
+	public <[If UsePartialClasses]>partial <[EndIf]>class <[CurrentEntityName]>Validator : <[If IsSubType]><[SuperTypeName]>Validator<[Else]>ValidatorBase<[EndIf]>
+	{
+		// Add your own validation code between the two region markers below. You can also use a partial class and add your overrides in that partial class.
+		<[ UserCodeRegion "ValidationCode" ]>
+		// __LLBLGENPRO_USER_CODE_REGION_START ValidationCode
+		// TODO: Add your own validation code here. Do that by overriding base class methods.
+		// __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>
+
+		#region Code preservation logic for upgrading from 1.0.200x.y to v2.
+		/// <summary> Method which is used to preserve code written in validator classes when LLBLGen Pro v1.0.200x.y was used. Please consult the Migrating Your Code section in the manual
+		/// for details about this method and the contents of it.</summary>
+		/// <param name="fieldIndex">Index of the field</param>
+		/// <param name="value">new value of the field.</param>
+		/// <returns>true, if value is a valid value for the field with index fieldIndex, false otherwise.</returns>
+		/// <remarks>For code preservation only. If empty, ignore this method.</remarks>
+		protected <[If IsSubType]>override<[Else]>virtual<[EndIf]> bool OriginalValidate(int fieldIndex, object value)
+		{
+			bool toReturn = true;
+			<[ UserCodeRegion "ValidationLogic" ]>
+			// __LLBLGENPRO_USER_CODE_REGION_START ValidationLogic
+			// __LLBLGENPRO_USER_CODE_REGION_END
+			<[ EndUserCodeRegion ]>
+			return toReturn;
+		}
+		#endregion
+		
+		#region Included Code
+<# Custom_EntityValidatorTemplate #>
+		#endregion
+	}
+}
+

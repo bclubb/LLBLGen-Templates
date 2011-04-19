@@ -1,0 +1,266 @@
+///////////////////////////////////////////////////////////////
+// This is generated code. 
+//////////////////////////////////////////////////////////////
+// Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+// Code is generated on: <[Time]>
+// Code is generated using templates: <[TemplateName]>
+// Templates vendor: Solutions Design.
+// Templates version: <[TemplateVersion]>
+//////////////////////////////////////////////////////////////
+using System;
+using System.Data;
+using System.Data.Common;
+using System.Configuration;
+
+using FirebirdSql.Data.FirebirdClient;
+
+using SD.LLBLGen.Pro.ORMSupportClasses;
+
+namespace <[RootNamespace]>.HelperClasses
+{
+	/// <summary>
+	/// General utility methods used for Firebird usage by the framework. 
+	/// </summary>
+	public <[If UsePartialClasses]>partial <[EndIf]>class DbUtils
+	{
+		#region Public Static Members
+		public static string ActualConnectionString = string.Empty;
+		#endregion
+
+		#region Constants
+		private const string connectionKeyString = "<[ConnectionStringKeyName]>";
+		#endregion
+
+		#region Class Member Declarations
+		private static int _commandTimeOut = 30;
+		#endregion
+
+		/// <summary>
+		/// Private CTor, no instatiation possible
+		/// </summary>
+		private DbUtils()
+		{
+		}
+
+
+		/// <summary>
+		/// Creates a new FbConnection
+		/// </summary>
+		/// <param name="connectionString">Connectionstring To use</param>
+		/// <returns>A ready to use, closed, FbConnection object</returns>
+		public static FbConnection CreateConnection(string connectionString)
+		{
+			return new FbConnection(connectionString);
+		}
+
+
+		/// <summary>
+		/// Creates a new closed FbConnection object based on the connection string read from the *.config file of the appdomain.
+		/// The connection string is stored in a key with the name defined in the constant connectionKeyString, mentioned above.
+		/// </summary>
+		/// <returns>A ready to use, closed, FbConnection object</returns>
+		public static FbConnection CreateConnection()
+		{
+			if(ActualConnectionString==string.Empty)
+			{
+				ActualConnectionString = ConfigFileHelper.ReadConnectionStringFromConfig( connectionKeyString);
+			}
+
+			return CreateConnection(ActualConnectionString);
+		}
+
+
+		/// <summary>
+		/// Determines which connection to use: the connection held by the passed in transaction (if any) or a new one (if no Transaction was passed in)
+		/// </summary>
+		/// <param name="containingTransaction">A transaction the caller participates in. If null, the caller is not participating in a transaction</param>
+		/// <returns>A ready to use connection object</returns>
+		public static IDbConnection DetermineConnectionToUse(ITransaction containingTransaction)
+		{
+			if(containingTransaction!=null)
+			{
+				return containingTransaction.ConnectionToUse;
+			}
+			else
+			{
+				return CreateConnection();
+			}
+		}
+
+
+		/// <summary>
+		/// Creates a new FbDataAdapter.
+		/// </summary>
+		/// <returns></returns>
+		public static FbDataAdapter CreateDataAdapter()
+		{
+			return new FbDataAdapter();
+		}
+
+
+		/// <summary>
+		/// Creates a new Firebird transaction
+		/// </summary>
+		/// <param name="connectionToUse">the connection to use</param>
+		/// <param name="isolationLevelToUse">the isolation level to use</param>
+		/// <param name="name">the name for the transaction</param>
+		/// <returns>new FbTransaction object.</returns>
+		public static FbTransaction CreateTransaction(IDbConnection connectionToUse, IsolationLevel isolationLevelToUse, string name)
+		{
+			return ((FbConnection)connectionToUse).BeginTransaction(isolationLevelToUse, name);
+		}
+
+
+		/// <summary>
+		/// Calls the specified action stored procedure in the Firebird database a newly created connection is connecting to. 
+		/// </summary>
+		/// <param name="storedProcedureToCall">Stored procedure to call</param>
+		/// <param name="parameters">array of parameters to specify</param>
+		/// <param name="transactionToUse">the transaction to use, or null if no transaction is available.</param>
+		/// <returns>the amount of rows affected.</returns>
+		public static int CallActionStoredProcedure(string storedProcedureToCall, FbParameter[] parameters, ITransaction transactionToUse)
+		{
+			FbCommand command = null;
+			bool connectionOpenedLocally = false;
+			if(transactionToUse!=null)
+			{
+				command = new FbCommand(storedProcedureToCall, (FbConnection)transactionToUse.ConnectionToUse);
+				command.Transaction = (FbTransaction)transactionToUse.PhysicalTransaction;
+			}
+			else
+			{
+				command = new FbCommand(storedProcedureToCall, CreateConnection());
+			}
+			command.CommandType = CommandType.StoredProcedure;
+
+			int toReturn = -1;
+			try
+			{
+				for(int i=0;i<parameters.Length;i++)
+				{
+					command.Parameters.Add(parameters[i]);
+				}
+
+				if(command.Connection.State!=ConnectionState.Open)
+				{
+					command.Connection.Open();
+					connectionOpenedLocally = true;
+				}
+				toReturn = command.ExecuteNonQuery();
+			}
+			finally
+			{
+				if(connectionOpenedLocally)
+				{
+					command.Connection.Close();
+					command.Connection.Dispose();
+				}
+				command.Dispose();
+			}
+			return toReturn;
+		}
+
+
+		/// <summary>
+		/// Calls the specified retrieval stored procedure in the Firebird database a newly created connection is connecting to. Fills the
+		/// specified datatable. 
+		/// </summary>
+		/// <param name="storedProcedureToCall">Stored procedure to call</param>
+		/// <param name="parameters">array of parameters to specify</param>
+		/// <param name="tableToFill">Datatable to fill by the stored procedure</param>
+		/// <param name="transactionToUse">the transaction to use, or null if no transaction is available.</param>
+		/// <returns>true if succeeded, false otherwise</returns>
+		public static bool CallRetrievalStoredProcedure(string storedProcedureToCall, FbParameter[] parameters, DataTable tableToFill, ITransaction transactionToUse)
+		{
+			FbCommand command = null;
+			if(transactionToUse!=null)
+			{
+				command = new FbCommand(storedProcedureToCall, (FbConnection)transactionToUse.ConnectionToUse);
+				command.Transaction = (FbTransaction)transactionToUse.PhysicalTransaction;
+			}
+			else
+			{
+				command = new FbCommand(storedProcedureToCall, CreateConnection());
+			}
+			command.CommandType = CommandType.StoredProcedure;
+
+			using(FbDataAdapter adapter = new FbDataAdapter(command))
+			{
+				for(int i=0;i<parameters.Length;i++)
+				{
+					if(parameters[i]!=null)
+					{
+						command.Parameters.Add(parameters[i]);
+					}
+				}
+				adapter.Fill(tableToFill);
+			}
+			command.Dispose();
+			return true;
+		}
+
+
+		/// <summary>
+		/// Calls the specified retrieval stored procedure in the Firebird database a newly created connection is connecting to. Fills the
+		/// specified DataSet. 
+		/// </summary>
+		/// <param name="storedProcedureToCall">Stored procedure to call</param>
+		/// <param name="parameters">array of parameters to specify</param>
+		/// <param name="dataSetToFill">DataSet to fill by the stored procedure</param>
+		/// <param name="transactionToUse">the transaction to use, or null if no transaction is available.</param>
+		/// <returns>true if succeeded, false otherwise</returns>
+		public static bool CallRetrievalStoredProcedure(string storedProcedureToCall, FbParameter[] parameters, DataSet dataSetToFill, ITransaction transactionToUse)
+		{
+			FbCommand command = null;
+			if(transactionToUse!=null)
+			{
+				command = new FbCommand(storedProcedureToCall, (FbConnection)transactionToUse.ConnectionToUse);
+				command.Transaction = (FbTransaction)transactionToUse.PhysicalTransaction;
+			}
+			else
+			{
+				command = new FbCommand(storedProcedureToCall, CreateConnection());
+			}
+			command.CommandType = CommandType.StoredProcedure;
+
+			using(FbDataAdapter adapter = new FbDataAdapter(command))
+			{
+				for(int i=0;i<parameters.Length;i++)
+				{
+					if(parameters[i]!=null)
+					{
+						command.Parameters.Add(parameters[i]);
+					}
+				}
+				adapter.Fill(dataSetToFill);
+			}
+			command.Dispose();
+			return true;
+		}
+
+
+		#region Class Property Declarations
+		/// <summary>
+		/// Gets / sets the command time out (in seconds). This is a global setting, so every Command object created after you've set this
+		/// property to a value will have that value as CommandTimeOut. Default is 30 seconds which is the ADO.NET default.
+		/// </summary>
+		public static int CommandTimeOut
+		{
+			get
+			{
+				return _commandTimeOut;
+			}
+			set
+			{
+				_commandTimeOut = value;
+				SD.LLBLGen.Pro.DQE.Firebird.DynamicQueryEngine.CommandTimeOut = _commandTimeOut;
+			}
+		}
+		#endregion
+
+
+		#region Included Code
+<# Custom_DbUtilsTemplate #>
+		#endregion
+	}
+}

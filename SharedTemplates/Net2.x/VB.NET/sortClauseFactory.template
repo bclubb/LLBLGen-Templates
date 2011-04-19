@@ -1,0 +1,63 @@
+﻿' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+' // This is generated code. 
+' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+' // Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+' // Code is generated on: <[Time]>
+' // Code is generated using templates: <[TemplateName]>
+' // Templates vendor: Solutions Design.
+' // Templates version: <[TemplateVersion]>
+' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+Imports System
+Imports <[RootNamespace]>
+Imports SD.LLBLGen.Pro.ORMSupportClasses
+
+Namespace <[RootNamespace]>.FactoryClasses
+	''' <summary>
+	''' Class which eases the creation of sort clauses used in a SortExpression, to sort resultsets on 
+	''' specified fields.
+	''' </summary>
+	Public Class SortClauseFactory
+		''' <summary>Static class, no CTor</summary>
+		Private Sub New()
+		End Sub
+<[Foreach Entity CrLf]>
+		''' <summary>Creates a new sort clause for the <[CurrentEntityName]>Entity field specified.</summary>
+		''' <param name="fieldToSort">field to sort on</param>
+		''' <param name="operatorToUse">sort operator to use for this field</param>
+		''' <returns>Sort clause to use in a SortExpression</returns>
+		Public Shared Function Create(fieldToSort As <[CurrentEntityName]>FieldIndex, operatorToUse As SortOperator) As ISortClause
+			Return New SortClause(EntityFieldFactory.Create(fieldToSort), operatorToUse)
+		End Function
+
+		''' <summary>Creates a new sort clause for the <[CurrentEntityName]>Entity field specified.</summary>
+		''' <param name="fieldToSort">field to sort on</param>
+		''' <param name="operatorToUse">sort operator to use for this field</param>
+		''' <param name="objectAlias">Alias for the object the field belongs to.</param>
+		''' <returns>Sort clause to use in a SortExpression</returns>
+		Public Shared Function Create(fieldToSort As <[CurrentEntityName]>FieldIndex, operatorToUse As SortOperator, objectAlias As String) As ISortClause
+			Return New SortClause(EntityFieldFactory.Create(fieldToSort), operatorToUse, objectAlias)
+		End Function<[NextForeach]>
+
+<[Foreach TypedView CrLf]>
+		''' <summary>Creates a new sort clause for the <[CurrentTypedViewName]>TypedView field specified.</summary>
+		''' <param name="fieldToSort">field to sort on</param>
+		''' <param name="operatorToUse">sort operator to use for this field</param>
+		''' <returns>Sort clause to use in a SortExpression</returns>
+		Public Shared Function Create(fieldToSort As <[CurrentTypedViewName]>FieldIndex, operatorToUse As SortOperator) As ISortClause
+			Return New SortClause(EntityFieldFactory.Create(fieldToSort), operatorToUse)
+		End Function
+
+		''' <summary>Creates a new sort clause for the <[CurrentTypedViewName]>TypedView field specified.</summary>
+		''' <param name="fieldToSort">field to sort on</param>
+		''' <param name="operatorToUse">sort operator to use for this field</param>
+		''' <param name="objectAlias">Alias for the object the field belongs to.</param>
+		''' <returns>Sort clause to use in a SortExpression</returns>
+		Public Shared Function Create(fieldToSort As <[CurrentTypedViewName]>FieldIndex, operatorToUse As SortOperator, objectAlias As String) As ISortClause
+			Return New SortClause(EntityFieldFactory.Create(fieldToSort), operatorToUse, objectAlias)
+		End Function<[NextForeach]>
+
+#Region "Included Code"
+<# Custom_SortClauseFactoryTemplate #>
+#End Region
+	End Class
+End Namespace

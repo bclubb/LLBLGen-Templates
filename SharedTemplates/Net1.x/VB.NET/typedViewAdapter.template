@@ -1,0 +1,401 @@
+﻿' ///////////////////////////////////////////////////////////////
+' // This is generated code. 
+' //////////////////////////////////////////////////////////////
+' // Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+' // Code is generated on: <[Time]>
+' // Code is generated using templates: <[TemplateName]>
+' // Templates vendor: Solutions Design.
+' // Templates version: <[TemplateVersion]>
+' //////////////////////////////////////////////////////////////
+Imports System
+Imports System.ComponentModel
+Imports System.Data
+Imports System.Collections
+Imports System.Runtime.Serialization
+Imports System.Collections.Specialized
+
+Imports <[RootNamespace]>
+Imports <[RootNamespace]>.FactoryClasses
+Imports <[RootNamespace]>.HelperClasses
+
+Imports SD.LLBLGen.Pro.ORMSupportClasses
+<[ UserCodeRegion "AdditionalNamespaces" ]>
+' __LLBLGENPRO_USER_CODE_REGION_START AdditionalNamespaces
+' __LLBLGENPRO_USER_CODE_REGION_END
+<[ EndUserCodeRegion ]>
+Namespace <[RootNamespace]>.TypedViewClasses
+	''' <summary>
+	''' Typed datatable for the view '<[CurrentTypedViewName]>'.<br/><br/>
+	''' <[Foreach CustomProperty TypedView]>
+	''' <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+	''' </summary>
+	''' <remarks>
+	''' The code doesn't support any changing of data. Users who do that are on their own.
+	''' It also doesn't support any event throwing. This view should be used as a base for readonly databinding
+	''' or dataview construction.
+	''' </remarks>
+#If Not CF Then	
+	<Serializable(), System.ComponentModel.DesignerCategory("Code"), ToolboxItem(True), DesignTimeVisible(True)> _
+	Public Class <[CurrentTypedViewName]>TypedView 
+#Else	
+	Public Class <[CurrentTypedViewName]>TypedView 
+#End If	
+		Inherits TypedViewBase
+		Implements IEnumerable, ITypedView2<[ UserCodeRegion "AdditionalInterfacesView" ]>
+		' __LLBLGENPRO_USER_CODE_REGION_START AdditionalInterfacesView
+		' __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>	
+
+#Region "Class Member Declarations"
+<[Foreach TypedViewField CrLf]>		Private _column<[TypedViewFieldName]> As DataColumn<[NextForeach]>
+		Private _fields As IEntityFields2
+		<[ UserCodeRegion "AdditionalMembers" ]>
+		' __LLBLGENPRO_USER_CODE_REGION_START AdditionalMembers
+		' __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>
+		Private Shared _customProperties As Hashtable
+		Private Shared _fieldsCustomProperties As Hashtable
+#End Region
+
+#Region "Class Constants"
+		''' <summary>
+		''' The amount of fields in the resultset.
+		''' </summary>
+		Private Const AmountOfFields As Integer = <[AmountOfTypedViewFields]>
+#End Region
+		
+		''' <summary>
+		''' Static CTor for setting up custom property hashtables. Is executed before the first instance of this
+		''' class or derived classes is constructed. 
+		''' </summary>
+		Shared Sub New()
+			SetupCustomPropertyHashtables()
+		End Sub
+		
+
+		''' <summary>
+		''' CTor
+		''' </summary>
+		Public Sub New()
+			MyBase.New("<[CurrentTypedViewName]>")
+			InitClass()
+		End Sub
+		
+		
+#If Not CF Then		
+		''' <summary>
+		''' Protected constructor for deserialization.
+		''' </summary>
+		''' <param name="info"></param>
+		''' <param name="context"></param>
+		Protected Sub New(info As SerializationInfo, context As StreamingContext)
+			MyBase.New(info, context)
+			If SerializationHelper.Optimization = SerializationOptimization.None Then
+				InitMembers()
+			End If
+		End Sub
+#End If		
+		
+		''' <summary>
+		''' Gets the IEntityFields2 collection of fields of this typed view. Use this method in combination with the FetchTypedView() methods in 
+		''' DataAccessAdapter.
+		''' </summary>
+		''' <returns>Ready to use IEntityFields2 collection object.</returns>
+		Public Overridable Function GetFieldsInfo() As IEntityFields2 Implements ITypedView2.GetFieldsInfo
+			Return _fields
+		End Function
+
+
+		''' <summary>
+		''' Gets the enumerator for this class.
+		''' </summary>
+		''' <returns>Enumerator for this class.</returns>
+		Public Function GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+			Return Me.Rows.GetEnumerator()
+		End Function
+		
+
+		''' <summary>Gets an array of all <[CurrentTypedViewName]>Row objects.</summary>
+		''' <returns>Array With <[CurrentTypedViewName]>Row objects</returns>
+		Public Shadows Function [Select]() As <[CurrentTypedViewName]>Row()
+			Return CType(MyBase.Select(), <[CurrentTypedViewName]>Row())
+		End Function
+
+
+		''' <summary>Gets an array of all <[CurrentTypedViewName]>Row objects that match the Filter criteria In order of primary key (Or lacking one, order of addition.) </summary>
+		''' <param name="filterExpression">The criteria To use To Filter the rows.</param>
+		''' <returns>Array With <[CurrentTypedViewName]>Row objects</returns>
+		Public Shadows Function [Select](filterExpression As String) As <[CurrentTypedViewName]>Row()
+			Return CType(MyBase.Select(filterExpression), <[CurrentTypedViewName]>Row())
+		End Function
+
+
+		''' <summary>Gets an array of all <[CurrentTypedViewName]>Row objects that match the Filter criteria, In the specified sort order</summary>
+		''' <param name="filterExpression">The Filter expression.</param>
+		''' <param name="sort">A String specifying the column And sort direction.</param>
+		''' <returns>Array With <[CurrentTypedViewName]>Row objects</returns>
+		Public Shadows Function [Select](filterExpression As String, sort As String) As <[CurrentTypedViewName]>Row()
+			Return CType(MyBase.Select(filterExpression, sort), <[CurrentTypedViewName]>Row())
+		End Function
+
+
+		''' <summary>Gets an array of all <[CurrentTypedViewName]>Row objects that match the Filter criteria, In the specified sort order that match the specified state</summary>
+		''' <param name="filterExpression">The Filter expression.</param>
+		''' <param name="sort">A String specifying the column And sort direction.</param>
+		''' <param name="recordStates">One of the <see cref="System.Data.DataViewRowState"/> values.</param>
+		''' <returns>Array With <[CurrentTypedViewName]>Row objects</returns>
+		Public Shadows Function [Select](filterExpression As String, sort As String, recordStates As DataViewRowState) As <[CurrentTypedViewName]>Row()
+			Return CType(MyBase.Select(filterExpression, sort, recordStates), <[CurrentTypedViewName]>Row())
+		End Function
+
+		''' <summary>
+		''' Creates a New typed row during the build of the datatable during a Fill session by a dataadapter.
+		''' </summary>
+		''' <param name="rowBuilder">supplied row builder to pass to the typed row</param>
+		''' <returns>the New typed datarow</returns>
+		Protected Overrides Function NewRowFromBuilder(rowBuilder As DataRowBuilder) As DataRow
+			Return New <[CurrentTypedViewName]>Row(rowBuilder)
+		End Function
+
+
+		''' <summary>
+		''' Initialize the datastructures.
+		''' </summary>
+		Protected Overrides Overloads Sub InitClass()
+			TableName = "<[CurrentTypedViewName]>"		
+<[Foreach TypedViewField CrLf]>			_column<[TypedViewFieldName]> = New DataColumn("<[TypedViewFieldName]>", GetType(<[TypeOfTypedViewField]>), Nothing, MappingType.Element)
+			_column<[TypedViewFieldName]>.ReadOnly = True
+			_column<[TypedViewFieldName]>.Caption = "<[ FieldCaption ]>"
+			Me.Columns.Add(_column<[TypedViewFieldName]>)<[NextForeach]>
+			_fields = EntityFieldsFactory.CreateTypedViewEntityFieldsObject(TypedViewType.<[CurrentTypedViewName]>TypedView)
+			<[ UserCodeRegion "AdditionalFields" ]>
+			' __LLBLGENPRO_USER_CODE_REGION_START AdditionalFields
+			' be sure To Call _fields.Expand(number of New fields) first. 
+			' __LLBLGENPRO_USER_CODE_REGION_END
+			<[ EndUserCodeRegion ]>
+			OnInitialized()
+		End Sub
+
+
+		''' <summary>
+		''' Initializes the members, after a clone action.
+		''' </summary>
+		Private Sub InitMembers()
+<[Foreach TypedViewField CrLf]>			_column<[TypedViewFieldName]> = Me.Columns("<[TypedViewFieldName]>")<[NextForeach]>
+			_fields = EntityFieldsFactory.CreateTypedViewEntityFieldsObject(TypedViewType.<[CurrentTypedViewName]>TypedView)
+			<[ UserCodeRegion "InitMembers" ]>
+			' __LLBLGENPRO_USER_CODE_REGION_START InitMembers
+			' __LLBLGENPRO_USER_CODE_REGION_END
+			<[ EndUserCodeRegion ]>
+		End Sub
+
+
+		''' <summary>
+		''' Initializes the hashtables for the TypedView type and TypedView field custom properties. 
+		''' </summary>
+		Private Shared Sub SetupCustomPropertyHashtables()
+			_customProperties = New Hashtable()
+			_fieldsCustomProperties = New Hashtable()
+<[Foreach CustomProperty TypedView CrLf]>			_customProperties.Add("<[CustomPropertyName]>", "<[CustomPropertyValue]>")<[NextForeach]>
+			Dim fieldHashtable As Hashtable = Nothing
+<[Foreach TypedViewField CrLf]>			fieldHashtable = New Hashtable()
+<[Foreach CustomProperty TypedViewField CrLf]>			fieldHashtable.Add("<[CustomPropertyName]>", "<[CustomPropertyValue]>")<[NextForeach]>
+			_fieldsCustomProperties.Add("<[TypedViewFieldName]>", fieldHashtable)<[NextForeach]>
+		End Sub
+
+
+		''' <summary>
+		''' Return the type of the typed datarow
+		''' </summary>
+		''' <returns>returns the requested type</returns>
+		Protected Overrides Function GetRowType() As Type
+			Return GetType(<[CurrentTypedViewName]>Row)
+		End Function
+
+
+		''' <summary>
+		''' Clones this instance.
+		''' </summary>
+		''' <returns>A clone of this instance</returns>
+		Public Overrides Function Clone() As DataTable
+			Dim cloneToReturn As <[CurrentTypedViewName]>TypedView = CType(MyBase.Clone(), <[CurrentTypedViewName]>TypedView)
+			cloneToReturn.InitMembers()
+			Return cloneToReturn
+		End Function
+
+#If Not CF Then
+		''' <summary>
+		''' Creates a New instance of the DataTable class.
+		''' </summary>
+		''' <returns>a New instance of a datatable with this schema.</returns>
+		Protected Overrides Function CreateInstance() As DataTable
+			Return New <[CurrentTypedViewName]>TypedView()
+		End Function
+#End If
+
+#Region "Class Property Declarations"
+		''' <summary>
+		''' Returns the amount of rows in this typed view.
+		''' </summary>
+		<System.ComponentModel.Browsable(False)> _
+		Public ReadOnly Property Count As Integer Implements ITypedView2.Count
+			Get 
+				Return Me.Rows.Count
+			End Get
+		End Property
+		
+		''' <summary>
+		''' The custom properties for this TypedView type.
+		''' </summary>
+		''' <remarks>The data returned from this property should be considered read-only: it is not thread safe to alter this data at runtime.</remarks>
+		Public Shared ReadOnly Property CustomProperties() As Hashtable
+			Get
+				Return _customProperties
+			End Get
+		End Property
+
+		''' <summary>
+		''' The custom properties for the type of this TypedView instance.
+		''' </summary>
+		''' <remarks>The data returned from this property should be considered read-only: it is not thread safe to alter this data at runtime.</remarks>
+		<System.ComponentModel.Browsable(False)> _
+		Public Overridable ReadOnly Property CustomPropertiesOfType() As Hashtable
+			Get
+				Return <[CurrentTypedViewName]>TypedView.CustomProperties
+			End Get
+		End Property
+
+		''' <summary>
+		''' The custom properties for the fields of this TypedView type. The returned Hashtable contains per fieldname a hashtable of name-value
+		''' pairs. 
+		''' </summary>
+		''' <remarks>The data returned from this property should be considered read-only: it is not thread safe to alter this data at runtime.</remarks>
+		Public Shared ReadOnly Property FieldsCustomProperties() As Hashtable
+			Get
+				Return _fieldsCustomProperties
+			End Get
+		End Property
+
+		''' <summary>
+		''' The custom properties for the fields of the type of this TypedView instance. The returned Hashtable contains per fieldname a hashtable of name-value
+		''' pairs. 
+		''' </summary>
+		''' <remarks>The data returned from this property should be considered read-only: it is not thread safe to alter this data at runtime.</remarks>
+		<System.ComponentModel.Browsable(False)> _
+		Public Overridable ReadOnly Property FieldsCustomPropertiesOfType() As Hashtable
+			Get
+				Return <[CurrentTypedViewName]>TypedView.FieldsCustomProperties
+			End Get
+		End Property
+
+		''' <summary>
+		''' Indexer of this strong typed view
+		''' </summary>
+		Default ReadOnly Public Property  Item(index As Integer) As <[CurrentTypedViewName]>Row
+			Get 
+				Return CType(Me.Rows(index), <[CurrentTypedViewName]>Row)
+			End Get
+		End Property
+
+	<[Foreach TypedViewField]>
+		''' <summary>
+		''' Returns the column object belonging to the TypedView field <[TypedViewFieldName]>
+		''' </summary>
+		ReadOnly Friend Property <[TypedViewFieldName]>Column As DataColumn
+			Get 
+				Return _column<[TypedViewFieldName]> 
+			End Get
+		End Property
+    <[NextForeach]>
+		<[ UserCodeRegion "AdditionalColumnProperties" ]>
+		' __LLBLGENPRO_USER_CODE_REGION_START AdditionalColumnProperties
+		' __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>
+#End Region
+
+#Region "Custom TypedView code"
+	<[ UserCodeRegion "CustomTypedViewCode" ]>
+	' __LLBLGENPRO_USER_CODE_REGION_START CustomTypedViewCode
+	' __LLBLGENPRO_USER_CODE_REGION_END
+	<[ EndUserCodeRegion ]>
+#End Region
+
+#Region "Included Code"
+<# Custom_TypedViewAdapterTemplate #>
+#End Region
+	End Class
+
+
+	''' <summary>
+	''' Typed datarow for the typed datatable <[CurrentTypedViewName]>
+	''' </summary>
+	Public Class <[CurrentTypedViewName]>Row 
+		Inherits DataRow<[ UserCodeRegion "AdditionalInterfacesRow" ]>
+		' __LLBLGENPRO_USER_CODE_REGION_START AdditionalInterfacesRow
+		' __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>	
+
+#Region "Class Member Declarations"
+		Private _parent As <[CurrentTypedViewName]>TypedView
+#End Region
+
+		''' <summary>
+		''' CTor
+		''' </summary>
+		''' <param name="rowBuilder">Row builder object to use when building this row</param>
+		Protected Friend Sub New(rowBuilder As DataRowBuilder)
+			MyBase.New(rowBuilder) 
+			_parent = CType(Me.Table, <[CurrentTypedViewName]>TypedView)
+		End Sub
+
+
+#Region "Class Property Declarations"
+	<[Foreach TypedViewField CrLf]>
+		''' <summary>
+		''' Gets / sets the value of the TypedView field <[TypedViewFieldName]><br/><br/>
+		''' <[Foreach CustomProperty TypedViewField]>
+		''' <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+		''' </summary>
+		''' <remarks>
+		''' Mapped on view field: "<[SourceObjectName]>"."<[SourceColumnName]>"<br/>
+		''' View field characteristics (type, precision, scale, length): <[SourceColumnDbType]>, <[SourceColumnPrecision]>, <[SourceColumnScale]>, <[SourceColumnMaxLength]>
+		''' </remarks>
+		Public Property [<[TypedViewFieldName]>]() As <[TypeOfTypedViewField]>
+			Get 
+				If Is<[TypedViewFieldName]>Null() Then
+					' return default value for this type.
+					Return CType(TypeDefaultValue.GetDefaultValue(GetType(<[TypeOfTypedViewField]>)), <[TypeOfTypedViewField]>)
+				Else
+					Return CType(Me(_parent.<[TypedViewFieldName]>Column), <[TypeOfTypedViewField]>)
+				End If
+			End Get
+			Set 
+				Me(_parent.<[TypedViewFieldName]>Column) = Value
+			End Set
+		End Property
+
+		''' <summary>
+		''' Returns true if the TypedView field <[TypedViewFieldName]> is NULL, false otherwise.
+		''' </summary>
+		Public Function Is<[TypedViewFieldName]>Null() As Boolean
+			Return IsNull(_parent.<[TypedViewFieldName]>Column)
+		End Function
+
+		''' <summary>
+		''' Sets the TypedView field <[TypedViewFieldName]> to NULL. Not recommended a typed list should be used
+		''' as a readonly object.
+		''' </summary>
+    	Public Sub Set<[TypedViewFieldName]>Null() 
+			Me(_parent.<[TypedViewFieldName]>Column) = System.Convert.DBNull
+		End Sub
+
+	<[NextForeach]>
+#End Region
+#Region "Custom Typed View Row code"
+	<[ UserCodeRegion "CustomTypedViewRowCode" ]>
+	' __LLBLGENPRO_USER_CODE_REGION_START CustomTypedViewRowCode
+	' __LLBLGENPRO_USER_CODE_REGION_END
+	<[ EndUserCodeRegion ]>
+#End Region
+	End Class
+End Namespace

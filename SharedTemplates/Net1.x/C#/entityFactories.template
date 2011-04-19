@@ -1,0 +1,203 @@
+﻿///////////////////////////////////////////////////////////////
+// This is generated code. 
+//////////////////////////////////////////////////////////////
+// Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+// Code is generated on: <[Time]>
+// Code is generated using templates: <[TemplateName]>
+// Templates vendor: Solutions Design.
+// Templates version: <[TemplateVersion]>
+//////////////////////////////////////////////////////////////
+using System;
+using System.Collections;
+using <[RootNamespace]>.EntityClasses;
+using <[RootNamespace]>.HelperClasses;
+<[ If HasEntity ]>using <[RootNamespace]>.CollectionClasses;<[ EndIf ]>
+using SD.LLBLGen.Pro.ORMSupportClasses;
+
+namespace <[RootNamespace]>.FactoryClasses
+{
+	<[ UserCodeRegion "AdditionalNamespaces" ]>
+	// __LLBLGENPRO_USER_CODE_REGION_START AdditionalNamespaces
+	// __LLBLGENPRO_USER_CODE_REGION_END
+	<[ EndUserCodeRegion ]>
+<[If HasEntity]>	
+	/// <summary>general base class for the generated factories</summary>
+	[Serializable]
+	public <[If UsePartialClasses]>partial <[EndIf]>class EntityFactoryBase : EntityFactoryCore
+	{
+		private string _entityName;
+		private <[RootNamespace]>.EntityType _typeOfEntity;
+		
+		/// <summary>CTor</summary>
+		/// <param name="entityName">Name of the entity.</param>
+		/// <param name="typeOfEntity">The type of entity.</param>
+		public EntityFactoryBase(string entityName, <[RootNamespace]>.EntityType typeOfEntity)
+		{
+			_entityName = entityName;
+			_typeOfEntity = typeOfEntity;
+		}
+
+		/// <summary>Creates a new entity instance using the GeneralEntityFactory in the generated code, using the passed in entitytype value</summary>
+		/// <param name="entityTypeValue">The entity type value of the entity to create an instance for.</param>
+		/// <returns>new IEntity instance</returns>
+		public override IEntity CreateEntityFromEntityTypeValue(int entityTypeValue)
+		{
+			return GeneralEntityFactory.Create((<[RootNamespace]>.EntityType)entityTypeValue);
+		}
+		
+		/// <summary>Creates, using the generated EntityFieldsFactory, the IEntityFields object for the entity to create. </summary>
+		/// <returns>Empty IEntityFields object.</returns>
+		public override IEntityFields CreateFields()
+		{
+			return EntityFieldsFactory.CreateEntityFieldsObject(_typeOfEntity);
+		}
+
+		/// <summary>Creates the relations collection to the entity to join all targets so this entity can be fetched. </summary>
+		/// <returns>null if the entity isn't in a hierarchy of type TargetPerEntity, otherwise the relations collection needed to join all targets together to fetch all subtypes of this entity and this entity itself</returns>
+		public override IRelationCollection CreateHierarchyRelations()
+		{
+			return InheritanceInfoProviderSingleton.GetInstance().GetHierarchyRelations(_entityName);
+		}
+
+		/// <summary>This method retrieves, using the InheritanceInfoprovider, the factory for the entity represented by the values passed in.</summary>
+		/// <param name="fieldValues">Field values read from the db, to determine which factory to return, based on the field values passed in.</param>
+		/// <param name="entityFieldStartIndexesPerEntity">indexes into values where per entity type their own fields start.</param>
+		/// <returns>the factory for the entity which is represented by the values passed in.</returns>
+		public override IEntityFactory GetEntityFactory(object[] fieldValues, Hashtable entityFieldStartIndexesPerEntity)
+		{
+			IEntityFactory toReturn = (IEntityFactory)InheritanceInfoProviderSingleton.GetInstance().GetEntityFactory(_entityName, fieldValues, entityFieldStartIndexesPerEntity);
+			if(toReturn == null)
+			{
+				toReturn = this;
+			}
+			return toReturn;
+		}
+
+		/// <summary>Creates a new entity collection for the entity of this factory.</summary>
+		/// <returns>ready to use new entity collection, typed.</returns>
+		public override IEntityCollection CreateEntityCollection()
+		{
+			return GeneralEntityCollectionFactory.Create(_typeOfEntity);
+		}
+		
+		/// <summary>returns the name of the entity this factory is for, e.g. "EmployeeEntity"</summary>
+		public override string ForEntityName 
+		{ 
+			get { return _entityName; }
+		}
+	}<[EndIf]>
+<[Foreach Entity CrLf]>	
+	/// <summary>Factory to create new, empty <[CurrentEntityName]>Entity objects.</summary>
+	[Serializable]
+	public <[If UsePartialClasses]>partial <[EndIf]>class <[CurrentEntityName]>EntityFactory : EntityFactoryBase {
+		/// <summary>CTor</summary>
+		public <[CurrentEntityName]>EntityFactory() : base("<[CurrentEntityName]>Entity", <[RootNamespace]>.EntityType.<[CurrentEntityName]>Entity) { }
+
+		/// <summary>Creates a new, empty <[CurrentEntityName]>Entity object.</summary>
+		/// <returns>A new, empty <[CurrentEntityName]>Entity object.</returns>
+		public override IEntity Create() {
+<# SD_EntityFactoryIncludeTemplate #>
+		}
+		
+		/// <summary>Creates a new <[CurrentEntityName]>Entity instance and will set the Fields object of the new IEntity instance to the passed in fields object.</summary>
+		/// <param name="fields">Populated IEntityFields object for the new IEntity to create</param>
+		/// <returns>Fully created and populated (due to the IEntityFields object) IEntity object</returns>
+		public override IEntity Create(IEntityFields fields) {
+			IEntity toReturn = Create();
+			toReturn.Fields = fields;
+			<[ UserCodeRegion CurrentEntityName "CreateNew($VALUE)UsingFields" ]>
+			// __LLBLGENPRO_USER_CODE_REGION_START <[ UserCodeRegionName ]>
+			// __LLBLGENPRO_USER_CODE_REGION_END
+			<[ EndUserCodeRegion ]>
+			return toReturn;
+		}
+<[ If Not IsInHierarchyType None ]>		/// <summary>Creates the hierarchy fields for the entity to which this factory belongs.</summary>
+		/// <returns>IEntityFields object with the fields of all the entities in teh hierarchy of this entity or the fields of this entity if the entity isn't in a hierarchy.</returns>
+		public override IEntityFields CreateHierarchyFields()
+		{
+			return new EntityFields(InheritanceInfoProviderSingleton.GetInstance().GetHierarchyFields("<[CurrentEntityName]>Entity"), InheritanceInfoProviderSingleton.GetInstance(), null);
+		}<[ EndIf ]>
+
+		#region Included Code
+<# Custom_EntityFactoriesTemplate #>
+		#endregion
+	}<[NextForeach]>
+<[If HasEntity]>
+	/// <summary>Factory to create new entity collection objects</summary>
+	[Serializable]
+	public <[If UsePartialClasses]>partial <[EndIf]>class GeneralEntityCollectionFactory
+	{
+		/// <summary>Creates a new entity collection</summary>
+		/// <param name="typeToUse">The entity type to create the collection for.</param>
+		/// <returns>A new entity collection object.</returns>
+		public static IEntityCollection Create(<[RootNamespace]>.EntityType typeToUse)
+		{
+			switch(typeToUse)
+			{
+<[Foreach Entity CrLf]>				case <[RootNamespace]>.EntityType.<[CurrentEntityName]>Entity:
+					return new <[CurrentEntityName]>Collection();<[NextForeach]>
+				default:
+					return null;
+			}
+		}		
+	}
+	
+	/// <summary>Factory to create new, empty Entity objects based on the entity type specified. Uses entity specific factory objects</summary>
+	[Serializable]
+	public <[If UsePartialClasses]>partial <[EndIf]>class GeneralEntityFactory
+	{
+		/// <summary>Creates a new, empty Entity object of the type specified</summary>
+		/// <param name="entityTypeToCreate">The entity type to create.</param>
+		/// <returns>A new, empty Entity object.</returns>
+		public static IEntity Create(<[RootNamespace]>.EntityType entityTypeToCreate)
+		{
+			IEntityFactory factoryToUse = null;
+			switch(entityTypeToCreate)
+			{
+<[Foreach Entity CrLf]>				case <[RootNamespace]>.EntityType.<[CurrentEntityName]>Entity:
+					factoryToUse = new <[CurrentEntityName]>EntityFactory();
+					break;<[NextForeach]>
+			}
+			IEntity toReturn = null;
+			if(factoryToUse != null)
+			{
+				toReturn = factoryToUse.Create();
+			}
+			return toReturn;
+		}		
+	}
+	
+	/// <summary>Class which is used to obtain the entity factory based on the .NET type of the entity. </summary>
+	[Serializable]
+	public class EntityFactoryFactory
+	{
+		private static Hashtable _factoryPerType = new Hashtable();
+
+		/// <summary>Initializes the <see cref="EntityFactoryFactory"/> class.</summary>
+		static EntityFactoryFactory()
+		{
+			Array entityTypeValues = Enum.GetValues(typeof(<[RootNamespace]>.EntityType));
+			foreach(int entityTypeValue in entityTypeValues)
+			{
+				IEntity dummy = GeneralEntityFactory.Create((<[RootNamespace]>.EntityType)entityTypeValue);
+				_factoryPerType.Add(dummy.GetType(), dummy.GetEntityFactory());
+			}
+		}
+
+		/// <summary>Gets the factory of the entity with the .NET type specified</summary>
+		/// <param name="typeOfEntity">The type of entity.</param>
+		/// <returns>factory to use or null if not found</returns>
+		public static IEntityFactory GetFactory(Type typeOfEntity)
+		{
+			return (IEntityFactory)_factoryPerType[typeOfEntity];
+		}
+
+		/// <summary>Gets the factory of the entity with the <[RootNamespace]>.EntityType specified</summary>
+		/// <param name="typeOfEntity">The type of entity.</param>
+		/// <returns>factory to use or null if not found</returns>
+		public static IEntityFactory GetFactory(<[RootNamespace]>.EntityType typeOfEntity)
+		{
+			return GetFactory(GeneralEntityFactory.Create(typeOfEntity).GetType());
+		}
+	}<[EndIf]>
+}

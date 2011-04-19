@@ -1,0 +1,513 @@
+﻿' ///////////////////////////////////////////////////////////////
+' // This is generated code. 
+' //////////////////////////////////////////////////////////////
+' // Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+' // Code is generated on: <[Time]>
+' // Code is generated using templates: <[TemplateName]>
+' // Templates vendor: Solutions Design.
+' // Templates version: <[TemplateVersion]>
+' //////////////////////////////////////////////////////////////
+Imports System
+Imports System.Configuration
+Imports System.Collections
+Imports System.Data
+Imports System.Data.Common
+Imports System.EnterpriseServices
+
+Imports Oracle.DataAccess.Client
+Imports Oracle.DataAccess.Types
+
+Imports SD.LLBLGen.Pro.ORMSupportClasses
+Imports SD.LLBLGen.Pro.DQE.Oracle
+
+<[ UserCodeRegion "AdditionalNamespaces" ]>
+' __LLBLGENPRO_USER_CODE_REGION_START AdditionalNamespaces
+' __LLBLGENPRO_USER_CODE_REGION_END
+<[ EndUserCodeRegion ]>
+
+
+Namespace <[RootNamespace]><[DbSpecificNamespaceSuffix]>
+	''' <summary>
+	''' Data access adapter class, which controls the complete database interaction with the database for all objects.
+	''' Oracle specific.
+	''' </summary>
+	''' <remarks>
+	''' Use a DataAccessAdapter object solely per thread, and per connection. A DataAccessAdapter object contains 1 active connection 
+	''' and no thread-access scheduling code. This means that you need to create a New DataAccessAdapter object if you want to utilize
+	''' in another thread a New connection and a New transaction or want to open a New connection.
+	''' </remarks>
+	Public Class DataAccessAdapter 
+		Inherits DataAccessAdapterBase
+	
+#Region "Public Shared members"
+		''' <summary>
+		''' The name of the key in the *.config file of the executing application which contains the connection string.
+		''' </summary>
+		''' <remarks>Default: the value Set in the LLBLGen Pro project properties</remarks>
+		Public Shared ConnectionStringKeyName As String = "<[ConnectionStringKeyName]>"
+#End Region
+
+#Region "Class Member Declarations"
+		'  Oracle specific information about schema name usage
+		Private _schemaNameOverwrites As SchemaNameOverwriteHashtable
+#End Region
+
+#Region "Constructors"
+		''' <summary>
+		''' CTor
+		''' </summary>
+		Public Sub New()
+			MyBase.New(PersistenceInfoProviderSingleton.GetInstance())
+			InitClass(ReadConnectionStringFromConfig(), False, SchemaNameUsage.Default, String.Empty, Nothing)
+		End Sub
+
+
+		''' <summary>
+		''' CTor
+		''' </summary>
+		''' <param name="comPlusContextHost">the COM+ context host for this adapter instance.</param>
+		''' <remarks>do not call this from your code</remarks>
+		Public Sub New(comPlusContextHost As IComPlusAdapterContext)
+			MyBase.New(comPlusContextHost, PersistenceInfoProviderSingleton.GetInstance())
+			InitClass(ReadConnectionStringFromConfig(), False, SchemaNameUsage.Default, String.Empty, Nothing)
+		End Sub
+
+
+		''' <summary>
+		''' CTor
+		''' </summary>
+		''' <param name="comPlusContextHost">the COM+ context host for this adapter instance.</param>
+		''' <param name="connectionString">The connection string to use when connecting to the database.</param>
+		''' <remarks>do not call this from your code</remarks>
+		Public Sub New(comPlusContextHost As IComPlusAdapterContext, connectionString As String)
+			MyBase.New(comPlusContextHost, PersistenceInfoProviderSingleton.GetInstance())
+			InitClass(connectionString, False, SchemaNameUsage.Default, String.Empty, Nothing)
+		End Sub
+		
+
+		''' <summary>
+		''' CTor
+		''' </summary>
+		''' <param name="keepConnectionOpen">when True, the DataAccessAdapter will not close an opened connection. Use this for multi action usage.</param>
+		Public Sub New(keepConnectionOpen As Boolean)
+			MyBase.New(PersistenceInfoProviderSingleton.GetInstance())
+			InitClass(ReadConnectionStringFromConfig(), keepConnectionOpen, SchemaNameUsage.Default, String.Empty, Nothing)
+		End Sub
+
+
+		''' <summary>
+		''' CTor
+		''' </summary>
+		''' <param name="connectionString">The connection string to use when connecting to the database.</param>
+		Public Sub New(connectionString As String)
+			MyBase.New(PersistenceInfoProviderSingleton.GetInstance())
+			InitClass(connectionString, False, SchemaNameUsage.Default, String.Empty, Nothing)
+		End Sub
+
+
+		''' <summary>
+		''' CTor
+		''' </summary>
+		''' <param name="connectionString">The connection string to use when connecting to the database.</param>
+		''' <param name="keepConnectionOpen">when True, the DataAccessAdapter will not close an opened connection. Use this for multi action usage.</param>
+		Public Sub New(connectionString As String, keepConnectionOpen As Boolean)
+			MyBase.New(PersistenceInfoProviderSingleton.GetInstance())
+			InitClass(connectionString, keepConnectionOpen, SchemaNameUsage.Default, String.Empty, Nothing)
+		End Sub
+		
+		
+		''' <summary>
+		''' CTor. Oracle specific
+		''' </summary>
+		''' <param name="connectionString">The connection string to use when connecting to the database.</param>
+		''' <param name="keepConnectionOpen">when True, the DataAccessAdapter will not close an opened connection. Use this for multi action usage.</param>
+		''' <param name="schemaNameUsageSetting">Oracle specific. Configures this data access adapter object how to threat schema names in 
+		''' persistence information.</param>
+		''' <param name="schemaNameToUse">Oracle specific. The name to use if schemaNameUsageSetting is Set to ForceName. Ignored otherwise.</param>
+		Public Sub New(connectionString As String, keepConnectionOpen As Boolean, schemaNameUsageSetting As SchemaNameUsage, schemaNameToUse As String)
+			MyBase.New(PersistenceInfoProviderSingleton.GetInstance())
+			InitClass(connectionString, keepConnectionOpen, schemaNameUsageSetting, schemaNameToUse, Nothing)
+		End Sub
+		
+
+		''' <summary>
+		''' CTor. Oracle specific
+		''' </summary>
+		''' <param name="connectionString">The connection string to use when connecting to the database.</param>
+		''' <param name="keepConnectionOpen">when True, the DataAccessAdapter will not close an opened connection. Use this for multi action usage.</param>
+		''' <param name="schemaNameOverwrites">Oracle specific. The from-To name value pairs And setting For the overwriting of schema names. Can be null.</param>
+		Public Sub New (connectionString As String, keepConnectionOpen As Boolean, schemaNameOverwrites As SchemaNameOverwriteHashtable)
+			MyBase.New(PersistenceInfoProviderSingleton.GetInstance())
+			InitClass(connectionString, keepConnectionOpen, SchemaNameUsage.Default, String.Empty, schemaNameOverwrites)
+		End Sub
+#End Region
+
+#Region "Stored Procedure related routines"
+		''' <summary>
+		''' Calls the specified action stored procedure in the Oracle database. If a transaction is in progress, it will participate in
+		''' that transaction.
+		''' </summary>
+		''' <param name="storedProcedureToCall">Stored procedure to call</param>
+		''' <param name="parameters">array of parameters to specify</param>
+		''' <returns>the amount of rows affected. This value will be -1 if rowcounting has been switched off in the RDBMS or stored procedure.</returns>
+		Public Overridable Function CallActionStoredProcedure(storedProcedureToCall As String, parameters As OracleParameter()) As Integer
+			Dim Command As New OracleCommand(CreateCorrectStoredProcedureName(storedProcedureToCall))
+			Command.Connection = CType(MyBase.GetActiveConnection(), OracleConnection)
+			If MyBase.IsTransactionInProgress Then
+				CType(Command, IDbCommand).Transaction = CType(MyBase.PhysicalTransaction, OracleTransaction)
+			End If
+			Command.CommandType = CommandType.StoredProcedure
+			Command.CommandTimeout = MyBase.CommandTimeOut
+
+			Dim toReturn As Integer = -1
+			Try
+				Dim i As Integer
+				For i=0 To parameters.Length-1
+					Command.Parameters.Add(parameters(i))
+				Next i
+
+				MyBase.OpenConnection()
+				toReturn = Command.ExecuteNonQuery()
+			Finally
+				command.Dispose()
+				' clean up a dangling automaticly opened connection if needed.
+				If Not (MyBase.KeepConnectionOpen Or MyBase.IsTransactionInProgress) Then
+					MyBase.CloseConnection()
+				End If
+			End Try
+			Return toReturn
+		End Function
+
+
+		''' <summary>
+		''' Calls the specified retrieval stored procedure in the Oracle database. Fills the
+		''' specified DataSet. Will participate in the transaction if a transaction is in progress.
+		''' </summary>
+		''' <param name="storedProcedureToCall">Stored procedure to call</param>
+		''' <param name="parameters">array of parameters to specify</param>
+		''' <param name="dataSetToFill">DataSet to fill by the stored procedure</param>
+		''' <returns>True if succeeded, false otherwise</returns>
+		Public Overridable Function CallRetrievalStoredProcedure(storedProcedureToCall As String, parameters As OracleParameter(), dataSetToFill As DataSet) As Boolean
+			Dim Command As New OracleCommand(CreateCorrectStoredProcedureName(storedProcedureToCall))
+			Command.Connection = CType(MyBase.GetActiveConnection(), OracleConnection)
+			If MyBase.IsTransactionInProgress Then
+				CType(Command, IDbCommand).Transaction = CType(MyBase.PhysicalTransaction, OracleTransaction)
+			End If
+			Command.CommandType = CommandType.StoredProcedure
+			Command.CommandTimeout = MyBase.CommandTimeOut
+
+			Dim i As Integer
+			For i=0 To parameters.Length-1
+				Command.Parameters.Add(parameters(i))
+			Next i
+			
+			Try
+				MyBase.OpenConnection()
+				Command.ExecuteNonQuery()
+
+				' for each cursor parameter, create a datatable in dataset and fill it. 
+				Dim adapter As OracleDataAdapter = CType(CreateNewPhysicalDataAdapter(), OracleDataAdapter)
+				For i = 0 To parameters.Length-1
+					If parameters(i).OracleDbType = OracleDbType.RefCursor Then
+						Dim tableToFill As DataTable = dataSetToFill.Tables.Add(parameters(i).ParameterName)
+						adapter.Fill(tableToFill, CType(parameters(i).Value, OracleRefCursor))
+					End If
+				Next i
+				adapter.Dispose()
+			Finally
+				command.Dispose()
+				' clean up a dangling automaticly opened connection if needed.
+				If Not (MyBase.KeepConnectionOpen Or MyBase.IsTransactionInProgress) Then
+					MyBase.CloseConnection()
+				End If
+			End Try
+
+			Return True
+		End Function
+#End Region
+
+
+		''' <summary>
+		''' Executes the passed In retrievalquery And returns an open, ready To use IDataReader. The datareader's command behavior is set to the
+		''' readerBehavior passed In. If a transaction Is In progress, the Command Is wired To the transaction.
+		''' </summary>
+		''' <param name="queryToExecute">The query To execute.</param>
+		''' <param name="readerBehavior">The reader behavior To Set.</param>
+		''' <returns>Open, ready To use IDataReader</returns>
+		''' <remarks>Advanced functionality: be aware that the datareader returned Is open, And the dataaccessadapter's connection is also open</remarks>
+		Public Overrides Overloads Function FetchDataReader(queryToExecute As IRetrievalQuery, readerBehavior As CommandBehavior) As IDataReader
+			If queryToExecute.Command.CommandType = CommandType.StoredProcedure Then
+				queryToExecute.Command.CommandText = CreateCorrectStoredProcedureName(queryToExecute.Command.CommandText)
+			End If
+			Return MyBase.FetchDataReader(queryToExecute, readerBehavior)
+		End Function
+
+		''' <summary>
+		''' Inserts in each predicate expression element the persistence info object for the field used. If there is already a fieldpersistenceinfo 
+		''' element for a given field, it is skipped. 
+		''' </summary>
+		''' <param name="expression">IPredicateExpression object which has predicate elements whose persistence info objects have to be
+		''' Set to a value.</param>
+		Protected Overloads Overrides Sub InsertPersistenceInfoObjects(expression As IPredicateExpression)
+			If expression Is Nothing Then
+				Return
+			End If
+
+			Dim i As Integer
+			For i = 0 To expression.Count-1
+				If expression(i).Type = PredicateExpressionElementType.Predicate Then
+					Dim currentPredicate As IPredicate = CType(expression(i).Contents, IPredicate)
+					
+					Select Case CType(currentPredicate.InstanceType, PredicateType)
+						Case PredicateType.PredicateExpression
+							'  recurse
+							InsertPersistenceInfoObjects(CType(expression(i).Contents, IPredicateExpression))
+						Case PredicateType.FieldBetweenPredicate
+							Dim betweenPredicate As FieldBetweenPredicate = CType(currentPredicate, FieldBetweenPredicate)
+							If betweenPredicate.PersistenceInfo Is Nothing Then
+								betweenPredicate.PersistenceInfo = GetFieldPersistenceInfo(CType(betweenPredicate.FieldCore, IEntityField2))
+							End If
+							If betweenPredicate.BeginIsField AndAlso (betweenPredicate.PersistenceInfoBegin Is Nothing) Then
+								betweenPredicate.PersistenceInfoBegin = GetFieldPersistenceInfo(CType(betweenPredicate.FieldBeginCore, IEntityField2))
+							End If
+							If betweenPredicate.EndIsField AndAlso (betweenPredicate.PersistenceInfoEnd Is Nothing) Then
+								betweenPredicate.PersistenceInfoEnd = GetFieldPersistenceInfo(CType(betweenPredicate.FieldEndCore, IEntityField2))
+							End If
+						Case PredicateType.FieldCompareNullPredicate
+							Dim compareNullPredicate As FieldCompareNullPredicate = CType(currentPredicate, FieldCompareNullPredicate)
+							If compareNullPredicate.PersistenceInfo Is Nothing Then
+								compareNullPredicate.PersistenceInfo = GetFieldPersistenceInfo(CType(compareNullPredicate.FieldCore, IEntityField2))
+							End If
+						Case PredicateType.FieldCompareValuePredicate
+							Dim compareValuePredicate As FieldCompareValuePredicate = CType(currentPredicate, FieldCompareValuePredicate)
+							If compareValuePredicate.PersistenceInfo Is Nothing Then
+								compareValuePredicate.PersistenceInfo = GetFieldPersistenceInfo(CType(compareValuePredicate.FieldCore, IEntityField2))
+							End If
+						Case PredicateType.FieldLikePredicate
+							Dim likePredicate As FieldLikePredicate = CType(currentPredicate, FieldLikePredicate)
+							If likePredicate.PersistenceInfo Is Nothing Then
+								likePredicate.PersistenceInfo = GetFieldPersistenceInfo(CType(likePredicate.FieldCore, IEntityField2))
+							End If
+						Case PredicateType.FieldCompareRangePredicate
+							Dim compareRangePredicate As FieldCompareRangePredicate = CType(currentPredicate, FieldCompareRangePredicate)
+							If compareRangePredicate.PersistenceInfo Is Nothing Then
+								compareRangePredicate.PersistenceInfo = GetFieldPersistenceInfo(CType(compareRangePredicate.FieldCore, IEntityField2))
+							End If
+						Case PredicateType.FieldCompareExpressionPredicate
+							Dim expressionPredicate As FieldCompareExpressionPredicate = CType(currentPredicate, FieldCompareExpressionPredicate)
+							If expressionPredicate.PersistenceInfo Is Nothing Then
+								expressionPredicate.PersistenceInfo = GetFieldPersistenceInfo(CType(expressionPredicate.FieldCore, IEntityField2))
+							End If
+							
+							If Not expressionPredicate.ExpressionToCompareWith Is Nothing Then
+								InsertPersistenceInfoObjects(expressionPredicate.ExpressionToCompareWith)
+							End If
+						Case PredicateType.FieldFullTextSearchPredicate
+							Dim fullTextSearchPredicate As FieldFullTextSearchPredicate = CType(currentPredicate, FieldFullTextSearchPredicate)
+							If fullTextSearchPredicate.PersistenceInfo Is Nothing Then
+								fullTextSearchPredicate.PersistenceInfo = GetFieldPersistenceInfo(CType(fullTextSearchPredicate.FieldCore, IEntityField2))
+							End If
+						Case PredicateType.FieldCompareSetPredicate
+							Dim compareSetPredicate As FieldCompareSetPredicate = CType(currentPredicate, FieldCompareSetPredicate)
+							If compareSetPredicate.PersistenceInfoField Is Nothing AndAlso Not compareSetPredicate.FieldCore Is Nothing Then
+								compareSetPredicate.PersistenceInfoField = GetFieldPersistenceInfo(CType(compareSetPredicate.FieldCore, IEntityField2))
+							End If
+							If compareSetPredicate.PersistenceInfoSetField Is Nothing Then
+								compareSetPredicate.PersistenceInfoSetField = GetFieldPersistenceInfo(CType(compareSetPredicate.SetFieldCore, IEntityField2))
+							End If
+							InsertPersistenceInfoObjects(compareSetPredicate.SetFilterAsPredicateExpression)
+							InsertPersistenceInfoObjects(compareSetPredicate.SetRelations)
+							InsertPersistenceInfoObjects(compareSetPredicate.SetSorter)
+							InsertPersistenceInfoObjects(compareSetPredicate.GroupByClause)
+						Case Else
+							<[ UserCodeRegion "InsertPersistenceInfoObjectsPredicate" ]>
+							' __LLBLGENPRO_USER_CODE_REGION_START InsertPersistenceInfoObjectsPredicate
+							' __LLBLGENPRO_USER_CODE_REGION_END
+							<[ EndUserCodeRegion ]>
+							OnInsertPersistenceObjects(currentPredicate)
+					End Select
+				End If
+			Next i
+		End Sub
+
+		''' <summary>
+		''' Creates a New Dynamic Query engine Object And passes In the defined catalog/schema overwrite hashtables.
+		''' </summary>
+		Protected Overrides Function CreateDynamicQueryEngine() As DynamicQueryEngineBase
+			Dim toReturn As New DynamicQueryEngine()
+			toReturn.PerCallSchemaNameOverwrites = _schemaNameOverwrites
+			Return CType(toReturn, DynamicQueryEngineBase)
+		End Function
+
+
+		''' <summary>
+		''' Creates a New physical connection object.
+		''' </summary>
+		''' <param name="connectionString">Connectionstring to use for the New connection object</param>
+		''' <returns>IDbConnection implementing connection object.</returns>
+		Protected Overrides Function CreateNewPhysicalConnection(connectionString As String) As IDbConnection
+			Return New OracleConnection(connectionString)
+		End Function
+
+
+		''' <summary>
+		''' Creates a New physical transaction object over the created connection. The connection is assumed to be open.
+		''' </summary>
+		''' <returns>a physical transaction object, like an instance of OracleTransaction.</returns>
+		Protected Overrides Function CreateNewPhysicalTransaction() As IDbTransaction
+			Return CType(MyBase.GetActiveConnection(), OracleConnection).BeginTransaction(MyBase.TransactionIsolationLevel)
+		End Function
+
+
+		''' <summary>
+		''' Creates a New .NET DataAdapter for the database system this DataAccessAdapter object is targeting. 
+		''' </summary>
+		''' <returns>New .NET DataAdapter object</returns>
+		Protected Overloads Overrides Function CreateNewPhysicalDataAdapter() As DbDataAdapter
+			Return New OracleDataAdapter()
+		End Function
+
+		''' <summary>
+		''' Initializes the class.
+		''' </summary>
+		''' <param name="connectionString"></param>
+		''' <param name="keepConnectionOpen"></param>
+		''' <param name="schemaNameUsageSetting"></param>
+		''' <param name="schemaNameToUse"></param>
+		''' <param name="schemaNameOverwrites"></param>
+		Private Sub InitClass(connectionString As String, keepConnectionOpen As Boolean, schemaNameUsageSetting As SchemaNameUsage, schemaNameToUse As String, schemaNameOverwrites As SchemaNameOverwriteHashtable)
+			MyBase.ConnectionString = connectionString
+			MyBase.KeepConnectionOpen = keepConnectionOpen
+			If schemaNameOverwrites Is Nothing Then
+				_schemaNameOverwrites = New SchemaNameOverwriteHashtable(schemaNameUsageSetting)
+				If schemaNameUsageSetting <> SchemaNameUsage.Default Then
+					_schemaNameOverwrites.Add("*", schemaNameToUse)
+				Else
+					MyBase.ReadHandleSchemaNameSettingFromConfig(_schemaNameOverwrites)
+				End If
+			Else
+				_schemaNameOverwrites = schemaNameOverwrites
+			End If
+		End Sub
+
+
+		''' <summary>
+		''' Reads the value of the setting with the key ConnectionStringKeyName from the *.config file and stores that value as the
+		''' active connection string to use for this object.
+		''' </summary>
+		''' <returns>connection string read</returns>
+		Private Function ReadConnectionStringFromConfig() As String
+			'  read the connection string from the *.config file.
+			Dim configReader As New AppSettingsReader()
+			Return configReader.GetValue(DataAccessAdapter.ConnectionStringKeyName, GetType(String)).ToString()
+		End Function
+		
+		''' <summary>
+		''' Creates the correct name of the stored procedure To Call, thus With schema/catalog name overwrites. 
+		''' </summary>
+		''' <param name="storedProcedureName">Name of the stored procedure.</param>
+		''' <returns>stored procedure name With the catalog/schema name overwritten, If applicable</returns>
+		Private Function CreateCorrectStoredProcedureName(storedProcedureName As String ) As String
+			Dim dqe As DynamicQueryEngine = CType(CreateDynamicQueryEngine(), DynamicQueryEngine)
+			Dim procName As String = dqe.GetNewPerCallStoredProcedureName(storedProcedureName)
+			Return DynamicQueryEngine.GetNewStoredProcedureName(procName)
+		End Function
+
+		
+#Region "Class Property Declarations"
+		
+		''' <summary>
+		''' Oracle specific. Configurates this data access adapter object how to threat schema names in persistence information.
+		''' </summary>
+		''' <remarks>For backwards compatibility.</remarks>
+		Public Property SchemaNameUsageSetting() As SchemaNameUsage
+			Get
+				If Not _schemaNameOverwrites Is Nothing Then
+					Return _schemaNameOverwrites.SchemaNameUsageSetting
+				Else
+					Return SchemaNameUsage.Default
+				End If
+			End Get
+			Set
+				If Not _schemaNameOverwrites Is Nothing Then
+					_schemaNameOverwrites.SchemaNameUsageSetting = value
+				End If
+			End Set
+		End Property
+		
+		''' <summary>
+		''' Oracle specific. The name to use if schemaNameUsageSetting is Set to ForceName. Ignored otherwise.
+		''' </summary>
+		''' <remarks>For backwards compatibility.</remarks>
+		Public Property SchemaNameToUse() As String
+			Get
+				If Not _schemaNameOverwrites Is Nothing AndAlso _schemaNameOverwrites.ContainsKey("*") Then
+					Return CType(_schemaNameOverwrites("*"), String)
+				Else
+					Return String.Empty
+				End If
+			End Get
+			Set
+				If Not _schemaNameOverwrites Is Nothing Then
+					If _schemaNameOverwrites.ContainsKey("*") Then
+						_schemaNameOverwrites("*") = value
+					Else
+						_schemaNameOverwrites.Add("*", value)
+					End If
+				End If
+			End Set
+		End Property
+		
+		''' <summary>
+		''' Oracle specific. The from-To name value pairs And setting For the overwriting of schema names.
+		''' </summary>
+		Public Property SchemaNameOverwrites As SchemaNameOverwriteHashtable
+			Get 
+				Return _schemaNameOverwrites 
+			End Get
+			Set 
+				_schemaNameOverwrites = value
+			End Set
+		End Property		
+#End Region
+
+#Region "Custom DataAccessAdapter code"
+		<[ UserCodeRegion "CustomDataAccessAdapterCode" ]>
+		' __LLBLGENPRO_USER_CODE_REGION_START CustomDataAccessAdapterCode
+		' __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>
+#End Region
+
+#Region "Included Code"
+<# Custom_DataAccessAdapterTemplate #>
+#End Region
+	End Class
+
+
+	''' <summary>
+	''' ComPlusAdapterContext class which is used in Adapter for hosting a COM+ aware DataAccessAdapter class. 
+	''' Use the hosted DataAccessAdapter class to start a new COM+ transaction.
+	''' </summary>
+	Public Class ComPlusAdapterContext 
+		Inherits ComPlusAdapterContextBase
+
+		''' <summary>
+		''' CTor
+		''' </summary>
+		Public Sub New()
+			MyBase.SetAdapter(New DataAccessAdapter(Me))
+		End Sub
+		
+
+
+
+		''' <summary>
+		''' Creates the physical connection object
+		''' </summary>
+		''' <param name="connectionString">connection string to use</param>
+		''' <returns>Usable connection object (closed)</returns>
+		Protected Overrides Overloads Function CreateDatabaseConnection(connectionString As String) As IDbConnection
+			Return New OracleConnection(connectionString)
+		End Function
+	End Class
+End Namespace

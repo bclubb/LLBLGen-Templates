@@ -1,0 +1,17 @@
+﻿<?xml version="1.0"?>
+<templateBindings xmlns="http://sd/llblgen/pro/templateBindingsDefinition.xsd" name="SD.TemplateBindings.SybaseAsaSpecific.NET40"
+				  description ="Template bindings for the templates which are specific for Sybase ASA iAnywhere databases. For .NET 4.0 based platforms"
+				  databaseDriverID="3FABDE1A-21DF-4fcb-96FD-BBFA8F18B1EA" precedenceLevel="10">
+	<supportedPlatforms>
+		<platform name=".NET 4.0"/>
+	</supportedPlatforms>
+
+	<language name="C#">
+		<templateBinding templateID="SD_VsNet2010Template" filename="SybaseAsaSpecific\Net4.0\C#\vsnet2010ProjectFile.template" />
+		<templateBinding templateID="SD_VsNet2010DBSpecificAdapterTemplate" filename="SybaseAsaSpecific\Net4.0\C#\vsnet2010DBSpecificProjectFileAdapter.template" />
+	</language>
+	<language name="VB.NET">
+		<templateBinding templateID="SD_VsNet2010Template" filename="SybaseAsaSpecific\Net4.0\VB.NET\vsnet2010ProjectFile.template" />
+		<templateBinding templateID="SD_VsNet2010DBSpecificAdapterTemplate" filename="SybaseAsaSpecific\Net4.0\VB.NET\vsnet2010DBSpecificProjectFileAdapter.template" />
+	</language>
+</templateBindings>

@@ -1,0 +1,71 @@
+﻿///////////////////////////////////////////////////////////////
+// This is generated code. 
+//////////////////////////////////////////////////////////////
+// Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+// Code is generated on: <[Time]>
+// Code is generated using templates: <[TemplateName]>
+// Templates vendor: Solutions Design.
+// Templates version: <[TemplateVersion]>
+//////////////////////////////////////////////////////////////
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Runtime.Serialization;
+using System.Xml;
+
+using <[RootNamespace]>.EntityClasses;
+
+using SD.LLBLGen.Pro.ORMSupportClasses;
+
+namespace <[RootNamespace]>.HelperClasses
+{
+	<[ UserCodeRegion "AdditionalNamespaces" ]>
+	// __LLBLGENPRO_USER_CODE_REGION_START AdditionalNamespaces
+	// __LLBLGENPRO_USER_CODE_REGION_END
+	<[ EndUserCodeRegion ]>
+
+	/// <summary>
+	/// Generic Collection class for storing collections of entities of the same type.
+	/// </summary>
+	[Serializable]
+	public <[If UsePartialClasses]>partial <[EndIf]>class EntityCollection : EntityCollectionBase2
+	{
+		/// <summary>
+		/// CTor
+		/// </summary>
+		public EntityCollection():base()
+		{
+		}
+
+
+		/// <summary>
+		/// CTor
+		/// </summary>
+		/// <param name="entityFactoryToUse">The entity factory object to use when this collection has to construct new objects.
+		/// This is the case when the collection is bound to a grid-like control for example.</param>
+		public EntityCollection(IEntityFactory2 entityFactoryToUse):base(entityFactoryToUse)
+		{
+		}
+
+
+		/// <summary>
+		/// Protected CTor for deserialization
+		/// </summary>
+		/// <param name="info"></param>
+		/// <param name="context"></param>
+		protected EntityCollection(SerializationInfo info, StreamingContext context) : base(info, context)
+		{
+		}
+		
+		#region Custom EntityCollection code
+		<[ UserCodeRegion "CustomEntityCollectionCode" ]>
+		// __LLBLGENPRO_USER_CODE_REGION_START CustomEntityCollectionCode
+		// __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>
+		#endregion
+		
+		#region Included Code
+<# Custom_EntityCollectionAdapterTemplate #>
+		#endregion
+	}
+}

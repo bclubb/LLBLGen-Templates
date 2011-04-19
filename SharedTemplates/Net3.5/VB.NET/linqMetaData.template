@@ -1,0 +1,102 @@
+﻿'///////////////////////////////////////////////////////////////
+'// This is generated code. 
+'//////////////////////////////////////////////////////////////
+'// Code is generated Imports LLBLGen Pro version: <[LLBLGenVersion]>
+'// Code is generated on: <[Time]>
+'// Code is generated Imports templates: <[TemplateName]>
+'// Templates vendor: Solutions Design.
+'//////////////////////////////////////////////////////////////
+Imports System
+Imports System.Collections.Generic
+Imports SD.LLBLGen.Pro.LinqSupportClasses
+Imports SD.LLBLGen.Pro.ORMSupportClasses
+
+Imports <[RootNamespace]>
+Imports <[RootNamespace]>.DaoClasses
+Imports <[RootNamespace]>.EntityClasses
+Imports <[RootNamespace]>.FactoryClasses
+Imports <[RootNamespace]>.HelperClasses
+Imports <[RootNamespace]>.RelationClasses
+
+Namespace <[RootNamespace]>.Linq
+	''' <summary>Meta-data Class For the construction of Linq queries which are To be executed using LLBLGen Pro code.</summary>
+	Public Class LinqMetaData
+		Implements ILinqMetaData
+		
+#Region "Class Member Declarations"
+		Private _transactionToUse As ITransaction
+		Private _customFunctionMappings As FunctionMappingStore
+		Private _contextToUse As Context
+#End Region
+		
+		''' <summary>CTor. Using this ctor will leave the transaction Object To use empty. This Is ok If you're not executing queries created with this
+		''' meta data inside a transaction. If you're executing the queries created with this meta-data inside a transaction, either set the Transaction property
+		''' On the IQueryable.Provider instance of the created LLBLGenProQuery Object prior To execution Or use the ctor which accepts a transaction Object.</summary>
+		Public Sub New()
+			Me.New(Nothing, Nothing)
+		End Sub
+
+		''' <summary>CTor. If you're executing the queries created with this meta-data inside a transaction, pass a live ITransaction object to this ctor.</summary>
+		''' <param name="transactionToUse">the transaction To use In queries created With this meta-data</param>
+		''' <remarks> Be aware that the ITransaction Object Set via this Property Is kept alive by the LLBLGenProQuery objects created With this meta data
+		''' till they go out of scope.</remarks>
+		Public Sub New(transactionToUse As ITransaction )
+			Me.New(transactionToUse, Nothing)
+		End Sub
+
+		''' <summary>CTor. If you're executing the queries created with this meta-data inside a transaction, pass a live ITransaction object to this ctor.</summary>
+		''' <param name="transactionToUse">the transaction To use In queries created With this meta-data</param>
+		''' <remarks> Be aware that the ITransaction Object Set via this Property Is kept alive by the LLBLGenProQuery objects created With this meta data
+		''' till they go out of scope.</remarks>
+		Public Sub New(transactionToUse As ITransaction, customFunctionMappings As FunctionMappingStore )
+			_transactionToUse = transactionToUse
+			_customFunctionMappings = customFunctionMappings
+		End Sub
+		
+		''' <summary>returns the datasource To use In a Linq query For the entity type specified</summary>
+		''' <param name="typeOfEntity">the type of the entity To Get the datasource For</param>
+		''' <returns>the requested datasource</returns>
+		Public Function GetQueryableForEntity(typeOfEntity As Integer) As IDataSource Implements ILinqMetaData.GetQueryableForEntity
+			Dim toReturn As IDataSource = Nothing
+<[If HasEntity]>			Select Case CType(typeOfEntity, <[RootNamespace]>.EntityType)
+<[ Foreach Entity CrLf]>				Case <[RootNamespace]>.EntityType.<[CurrentEntityName]>Entity
+					toReturn = Me.<[CurrentEntityName]><[ NextForeach ]>
+				Case Else
+					toReturn = Nothing
+			End Select<[EndIf]>
+			Return toReturn
+		End Function
+		
+<[ Foreach Entity CrLf]>		''' <summary>returns the datasource to use in a Linq query when targeting <[CurrentEntityName]>Entity instances in the database.</summary>
+		Public ReadOnly Property [<[CurrentEntityName]>] As DataSource(Of <[CurrentEntityName]>Entity)
+			Get 
+				Return New DataSource(Of <[CurrentEntityName]>Entity)(_transactionToUse, New ElementCreator(), _customFunctionMappings, _contextToUse) 
+			End Get
+		End Property
+		<[ NextForeach ]>
+		
+#Region "Class Property Declarations"
+		''' <summary> Gets / sets the ITransaction To use For the queries created With this meta data Object.</summary>
+		''' <remarks> Be aware that the ITransaction Object Set via this Property Is kept alive by the LLBLGenProQuery objects created With this meta data
+		''' till they go out of scope.</remarks>
+		Public Property TransactionToUse As ITransaction 
+			Get 
+				Return _transactionToUse
+			End Get
+			Set 
+				_transactionToUse = value
+			End Set
+		End Property
+		
+		''' <summary>Gets Or sets the custom Function mappings To use. These take higher precedence than the ones In the DQE To use</summary>
+		Public Property CustomFunctionMappings As FunctionMappingStore 
+			Get 
+				Return _customFunctionMappings
+			End Get
+			Set 
+				_customFunctionMappings = value
+			End Set
+		End Property
+#End Region
+	End Class
+End Namespace

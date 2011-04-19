@@ -1,0 +1,234 @@
+﻿///////////////////////////////////////////////////////////////
+// This is generated code. 
+//////////////////////////////////////////////////////////////
+// Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+// Code is generated on: <[Time]>
+// Code is generated using templates: <[TemplateName]>
+// Templates vendor: Solutions Design.
+// Templates version: <[TemplateVersion]>
+//////////////////////////////////////////////////////////////
+using System;
+using System.Data;
+using Oracle.DataAccess.Client;
+using Oracle.DataAccess.Types;
+
+using SD.LLBLGen.Pro.ORMSupportClasses;
+
+using <[RootNamespace]>.HelperClasses;
+
+namespace <[RootNamespace]>.StoredProcedureCallerClasses
+{
+	/// <summary>
+	/// Class which contains the static logic to execute action stored procedures in the database.
+	/// </summary>
+	public <[If UsePartialClasses]>partial <[EndIf]>class ActionProcedures
+	{
+		/// <summary>
+		/// private CTor so no instance can be created.
+		/// </summary>
+		private ActionProcedures()
+		{
+		}
+
+	<[Foreach ActionStoredProcedureCall CrLf]>
+		/// <summary>
+		/// Delegate definition for stored procedure '<[ActualStoredProcedureName]>' to be used in combination of a UnitOfWork object.
+		/// </summary>
+		public delegate int <[CurrentSPCallName]>CallBack(<[Foreach InputParameter Comma]><[If IsNullable]><[If IsValueType]>object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]> <[CaseCamel CurrentParameterName]><[NextForeach]><[If HasInputAndOutputParameters]>, <[EndIf]><[Foreach OutputParameter Comma]>ref <[If IsNullable]><[If IsValueType]>object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]> <[CaseCamel CurrentParameterName]><[NextForeach]><[If HasParameter]>, <[EndIf]> ITransaction transactionToUse);
+
+		/// <summary>
+		/// Calls stored procedure '<[ActualStoredProcedureName]>'. Can't have any cursors.<br/><br/>
+		/// <[Foreach CustomProperty ActionStoredProcedureCall]>
+		/// <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+		/// </summary>
+<[If HasParameter]><[Foreach Parameter CrLf]>		/// <param name="<[CaseCamel CurrentParameterName]>"><[CurrentParameterDirection]> parameter of stored procedure</param><[NextForeach]>
+<[EndIf]>		/// <returns>Amount of rows affected, if the database / routine doesn't surpress rowcounting.</returns>
+		public static int <[CurrentSPCallName]>(<[Foreach InputParameter Comma]><[If IsNullable]><[If IsValueType]>object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]> <[CaseCamel CurrentParameterName]><[NextForeach]><[If HasInputAndOutputParameters]>, <[EndIf]><[Foreach OutputParameter Comma]>ref <[If IsNullable]><[If IsValueType]>object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]> <[CaseCamel CurrentParameterName]><[NextForeach]>)
+		{
+			// create parameters
+			OracleParameter[] parameters = new OracleParameter[<[AmountOfParameters]>];
+<[Foreach Parameter CrLf]>			parameters[<[ParameterIndex]>] = new OracleParameter("<[ActualParameterName]>", OracleDbType.<[TypeOfActualParameter]>, <[ParameterSize]>, ParameterDirection.<[CurrentParameterDirection]>, true, <[ParameterPrecision]>, <[ParameterScale]>, "",  DataRowVersion.Current, <[CaseCamel CurrentParameterName]>);<[NextForeach]>
+			// Call the stored proc.
+			int toReturn = DbUtils.CallActionStoredProcedure("<[SourceSchemaName]>.<[ActualStoredProcedureName]>", parameters, null);
+<[Foreach OutputParameter CrLf]>			 if((ValueConverter.Convert(parameters[<[ParameterIndex]>])!=null) && (ValueConverter.Convert(parameters[<[ParameterIndex]>])!=System.DBNull.Value))
+			{
+				<[CaseCamel CurrentParameterName]> = (<[If IsNullable]><[If IsValueType]>object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]>)ValueConverter.Convert(parameters[<[ParameterIndex]>]);
+			}<[NextForeach]>
+			for(int i=0;i<<[AmountOfParameters]>;i++)
+			{
+				if(parameters[i] != null)
+				{
+					parameters[i].Dispose();
+				}
+			}
+			return toReturn;
+		}
+
+
+		/// <summary>
+		/// Calls stored procedure '<[ActualStoredProcedureName]>'. Can't have any cursors.<br/><br/>
+		/// <[Foreach CustomProperty ActionStoredProcedureCall]>
+		/// <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+		/// </summary>
+<[If HasParameter]><[Foreach Parameter CrLf]>		/// <param name="<[CaseCamel CurrentParameterName]>"><[CurrentParameterDirection]> parameter of stored procedure</param><[NextForeach]>
+<[EndIf]>		/// <param name="transactionToUse">the transaction to use, or null if no transaction is available.</param>
+		/// <returns>Amount of rows affected, if the database / routine doesn't surpress rowcounting.</returns>
+		public static int <[CurrentSPCallName]>(<[Foreach InputParameter Comma]><[If IsNullable]><[If IsValueType]>object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]> <[CaseCamel CurrentParameterName]><[NextForeach]><[If HasInputAndOutputParameters]>, <[EndIf]><[Foreach OutputParameter Comma]>ref <[If IsNullable]><[If IsValueType]>object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]> <[CaseCamel CurrentParameterName]><[NextForeach]><[If HasParameter NoCursors]>, <[EndIf]> ITransaction transactionToUse)
+		{
+			// create parameters
+			OracleParameter[] parameters = new OracleParameter[<[AmountOfParameters]>];
+<[Foreach Parameter CrLf]>			parameters[<[ParameterIndex]>] = new OracleParameter("<[ActualParameterName]>", OracleDbType.<[TypeOfActualParameter]>, <[ParameterSize]>, ParameterDirection.<[CurrentParameterDirection]>, true, <[ParameterPrecision]>, <[ParameterScale]>, "",  DataRowVersion.Current, <[CaseCamel CurrentParameterName]>);<[NextForeach]>
+			// Call the stored proc.
+			int toReturn = DbUtils.CallActionStoredProcedure("<[SourceSchemaName]>.<[ActualStoredProcedureName]>", parameters, transactionToUse);
+<[Foreach OutputParameter CrLf]>			if((ValueConverter.Convert(parameters[<[ParameterIndex]>])!=null) && (ValueConverter.Convert(parameters[<[ParameterIndex]>])!=System.DBNull.Value))
+			{
+				<[CaseCamel CurrentParameterName]> = (<[If IsNullable]><[If IsValueType]>object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]>)ValueConverter.Convert(parameters[<[ParameterIndex]>]);
+			}<[NextForeach]>
+			for(int i=0;i<<[AmountOfParameters]>;i++)
+			{
+				if(parameters[i] != null)
+				{
+					parameters[i].Dispose();
+				}
+			}
+			return toReturn;
+		}
+	<[NextForeach]>
+
+		#region Included Code
+<# Custom_ActionProceduresTemplate #>
+		#endregion
+	}
+	
+	
+	/// <summary>
+	/// Converts parameter values from specific Oracle types to .NET types.
+	/// </summary>
+	internal class ValueConverter
+	{
+		internal static object Convert(OracleParameter parameter)
+		{
+			object toReturn = DBNull.Value;
+
+			Type typeOfParameterValue = parameter.Value.GetType();
+			switch(typeOfParameterValue.FullName)
+			{
+				case "Oracle.DataAccess.Types.OracleBinary":
+					OracleBinary valueAsBinary = (OracleBinary)parameter.Value;
+					if(!valueAsBinary.IsNull)
+					{
+						toReturn = valueAsBinary.Value;
+					}
+					break;
+				case "Oracle.DataAccess.Types.OracleBlob":
+					toReturn = ((OracleBlob)parameter.Value).Value;
+					break;
+				case "Oracle.DataAccess.Types.OracleClob":
+					toReturn = ((OracleClob)parameter.Value).Value;
+					break;
+				case "Oracle.DataAccess.Types.OracleDate":
+					OracleDate valueAsDate = (OracleDate)parameter.Value;
+					if(!valueAsDate.IsNull)
+					{
+						toReturn = valueAsDate.Value;
+					}
+					break;
+				case "Oracle.DataAccess.Types.OracleDecimal":
+					OracleDecimal valueAsDecimal = (OracleDecimal)parameter.Value;
+					if(!valueAsDecimal.IsNull)
+					{
+						decimal value = valueAsDecimal.Value;
+						int actualPrecision = parameter.Precision;
+						if(parameter.Precision==0)
+						{
+							actualPrecision = 38;
+						}
+						toReturn = value;
+						// Following code is based on ODP.NET's conversion routine, as it is pretty obscure what ODP.NET's doing with values read. The if statements are from ODP.NET. 
+						if(parameter.Scale==0)
+						{
+							if(actualPrecision < 5)
+							{
+								toReturn = System.Convert.ToInt16(value);
+							}
+							else
+							{
+								if(actualPrecision < 10)
+								{
+									toReturn = System.Convert.ToInt32(value);
+								}
+								else
+								{
+									if(actualPrecision < 19)
+									{
+										toReturn = System.Convert.ToInt64(value);
+									}
+								}
+							}
+						}
+						else
+						{
+							if(actualPrecision < 8)
+							{
+								toReturn = System.Convert.ToSingle(value);
+							}
+							else
+							{
+								if(actualPrecision < 16)
+								{
+									toReturn = System.Convert.ToDouble(value);
+								}
+							}
+						}
+					}
+					break;
+				case "Oracle.DataAccess.Types.OracleIntervalDS":
+					OracleIntervalDS valueAsIntervalDS = (OracleIntervalDS)parameter.Value;
+					if(!valueAsIntervalDS.IsNull)
+					{
+						toReturn = valueAsIntervalDS.Value;
+					}
+					break;
+				case "Oracle.DataAccess.Types.OracleIntervalYM":
+					OracleIntervalYM valueAsIntervalYM = (OracleIntervalYM)parameter.Value;
+					if(!valueAsIntervalYM.IsNull)
+					{
+						toReturn = valueAsIntervalYM.Value;
+					}
+					break;
+				case "Oracle.DataAccess.Types.OracleString":
+					OracleString valueAsString = (OracleString)parameter.Value;
+					if(!valueAsString.IsNull)
+					{
+						toReturn = valueAsString.Value;
+					}
+					break;
+				case "Oracle.DataAccess.Types.OracleTimeStamp":
+					OracleTimeStamp valueAsTimeStamp = (OracleTimeStamp)parameter.Value;
+					if(!valueAsTimeStamp.IsNull)
+					{
+						toReturn = valueAsTimeStamp.Value;
+					}
+					break;
+				case "Oracle.DataAccess.Types.OracleTimeStampLTZ":
+					OracleTimeStampLTZ valueAsTimeStampLTZ = (OracleTimeStampLTZ)parameter.Value;
+					if(!valueAsTimeStampLTZ.IsNull)
+					{
+						toReturn = valueAsTimeStampLTZ.Value;
+					}
+					break;
+				case "Oracle.DataAccess.Types.OracleTimeStampTZ":
+					OracleTimeStampTZ valueAsTimeStampTZ = (OracleTimeStampTZ)parameter.Value;
+					if(!valueAsTimeStampTZ.IsNull)
+					{
+						toReturn = valueAsTimeStampTZ.Value;
+					}
+					break;
+				default:
+					toReturn = parameter.Value;
+					break;
+			}
+			return toReturn;
+		}
+	}
+}

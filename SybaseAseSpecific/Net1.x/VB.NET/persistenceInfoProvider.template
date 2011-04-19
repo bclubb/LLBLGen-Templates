@@ -1,0 +1,70 @@
+﻿' ///////////////////////////////////////////////////////////////
+' // This is generated code. 
+' //////////////////////////////////////////////////////////////
+' // Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+' // Code is generated on: <[Time]>
+' // Code is generated using templates: <[TemplateName]>
+' // Templates vendor: Solutions Design.
+' // Templates version: <[TemplateVersion]>
+' //////////////////////////////////////////////////////////////
+Imports System
+Imports System.Collections
+Imports System.Data
+Imports Sybase.Data.AseClient
+
+Imports SD.LLBLGen.Pro.ORMSupportClasses
+
+Namespace <[RootNamespace]>.HelperClasses
+	''' <summary>
+	''' Singleton implementation of the PersistenceInfoProvider. This Class Is the singleton wrapper through which the actual instance Is retrieved.
+	''' </summary>
+	''' <remarks>It uses a single instance of an internal class. The access isn't marked with locks as the PersistenceInfoProviderBase class is threadsafe.</remarks>
+	Friend NotInheritable Class PersistenceInfoProviderSingleton
+#Region "Class Member Declarations"
+		Private Shared ReadOnly _providerInstance As IPersistenceInfoProvider = New PersistenceInfoProviderCore()
+#End Region
+		
+		''' <summary>private ctor to prevent instances of this class.</summary>
+		Private Sub New()
+		End Sub
+
+		''' <summary>Dummy static constructor to make sure threadsafe initialization is performed.</summary>
+		Shared Sub New()
+		End Sub
+
+		''' <summary>Gets the singleton instance of the PersistenceInfoProviderCore</summary>
+		''' <returns>Instance of the PersistenceInfoProvider.</returns>
+		Public Shared Function GetInstance() As IPersistenceInfoProvider 
+			Return _providerInstance
+		End Function
+	End Class
+
+	''' <summary>Actual implementation of the PersistenceInfoProvider. Used by singleton wrapper.</summary>
+	Friend Class PersistenceInfoProviderCore 
+		Inherits PersistenceInfoProviderBase
+		
+		''' <summary>Initializes a new instance of the <see cref="PersistenceInfoProviderCore"/> class.</summary>
+		Friend Sub New()
+			Init()
+		End Sub
+
+		''' <summary>Method which initializes the internal datastores with the structure of hierarchical types.</summary>
+		Private Sub Init()
+			MyBase.InitClass((<[AmountOfElements Entity]> + <[AmountOfElements TypedView ]>))
+<[Foreach Entity CrLf]>			Init<[CurrentEntityName]>EntityMappings()<[NextForeach]>
+<[Foreach TypedView CrLf]>			Init<[CurrentTypedViewName]>TypedViewMappings()<[NextForeach]>
+		End Sub
+<[Foreach Entity ]>
+		''' <summary>Inits <[CurrentEntityName]>Entity's mappings</summary>
+		Private Sub Init<[CurrentEntityName]>EntityMappings()
+			MyBase.AddElementMapping( "<[CurrentEntityName]>Entity", "<[ElementTargetCatalogName]>", "<[ElementTargetSchemaName]>", "<[ElementTargetObjectName]>", <[AmountOfEntityFields]> )
+<[If HasFields]><[Foreach EntityField CrLf]>			MyBase.AddElementFieldMapping( "<[CurrentEntityName]>Entity", "<[EntityFieldName]>", "<[SourceColumnName]>", <[SourceColumnIsNullable]>, CInt(AseDbType.<[SourceColumnDbType]>), <[SourceColumnMaxLength]>, <[SourceColumnScale]>, <[SourceColumnPrecision]>, <[IsIdentity]>, "<[IdentityValueSequenceName]>", <[If HasTypeConverterDefined]> New <[TypeConverterFullName]>()<[Else]>Nothing<[EndIf]>, GetType(<[TypeOfMappedTargetField]>), <[ FieldIndex ]> )<[NextForeach]><[EndIf]>
+		End Sub<[NextForeach]>
+<[Foreach TypedView]>
+		''' <summary>Inits <[CurrentEntityName]>View's mappings</summary>
+		Private Sub Init<[CurrentTypedViewName]>TypedViewMappings()
+			MyBase.AddElementMapping( "<[CurrentTypedViewName]>TypedView", "<[ElementTargetCatalogName]>", "<[ElementTargetSchemaName]>", "<[ElementTargetObjectName]>", <[AmountOfTypedViewFields]> )
+<[If HasFields]><[Foreach TypedViewField CrLf]>			MyBase.AddElementFieldMapping( "<[CurrentTypedViewName]>TypedView", "<[TypedViewFieldName]>", "<[SourceColumnName]>", False, CInt(AseDbType.<[SourceColumnDbType]>), <[SourceColumnMaxLength]>, <[SourceColumnScale]>, <[SourceColumnPrecision]>,False, String.Empty, <[If HasTypeConverterDefined]> New <[TypeConverterFullName]>()<[Else]>Nothing<[EndIf]>, GetType(<[TypeOfMappedTargetField]>), <[ FieldIndex ]> )<[NextForeach]><[EndIf]>
+		End Sub<[NextForeach]>
+	End Class
+End Namespace

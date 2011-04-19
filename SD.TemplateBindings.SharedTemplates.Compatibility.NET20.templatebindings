@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<templateBindings xmlns="http://sd/llblgen/pro/templateBindingsDefinition.xsd" name="SD.TemplateBindings.SharedTemplates.BackwardsCompatibility.NET20"
+				  description ="Backwards compatibility template bindings for the templates which are shared among all database types. Specific for .NET 2.0/3.0/3.5 based platforms. Place these template bindings before other shared templates bindings to keep backwards compatibility with 1.0.2005.1 or earlier."
+				  precedenceLevel="9">
+	<supportedPlatforms>
+		<platform name=".NET 2.0"/>
+		<platform name=".NET 3.0"/>
+		<platform name=".NET 3.5"/>
+		<platform name="CF.NET 2.0"/>
+		<platform name="CF.NET 3.5"/>
+	</supportedPlatforms>
+
+	<language name="C#">
+		<!-- Generic template bindings -->
+		<templateBinding templateID="SD_ResultsetFieldsAdapterTemplate" filename="SharedTemplates\Net2.x\C#\resultsetFieldsAdapter10.template" />
+		<templateBinding templateID="SD_ResultsetFieldsTemplate" filename="SharedTemplates\Net2.x\C#\resultsetFields10.template" />
+	</language>
+	<language name="VB.NET">
+		<!-- Generic template bindings -->
+		<templateBinding templateID="SD_ResultsetFieldsAdapterTemplate" filename="SharedTemplates\Net2.x\VB.NET\resultsetFieldsAdapter10.template" />
+		<templateBinding templateID="SD_ResultsetFieldsTemplate" filename="SharedTemplates\Net2.x\VB.NET\resultsetFields10.template" />
+	</language>
+</templateBindings>
+

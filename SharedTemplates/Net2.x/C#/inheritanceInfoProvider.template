@@ -1,0 +1,86 @@
+﻿///////////////////////////////////////////////////////////////
+// This is generated code. 
+//////////////////////////////////////////////////////////////
+// Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+// Code is generated on: <[Time]>
+// Code is generated using templates: <[TemplateName]>
+// Templates vendor: Solutions Design.
+// Templates version: <[TemplateVersion]>
+//////////////////////////////////////////////////////////////
+using System;
+using <[RootNamespace]>.FactoryClasses;
+<[ If HasEntity ]>using <[RootNamespace]>.RelationClasses;<[ EndIf ]>
+using SD.LLBLGen.Pro.ORMSupportClasses;
+
+namespace <[RootNamespace]>.HelperClasses
+{
+	<[ UserCodeRegion "AdditionalNamespaces" ]>
+	// __LLBLGENPRO_USER_CODE_REGION_START AdditionalNamespaces
+	// __LLBLGENPRO_USER_CODE_REGION_END
+	<[ EndUserCodeRegion ]>
+	
+	/// <summary>
+	/// Singleton implementation of the inheritanceInfoProvider. This class is the singleton wrapper through which the actual instance is retrieved.
+	/// </summary>
+	/// <remarks>It uses a single instance of an internal class. The access isn't marked with locks as the InheritanceInfoProviderBase class is threadsafe.</remarks>
+	public sealed class InheritanceInfoProviderSingleton
+	{
+		#region Class Member Declarations
+		private static readonly IInheritanceInfoProvider _providerInstance = new InheritanceInfoProviderCore();
+		#endregion
+		
+		/// <summary>private ctor to prevent instances of this class.</summary>
+		private InheritanceInfoProviderSingleton()
+		{
+		}
+
+		/// <summary>Dummy static constructor to make sure threadsafe initialization is performed.</summary>
+		static InheritanceInfoProviderSingleton()
+		{
+		}
+
+		/// <summary>Gets the singleton instance of the InheritanceInfoProviderCore</summary>
+		/// <returns>Instance of the InheritanceInfoProvider.</returns>
+		public static IInheritanceInfoProvider GetInstance()
+		{
+			return _providerInstance;
+		}
+
+		#region Custom InheritanceInfoProviderSingleton code
+		<[ UserCodeRegion "CustomInheritanceInfoProviderSingletonCode" ]>
+		// __LLBLGENPRO_USER_CODE_REGION_START CustomInheritanceInfoProviderSingletonCode
+		// __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>
+		#endregion
+	}
+
+
+	/// <summary>Actual implementation of the InheritanceInfoProvider. Used by singleton wrapper.</summary>
+	internal class InheritanceInfoProviderCore : InheritanceInfoProviderBase
+	{
+		/// <summary>Initializes a new instance of the <see cref="InheritanceInfoProviderCore"/> class.</summary>
+		internal InheritanceInfoProviderCore()
+		{
+			Init();
+		}
+
+		/// <summary>Method which initializes the internal datastores with the structure of hierarchical types.</summary>
+		private void Init()
+		{<[ Foreach Entity]><[If Not IsInHierarchyType None]>
+<[If IsInHierarchyType TargetPerEntity]>			base.AddEntityInfo("<[CurrentEntityName]>Entity", <[If IsSubType]>"<[SuperTypeName]>Entity"<[Else]>string.Empty<[EndIf]>, new <[CurrentEntityName]>Relations(), new <[CurrentEntityName]>EntityFactory()<[If IsSubType]>, <[Foreach FieldToLink Comma]> (<[SubTypeFieldIndex]>-<[IndexFirstNonInheritedField]>)<[NextForeach]><[EndIf]>);<[Else]><[If IsInHierarchyType TargetPerEntityHierarchy]>			base.AddEntityInfo("<[CurrentEntityName]>Entity", <[If IsSubType]>"<[SuperTypeName]>Entity"<[Else]>string.Empty<[EndIf]>, new <[CurrentEntityName]>EntityFactory(), (int)<[CurrentEntityName]>FieldIndex.<[DiscriminatorColumnName]>, <[DiscriminatorValue]>);<[EndIf]><[EndIf]><[ EndIf ]><[ NextForeach ]>
+			base.BuildHierarchyInfoStore();
+		}
+
+		/// <summary>Gets the entity fields for the entity passed in. Only the fields defined in the entity are returned</summary>
+		/// <param name="entityName">Name of the entity to grab the fields for</param>
+		/// <returns>array of IEntityFieldCore fields</returns>
+		public override IEntityFieldCore[] GetEntityFields(string entityName)
+		{
+<[ If HasEntity ]>			return EntityFieldsFactory.CreateFields(entityName);<[Else]>			return null;<[ EndIf ]>
+		}
+	}
+}
+
+
+
+

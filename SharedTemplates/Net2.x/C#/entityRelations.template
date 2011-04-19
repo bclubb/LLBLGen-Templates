@@ -1,0 +1,140 @@
+﻿///////////////////////////////////////////////////////////////
+// This is generated code. 
+//////////////////////////////////////////////////////////////
+// Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+// Code is generated on: <[Time]>
+// Code is generated using templates: <[TemplateName]>
+// Templates vendor: Solutions Design.
+// Templates version: <[TemplateVersion]>
+//////////////////////////////////////////////////////////////
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using <[RootNamespace]>;
+using <[RootNamespace]>.FactoryClasses;
+using <[RootNamespace]>.HelperClasses;
+using SD.LLBLGen.Pro.ORMSupportClasses;
+
+namespace <[RootNamespace]>.RelationClasses
+{
+	/// <summary>Implements the static Relations variant for the entity: <[CurrentEntityName]>. </summary>
+	public <[If UsePartialClasses]>partial <[EndIf]>class <[CurrentEntityName]>Relations<[If Not IsInHierarchyType None]> : <[If IsSubType]><[SuperTypeName]>Relations<[Else]>IRelationFactory<[EndIf]><[EndIf]>
+	{
+		/// <summary>CTor</summary>
+		public <[CurrentEntityName]>Relations()
+		{
+		}
+
+		/// <summary>Gets all relations of the <[CurrentEntityName]>Entity as a list of IEntityRelation objects.</summary>
+		/// <returns>a list of IEntityRelation objects</returns>
+		public <[If IsSubType]>override<[Else]>virtual<[EndIf]> List<IEntityRelation> GetAllRelations()
+		{
+			List<IEntityRelation> toReturn = <[If IsSubType]>base.GetAllRelations();<[Else]>new List<IEntityRelation>();<[EndIf]>
+<[Foreach RelatedEntity OneToMany CrLf]>			toReturn.Add(this.<[RelatedEntityName]>EntityUsing<[Foreach RelationField]><[RelatedEntityRelationFieldName]><[NextForeach]>);<[NextForeach]>
+<[Foreach RelatedEntity OneToOne CrLf]>			toReturn.Add(this.<[RelatedEntityName]>EntityUsing<[Foreach RelationField]><[If IsOneToOnePkPk FkSide]><[RelationFieldName]><[EndIf]><[If Not IsOneToOnePkPk FkSide]><[RelatedEntityRelationFieldName]><[EndIf]><[If IsOneToOnePkFkUc FkSide]><[If RelatedEntityIsOtherEntity]><[RelationFieldName]><[EndIf]><[If Not RelatedEntityIsOtherEntity]><[RelatedEntityRelationFieldName]><[EndIf]><[EndIf]><[If Not IsOneToOnePkFkUc FkSide]><[RelatedEntityRelationFieldName]><[EndIf]><[NextForeach]>);<[NextForeach]>
+<[Foreach RelatedEntity ManyToOne CrLf]>			toReturn.Add(this.<[RelatedEntityName]>EntityUsing<[If Not RelatedEntityIsOtherEntity]><[Foreach RelationField]><[RelatedEntityRelationFieldName]><[NextForeach]><[EndIf]><[Foreach RelationField]><[RelationFieldName]><[NextForeach]>);<[NextForeach]>
+			return toReturn;
+		}
+
+		#region Class Property Declarations
+<[Foreach RelatedEntity OneToMany IncludeInherited CrLf]>
+		/// <summary>Returns a new IEntityRelation object, between <[CurrentEntityName]>Entity and <[RelatedEntityName]>Entity over the 1:n relation they have, using the relation between the fields:
+<[Foreach RelationField CrLf]>		/// <[CurrentEntityName]>.<[RelationFieldName]> - <[RelatedEntityName]>.<[RelatedEntityRelationFieldName]><[NextForeach]>
+		/// </summary>
+		public <[If RelationIsInherited]>override<[Else]>virtual<[EndIf]> IEntityRelation <[RelatedEntityName]>EntityUsing<[Foreach RelationField]><[RelatedEntityRelationFieldName]><[NextForeach]>
+		{
+			get
+			{
+				IEntityRelation relation = new EntityRelation(SD.LLBLGen.Pro.ORMSupportClasses.RelationType.OneToMany, "<[MappedFieldNameRelation]>" , true);
+<[Foreach RelationField CrLf]>				relation.AddEntityFieldPair(<[CurrentEntityName]>Fields.<[RelationFieldName]>, <[RelatedEntityName]>Fields.<[RelatedEntityRelationFieldName]>);<[NextForeach]>
+				relation.InheritanceInfoPkSideEntity = InheritanceInfoProviderSingleton.GetInstance().GetInheritanceInfo("<[CurrentEntityName]>Entity", true);
+				relation.InheritanceInfoFkSideEntity = InheritanceInfoProviderSingleton.GetInstance().GetInheritanceInfo("<[RelatedEntityName]>Entity", false);
+				return relation;
+			}
+		}<[NextForeach]>
+<[Foreach RelatedEntity OneToOne IncludeInherited CrLf]>
+		/// <summary>Returns a new IEntityRelation object, between <[CurrentEntityName]>Entity and <[RelatedEntityName]>Entity over the 1:1 relation they have, using the relation between the fields:
+<[Foreach RelationField CrLf]>		/// <[CurrentEntityName]>.<[RelationFieldName]> - <[RelatedEntityName]>.<[RelatedEntityRelationFieldName]><[NextForeach]>
+		/// </summary>
+		public <[If RelationIsInherited]>override<[Else]>virtual<[EndIf]> IEntityRelation <[RelatedEntityName]>EntityUsing<[Foreach RelationField]><[If IsOneToOnePkPk FkSide]><[RelationFieldName]><[EndIf]><[If Not IsOneToOnePkPk FkSide]><[RelatedEntityRelationFieldName]><[EndIf]><[If IsOneToOnePkFkUc FkSide]><[If RelatedEntityIsOtherEntity]><[RelationFieldName]><[EndIf]><[If Not RelatedEntityIsOtherEntity]><[RelatedEntityRelationFieldName]><[EndIf]><[EndIf]><[If Not IsOneToOnePkFkUc FkSide]><[RelatedEntityRelationFieldName]><[EndIf]><[NextForeach]>
+		{
+			get
+			{
+				IEntityRelation relation = new EntityRelation(SD.LLBLGen.Pro.ORMSupportClasses.RelationType.OneToOne, "<[MappedFieldNameRelation]>", <[If IsOnPkSide]>true<[Else]>false<[EndIf]>);
+<[Foreach RelationField]>
+<[If Not IsOneToOnePkPk FkSide]>				relation.AddEntityFieldPair(<[CurrentEntityName]>Fields.<[RelationFieldName]>, <[RelatedEntityName]>Fields.<[RelatedEntityRelationFieldName]>);<[EndIf]>
+<[If Not IsOneToOnePkFkUc FkSide]>				relation.AddEntityFieldPair(<[CurrentEntityName]>Fields.<[RelationFieldName]>, <[RelatedEntityName]>Fields.<[RelatedEntityRelationFieldName]>);<[EndIf]>
+<[If IsOneToOnePkPk FkSide]>				relation.AddEntityFieldPair(<[RelatedEntityName]>Fields.<[RelatedEntityRelationFieldName]>, <[CurrentEntityName]>Fields.<[RelationFieldName]>);<[EndIf]>
+<[If IsOneToOnePkFkUc FkSide]>				relation.AddEntityFieldPair(<[RelatedEntityName]>Fields.<[RelatedEntityRelationFieldName]>, <[CurrentEntityName]>Fields.<[RelationFieldName]>);<[EndIf]><[NextForeach]>
+				relation.InheritanceInfoPkSideEntity = InheritanceInfoProviderSingleton.GetInstance().GetInheritanceInfo(<[If IsOnPkSide]>"<[CurrentEntityName]>Entity", true<[Else]>"<[RelatedEntityName]>Entity", false<[EndIf]>);
+				relation.InheritanceInfoFkSideEntity = InheritanceInfoProviderSingleton.GetInstance().GetInheritanceInfo(<[If Not IsOnPkSide]>"<[CurrentEntityName]>Entity", true<[Else]>"<[RelatedEntityName]>Entity", false<[EndIf]>);<[EndIf]>
+				return relation;
+			}
+		}<[NextForeach]>
+<[Foreach RelatedEntity ManyToOne IncludeInherited]>
+		/// <summary>Returns a new IEntityRelation object, between <[CurrentEntityName]>Entity and <[RelatedEntityName]>Entity over the m:1 relation they have, using the relation between the fields:
+<[Foreach RelationField CrLf]>		/// <[CurrentEntityName]>.<[RelationFieldName]> - <[RelatedEntityName]>.<[RelatedEntityRelationFieldName]><[NextForeach]>
+		/// </summary>
+		public <[If RelationIsInherited]>override<[Else]>virtual<[EndIf]> IEntityRelation <[RelatedEntityName]>EntityUsing<[If Not RelatedEntityIsOtherEntity]><[Foreach RelationField]><[RelatedEntityRelationFieldName]><[NextForeach]><[EndIf]><[Foreach RelationField]><[RelationFieldName]><[NextForeach]>
+		{
+			get
+			{
+				IEntityRelation relation = new EntityRelation(SD.LLBLGen.Pro.ORMSupportClasses.RelationType.ManyToOne, "<[ MappedFieldNameRelation ]>", false);
+<[Foreach RelationField CrLf]>				relation.AddEntityFieldPair(<[RelatedEntityName]>Fields.<[RelatedEntityRelationFieldName]>, <[CurrentEntityName]>Fields.<[RelationFieldName]>);<[NextForeach]>
+				relation.InheritanceInfoPkSideEntity = InheritanceInfoProviderSingleton.GetInstance().GetInheritanceInfo("<[RelatedEntityName]>Entity", false);
+				relation.InheritanceInfoFkSideEntity = InheritanceInfoProviderSingleton.GetInstance().GetInheritanceInfo("<[CurrentEntityName]>Entity", true);
+				return relation;
+			}
+		}<[NextForeach]>
+<[If IsInHierarchyType TargetPerEntity]><[Foreach RelatedHierarchyEntity]>
+		/// <summary>Returns a new IEntityRelation object, between <[CurrentEntityName]>Entity and <[RelatedEntityName]>Entity over the 1:1 relation they have, which is used to build a target per entity hierarchy, and is using the relation between the fields:
+<[Foreach RelationField CrLf]>		/// <[CurrentEntityName]>.<[RelationFieldName]> - <[RelatedEntityName]>.<[RelatedEntityRelationFieldName]><[NextForeach]>
+		/// </summary>
+		internal IEntityRelation RelationTo<[If IsOnSubTypeSide]>SuperType<[Else]>SubType<[EndIf]><[RelatedEntityName]>Entity
+		{
+			get
+			{
+				IEntityRelation relation = new EntityRelation(SD.LLBLGen.Pro.ORMSupportClasses.RelationType.OneToOne, <[If IsOnPkSide]>true<[Else]>false<[EndIf]>);
+<[Foreach RelationField]>
+	<[If Not IsOneToOnePkPk FkSide]>			relation.AddEntityFieldPair(<[CurrentEntityName]>Fields.<[RelationFieldName]>, <[RelatedEntityName]>Fields.<[RelatedEntityRelationFieldName]>);<[EndIf]>
+	<[If Not IsOneToOnePkFkUc FkSide]>			relation.AddEntityFieldPair(<[CurrentEntityName]>Fields.<[RelationFieldName]>, <[RelatedEntityName]>Fields.<[RelatedEntityRelationFieldName]>);<[EndIf]>
+	<[If IsOneToOnePkPk FkSide]>			relation.AddEntityFieldPair(<[RelatedEntityName]>Fields.<[RelatedEntityRelationFieldName]>, <[CurrentEntityName]>Fields.<[RelationFieldName]>);<[EndIf]>
+	<[If IsOneToOnePkFkUc FkSide]>			relation.AddEntityFieldPair(<[RelatedEntityName]>Fields.<[RelatedEntityRelationFieldName]>, <[CurrentEntityName]>Fields.<[RelationFieldName]>);<[EndIf]><[NextForeach]>
+				relation.IsHierarchyRelation=true;
+				return relation;
+			}
+		}<[NextForeach]>
+		/// <summary>Returns the relation object the entity, to which this relation factory belongs, has with the subtype with the specified name</summary>
+		/// <param name="subTypeEntityName">name of direct subtype which is a subtype of the current entity through the relation to return.</param>
+		/// <returns>relation which makes the current entity a supertype of the subtype entity with the name specified, or null if not applicable/found</returns>
+		public <[If IsSubType]>override<[Else]>virtual<[EndIf]> IEntityRelation GetSubTypeRelation(string subTypeEntityName)
+		{
+<[If Not IsSuperType ]>			return null;<[Else]>			switch(subTypeEntityName)
+			{<[Foreach RelatedHierarchyEntity]><[If Not IsOnSubTypeSide]>
+				case "<[RelatedEntityName]>Entity":
+					return this.RelationToSubType<[RelatedEntityName]>Entity;<[EndIf]><[NextForeach]>
+				default:
+					return null;
+			}<[ EndIf ]>
+		}
+		
+		
+		/// <summary>Returns the relation object the entity, to which this relation factory belongs, has with its supertype, if applicable.</summary>
+		/// <returns>relation which makes the current entity a subtype of its supertype entity or null if not applicable/found</returns>
+		public <[If IsSubType]>override<[Else]>virtual<[EndIf]> IEntityRelation GetSuperTypeRelation()
+		{
+<[If IsSubType]>			return this.RelationToSuperType<[SuperTypeName]>Entity;<[Else]>			return null;<[ EndIf ]>
+		}
+<[Else]>
+		/// <summary>stub, not used in this entity, only for TargetPerEntity entities.</summary>
+		public <[If IsSubType]>override<[Else]>virtual<[EndIf]> IEntityRelation GetSubTypeRelation(string subTypeEntityName) { return null; }
+		/// <summary>stub, not used in this entity, only for TargetPerEntity entities.</summary>
+		public <[If IsSubType]>override<[Else]>virtual<[EndIf]> IEntityRelation GetSuperTypeRelation() { return null;}
+<[EndIf]>
+		#endregion
+
+		#region Included Code
+<# Custom_EntityRelationsTemplate #>
+		#endregion
+	}
+}

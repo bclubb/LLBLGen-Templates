@@ -1,0 +1,73 @@
+﻿///////////////////////////////////////////////////////////////
+// This is generated code. 
+//////////////////////////////////////////////////////////////
+// Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+// Code is generated on: <[Time]>
+// Code is generated using templates: <[TemplateName]>
+// Templates vendor: Solutions Design.
+// Templates version: <[TemplateVersion]>
+//////////////////////////////////////////////////////////////
+using System;
+using System.Collections.Generic;
+using <[RootNamespace]>;
+using <[RootNamespace]>.HelperClasses;
+using <[RootNamespace]>.FactoryClasses;
+<[If HasEntity]>using <[RootNamespace]>.RelationClasses;<[EndIf]>
+using SD.LLBLGen.Pro.ORMSupportClasses;
+#if !CF
+using System.Runtime.Serialization;
+#endif
+namespace <[RootNamespace]>.EntityClasses
+{
+	<[ UserCodeRegion "AdditionalNamespaces" ]>
+	// __LLBLGENPRO_USER_CODE_REGION_START AdditionalNamespaces
+	// __LLBLGENPRO_USER_CODE_REGION_END
+	<[ EndUserCodeRegion ]>
+
+	/// <summary>Common base class which is the base class for all generated entities which aren't a subtype of another entity.</summary>
+	[Serializable]
+	public abstract <[If UsePartialClasses]>partial <[EndIf]>class CommonEntityBase : EntityBase2<[ UserCodeRegion "AdditionalInterfaces" ]>
+		// __LLBLGENPRO_USER_CODE_REGION_START AdditionalInterfaces
+		// __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>	
+	{
+		#region Class Member Declarations
+		<[ UserCodeRegion "PrivateMembers" ]>
+		// __LLBLGENPRO_USER_CODE_REGION_START PrivateMembers
+		// __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>
+		#endregion
+		
+		/// <summary>CTor</summary>
+		public CommonEntityBase()
+		{
+		}
+		
+		/// <summary> CTor</summary>
+		public CommonEntityBase(string name):base(name)
+		{
+		}
+
+		/// <summary> Protected CTor for deserialization</summary>
+		/// <param name="info"></param>
+		/// <param name="context"></param>
+		protected CommonEntityBase(SerializationInfo info, StreamingContext context) : base(info, context)
+		{
+			<[ UserCodeRegion "DeserializationConstructor" ]>
+			// __LLBLGENPRO_USER_CODE_REGION_START DeserializationConstructor
+			// __LLBLGENPRO_USER_CODE_REGION_END
+			<[ EndUserCodeRegion ]>
+		}
+
+		#region Custom Entity code
+		<[ UserCodeRegion "CustomEntityCode" ]>
+		// __LLBLGENPRO_USER_CODE_REGION_START CustomEntityCode
+		// __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>
+		#endregion
+
+		#region Included code
+<# Custom_CommonEntityBaseTemplate #>
+		#endregion
+	}
+}

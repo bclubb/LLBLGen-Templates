@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<templateBindings xmlns="http://sd/llblgen/pro/templateBindingsDefinition.xsd" name="SD.TemplateBindings.MySqlSpecific.NET1x"
+				  description ="Template bindings for the templates which are specific for MySql based databases. For .NET 1.x based platforms"
+				  databaseDriverID="758A392F-06F3-498b-AED9-D85A4C795BDA" precedenceLevel="10">
+	<supportedPlatforms>
+		<platform name=".NET 1.0"/>
+		<platform name=".NET 1.1"/>
+	</supportedPlatforms>
+
+	<language name="C#">
+		<!-- DB Specific template bindings -->
+		<templateBinding templateID="SD_DataAccessAdapterTemplate" filename="MySqlSpecific\Net1.x\C#\daaAdapter.template" />
+		<templateBinding templateID="SD_DbUtilsTemplate" filename="MySqlSpecific\Net1.x\C#\dbUtils.template" />
+		<templateBinding templateID="SD_DbUtilsComPlusTemplate" filename="MySqlSpecific\Net1.x\C#\dbUtilsComPlus.template" />
+		<templateBinding templateID="SD_PersistenceInfoProviderTemplate" filename="MySqlSpecific\Net1.x\C#\persistenceInfoProvider.template" />
+		<templateBinding templateID="SD_PersistenceInfoProviderAdapterTemplate" filename="MySqlSpecific\Net1.x\C#\persistenceInfoProviderAdapter.template" />
+		<templateBinding templateID="SD_VsNet2002Template" filename="MySqlSpecific\Net1.x\C#\vsnet2002ProjectFile.template" />
+		<templateBinding templateID="SD_VsNet2003Template" filename="MySqlSpecific\Net1.x\C#\vsnet2003ProjectFile.template" />
+		<templateBinding templateID="SD_VsNet2002DBSpecificAdapterTemplate" filename="MySqlSpecific\Net1.x\C#\vsnet2002DBSpecificProjectFileAdapter.template" />
+		<templateBinding templateID="SD_VsNet2003DBSpecificAdapterTemplate" filename="MySqlSpecific\Net1.x\C#\vsnet2003DBSpecificProjectFileAdapter.template" />
+		<!-- DB Specific include template bindings -->
+		<templateBinding templateID="SD_DAOIncludeTemplate" filename="MySqlSpecific\Net1.x\C#\daoInclude.template" />
+	</language>
+	<language name="VB.NET">
+		<!-- DB Specific template bindings -->
+		<templateBinding templateID="SD_DataAccessAdapterTemplate" filename="MySqlSpecific\Net1.x\VB.NET\daaAdapter.template" />
+		<templateBinding templateID="SD_DbUtilsTemplate" filename="MySqlSpecific\Net1.x\VB.NET\dbUtils.template" />
+		<templateBinding templateID="SD_DbUtilsComPlusTemplate" filename="MySqlSpecific\Net1.x\VB.NET\dbUtilsComPlus.template" />
+		<templateBinding templateID="SD_PersistenceInfoProviderTemplate" filename="MySqlSpecific\Net1.x\VB.NET\persistenceInfoProvider.template" />
+		<templateBinding templateID="SD_PersistenceInfoProviderAdapterTemplate" filename="MySqlSpecific\Net1.x\VB.NET\persistenceInfoProviderAdapter.template" />
+		<templateBinding templateID="SD_VsNet2002Template" filename="MySqlSpecific\Net1.x\VB.NET\vsnet2002ProjectFile.template" />
+		<templateBinding templateID="SD_VsNet2003Template" filename="MySqlSpecific\Net1.x\VB.NET\vsnet2003ProjectFile.template" />
+		<templateBinding templateID="SD_VsNet2002DBSpecificAdapterTemplate" filename="MySqlSpecific\Net1.x\VB.NET\vsnet2002DBSpecificProjectFileAdapter.template" />
+		<templateBinding templateID="SD_VsNet2003DBSpecificAdapterTemplate" filename="MySqlSpecific\Net1.x\VB.NET\vsnet2003DBSpecificProjectFileAdapter.template" />
+		<!-- DB Specific include template bindings -->
+		<templateBinding templateID="SD_DAOIncludeTemplate" filename="MySqlSpecific\Net1.x\VB.NET\daoInclude.template" />
+	</language>
+</templateBindings>

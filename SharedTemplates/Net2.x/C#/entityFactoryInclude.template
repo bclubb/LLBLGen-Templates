@@ -1,0 +1,6 @@
+﻿			IEntity toReturn = new <[CurrentEntityName]>Entity();
+			<[ UserCodeRegion CurrentEntityName "CreateNew($VALUE)" ]>
+			// __LLBLGENPRO_USER_CODE_REGION_START <[ UserCodeRegionName ]>
+			// __LLBLGENPRO_USER_CODE_REGION_END
+			<[ EndUserCodeRegion ]>
+			return toReturn;

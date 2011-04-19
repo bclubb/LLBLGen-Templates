@@ -1,0 +1,89 @@
+﻿' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+' // This is generated code. 
+' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+' // Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+' // Code is generated on: <[Time]>
+' // Code is generated using templates: <[TemplateName]>
+' // Templates vendor: Solutions Design.
+' // Templates version: <[TemplateVersion]>
+' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+Imports System
+Imports System.Data
+
+Imports SD.LLBLGen.Pro.ORMSupportClasses
+
+Imports FirebirdSql.Data.Firebird
+
+Imports <[RootNamespace]>.HelperClasses
+
+Namespace <[RootNamespace]>.StoredProcedureCallerClasses
+	''' <summary>
+	''' Class which contains the static logic to execute retrieval stored procedures in the database.
+	''' </summary>
+	Public Class RetrievalProcedures
+		''' <summary>
+		''' private CTor so no instance can be created.
+		''' </summary>
+		Private Sub New()
+		End Sub
+
+	<[Foreach RetrievalStoredProcedureCall CrLf]>
+		''' <summary>
+		''' Calls stored procedure '<[ActualStoredProcedureName]>'.<br/><br/>
+		''' <[Foreach CustomProperty RetrievalStoredProcedureCall]>
+		''' <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+		''' </summary>
+		''' <[Foreach InputParameter]>
+		''' <param name="<[CaseCamel CurrentParameterName]>"><[CurrentParameterDirection]> parameter of stored procedure</param><[NextForeach]>
+		''' <returns>Filled <[ProcedureOutputType]> with resultset of stored procedure</returns>
+		Public Overloads Shared Function <[CurrentSPCallName]>(<[Foreach InputParameter Comma]><[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]>) As <[ProcedureOutputType]>
+			' create parameters
+			Dim parameters() As FbParameter = New FbParameter(<[AmountOfParameters]> - 1) {}
+<[Foreach InputParameter CrLf]>			parameters(<[ParameterIndex]>) = new FbParameter("@<[ActualParameterName]>", FbDbType.<[TypeOfActualParameter]>, <[ParameterSize]>, ParameterDirection.Input, True, <[ParameterPrecision]>, <[ParameterScale]>, "",  DataRowVersion.Current, <[CaseCamel CurrentParameterName]>)<[NextForeach]>
+			' Call the stored proc.
+			Dim toReturn As New <[ProcedureOutputType]>("<[CurrentSPCallName]>")
+			Dim hasSucceeded As Boolean = DbUtils.CallRetrievalStoredProcedure("<[ActualStoredProcedureName]>", parameters, toReturn, Nothing)
+
+			Return toReturn
+		End Function
+
+
+		''' <summary>
+		''' Calls stored procedure '<[ActualStoredProcedureName]>'.<br/><br/>
+		''' <[Foreach CustomProperty RetrievalStoredProcedureCall]>
+		''' <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+		''' </summary>
+		''' <[Foreach InputParameter]>
+		''' <param name="<[CaseCamel CurrentParameterName]>"><[CurrentParameterDirection]> parameter of stored procedure</param><[NextForeach]>
+		''' <param name="transactionToUse">the transaction to use, or null if no transaction is available.</param>
+		''' <returns>Filled <[ProcedureOutputType]> with resultset of stored procedure</returns>
+		Public Overloads Shared Function <[CurrentSPCallName]>(<[Foreach InputParameter Comma]><[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]><[If HasParameter InputParameter]>, <[EndIf]>transactionToUse As ITransaction) As <[ProcedureOutputType]>
+			' create parameters
+			Dim parameters() As FbParameter = New FbParameter(<[AmountOfParameters]> - 1) {}
+<[Foreach InputParameter CrLf]>			parameters(<[ParameterIndex]>) = new FbParameter("@<[ActualParameterName]>", FbDbType.<[TypeOfActualParameter]>, <[ParameterSize]>, ParameterDirection.Input, True, <[ParameterPrecision]>, <[ParameterScale]>, "",  DataRowVersion.Current, <[CaseCamel CurrentParameterName]>)<[NextForeach]>
+			' Call the stored proc.
+			Dim toReturn As New <[ProcedureOutputType]>("<[CurrentSPCallName]>")
+			Dim hasSucceeded As Boolean = DbUtils.CallRetrievalStoredProcedure("<[ActualStoredProcedureName]>", parameters, toReturn, transactionToUse)
+
+			Return toReturn
+		End Function
+
+		''' <summary>Creates an IRetrievalQuery Object For a Call To the procedure '<[ActualStoredProcedureName]>'.
+		''' <[Foreach CustomProperty RetrievalStoredProcedureCall]>
+		''' <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+		''' </summary>
+<[If HasParameter InputParameter]><[Foreach InputParameter CrLf]>		''' <param name="<[CaseCamel CurrentParameterName]>"><[CurrentParameterDirection]> parameter of stored procedure</param><[NextForeach]>
+<[EndIf]>		''' <returns>IRetrievalQuery Object which Is ready To use For datafetching</returns>
+		Public Shared Function Get<[CurrentSPCallName]>CallAsQuery( <[Foreach InputParameter Comma]><[CaseCamel CurrentParameterName]> As <[If IsNullable]><[If IsValueType]>Object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]><[NextForeach]>) As IRetrievalQuery 
+			Dim toReturn As New RetrievalQuery( New FbCommand( "<[ActualStoredProcedureName]>" ) )
+<[Foreach InputParameter CrLf]>			toReturn.Parameters.Add(New FbParameter("@<[ActualParameterName]>", FbDbType.<[TypeOfActualParameter]>, <[ParameterSize]>, ParameterDirection.Input, True, <[ParameterPrecision]>, <[ParameterScale]>, "",  DataRowVersion.Current, <[CaseCamel CurrentParameterName]>))<[NextForeach]>
+			toReturn.Command.CommandType = CommandType.StoredProcedure
+			Return toReturn
+		End Function
+	<[NextForeach]>
+
+#Region "Included Code"
+<# Custom_RetrievalProceduresTemplate #>
+#End Region
+	End Class
+End Namespace

@@ -1,0 +1,42 @@
+﻿' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+' // This is generated code. 
+' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+' // Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+' // Code is generated on: <[Time]>
+' // Code is generated using templates: <[TemplateName]>
+' // Templates vendor: Solutions Design.
+' // Templates version: <[TemplateVersion]>
+' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+Imports System
+Imports <[RootNamespace]>.DaoClasses
+Imports <[RootNamespace]>.HelperClasses
+Imports SD.LLBLGen.Pro.ORMSupportClasses
+
+Namespace <[RootNamespace]>.FactoryClasses
+	''' <summary>
+	''' Generic factory for DAO objects. 
+	''' </summary>
+	Public Class DAOFactory
+		''' <summary>
+		''' Private CTor, no instantiation possible.
+		''' </summary>
+		Private Sub New()
+		End Sub
+<[Foreach Entity CrLf]>
+		''' <summary>Creates a new <[CurrentEntityName]>DAO object</summary>
+		''' <returns>the new DAO object ready to use for <[CurrentEntityName]> Entities</returns>
+		Public Shared Function Create<[CurrentEntityName]>DAO() As <[CurrentEntityName]>DAO
+			Return New <[CurrentEntityName]>DAO()
+		End Function<[NextForeach]>
+
+		''' <summary>Creates a new TypedListDAO object</summary>
+		''' <returns>The new DAO object ready to use for Typed Lists</returns>
+		Public Shared Function CreateTypedListDAO() As TypedListDAO
+			Return  New TypedListDAO()
+		End Function
+
+#Region "Included Code"
+<# Custom_DAOFactoryTemplate #>
+#End Region
+	End Class
+End Namespace

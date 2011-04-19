@@ -1,0 +1,61 @@
+﻿' ///////////////////////////////////////////////////////////////
+' // This is generated code. 
+' //////////////////////////////////////////////////////////////
+' // Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+' // Code is generated on: <[Time]>
+' // Code is generated using templates: <[TemplateName]>
+' // Templates vendor: Solutions Design.
+' // Templates version: <[TemplateVersion]>
+' //////////////////////////////////////////////////////////////
+Imports System
+Imports System.Collections
+
+Imports <[RootNamespace]>.EntityClasses
+Imports <[RootNamespace]>.HelperClasses
+
+Imports SD.LLBLGen.Pro.ORMSupportClasses
+<[ UserCodeRegion "AdditionalNamespaces" ]>
+' __LLBLGENPRO_USER_CODE_REGION_START AdditionalNamespaces
+' __LLBLGENPRO_USER_CODE_REGION_END
+<[ EndUserCodeRegion ]>
+Namespace <[RootNamespace]>.FactoryClasses
+
+<[Foreach Entity CrLf]>	
+	''' <summary>
+	''' Factory to create new, empty My<[CurrentEntityName]>Entity objects.
+	''' </summary>
+	<Serializable()> _
+	Public Class My<[CurrentEntityName]>EntityFactory 
+		Inherits <[CurrentEntityName]>EntityFactory
+
+		''' <summary>CTor</summary>
+		Public Sub New()
+		End Sub
+
+		''' <summary>Creates a new, empty My<[CurrentEntityName]>Entity object.</summary>
+		''' <returns>A new, empty My<[CurrentEntityName]>Entity object.</returns>
+		Public Overrides Overloads Function Create() As IEntity2
+			Dim toReturn As IEntity2 = New My<[CurrentEntityName]>Entity()
+			<[ UserCodeRegion CurrentEntityName "CreateNew($VALUE)" ]>
+			' __LLBLGENPRO_USER_CODE_REGION_START <[ UserCodeRegionName ]>
+			' __LLBLGENPRO_USER_CODE_REGION_END
+			<[ EndUserCodeRegion ]>		
+			Return toReturn
+		End Function
+		
+		
+		''' <summary>Creates a new My<[CurrentEntityName]>Entity instance but uses a special constructor which will set the Fields object of the new
+		''' IEntity2 instance to the passed in fields object. Implement this method to support multi-type in single table inheritance.</summary>
+		''' <param name="fields">Populated IEntityFields2 object for the new IEntity2 to create</param>
+		''' <returns>Fully created and populated (due to the IEntityFields2 object) IEntity2 object</returns>
+		Public Overrides Overloads Function Create(fields As IEntityFields2) As IEntity2
+			Dim toReturn As IEntity2 = New My<[CurrentEntityName]>Entity(fields)
+			<[ UserCodeRegion CurrentEntityName "CreateNew($VALUE)UsingFields" ]>
+			' __LLBLGENPRO_USER_CODE_REGION_START <[ UserCodeRegionName ]>
+			' __LLBLGENPRO_USER_CODE_REGION_END
+			<[ EndUserCodeRegion ]>		
+			Return toReturn
+		End Function
+	End Class
+<[NextForeach]>
+End Namespace

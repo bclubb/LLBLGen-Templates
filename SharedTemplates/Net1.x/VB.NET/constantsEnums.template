@@ -1,0 +1,74 @@
+﻿' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+' // This is generated code. 
+' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+' // Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+' // Code is generated on: <[Time]>
+' // Code is generated using templates: <[TemplateName]>
+' // Templates vendor: Solutions Design.
+' // Templates version: <[TemplateVersion]>
+' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+Imports System
+
+Namespace <[RootNamespace]>
+<[Foreach Entity CrLf]>
+	''' <summary>
+	''' Index enum to fast-access EntityFields in the IEntityFields collection for the entity: <[CurrentEntityName]>.
+	''' </summary>
+	Public Enum <[CurrentEntityName]>FieldIndex
+<[Foreach EntityField IncludeInherited CrLf]>		[<[EntityFieldName]><[If EntityFieldIsOverriden]><[If Not EntityFieldContainedInCurrentEntity]>_<[EntityFieldEntityName]><[EndIf]><[EndIf]>]<[NextForeach]>
+		AmountOfFields
+	End Enum
+<[NextForeach]>
+<[Foreach TypedView CrLf]>
+	''' <summary>
+	''' Index enum to fast-access Typed View EntityFields in the IEntityFields collection for the typed view : <[CurrentTypedViewName]>.
+	''' </summary>
+	Public Enum <[CurrentTypedViewName]>FieldIndex
+<[Foreach TypedViewField CrLf]>		[<[TypedViewFieldName]>]<[NextForeach]>
+		AmountOfFields
+	End Enum
+<[NextForeach]>
+<[ Foreach TypedList CrLf ]> 
+	''' <summary>
+	''' Index Enum To fast-access TypedList Fields In the Columns collection of the Typed List: <[ CurrentTypedListName ]>
+	''' </summary>
+	Public Enum <[CurrentTypedListName]>TypedListFieldIndex
+<[Foreach TypedListField CrLf]>		<[TypedListFieldName]><[NextForeach]>
+		AmountOfFields
+	End Enum
+<[ NextForeach ]>
+<[If HasEntity]>
+	''' <summary>
+	''' Enum definition for all the entity types defined in this namespace. Used by the entityfields factory.
+	''' </summary>
+	Public Enum EntityType
+<[Foreach Entity CrLf]>		<[CurrentEntityName]>Entity<[NextForeach]>
+	End Enum
+<[EndIf]>
+
+<[If HasTypedView]>
+	''' <summary>
+	''' Enum definition for all the typed view types defined in this namespace. Used by the entityfields factory.
+	''' </summary>
+	Public Enum TypedViewType
+<[Foreach TypedView CrLf]>		<[CurrentTypedViewName]>TypedView<[NextForeach]>
+	End Enum
+<[EndIf]>
+
+#Region "Custom ConstantsEnums Code"
+	<[ UserCodeRegion "CustomUserConstants" ]>
+	' __LLBLGENPRO_USER_CODE_REGION_START CustomUserConstants
+	' __LLBLGENPRO_USER_CODE_REGION_END
+	<[ EndUserCodeRegion ]>
+#End Region
+
+#Region "Included Code"
+<# Custom_ConstantsEnumsTemplate #>
+#End Region
+End Namespace
+
+<[If Not HasEntity]>
+' empty namespace declarations
+Namespace <[RootNamespace]>.EntityClasses
+End Namespace
+<[EndIf]>

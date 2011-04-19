@@ -1,0 +1,545 @@
+﻿' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+' // This is generated code. 
+' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+' // Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+' // Code is generated on: <[Time]>
+' // Code is generated using templates: <[TemplateName]>
+' // Templates vendor: Solutions Design.
+' // Templates version: <[TemplateVersion]>
+' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+Imports System
+Imports System.ComponentModel
+Imports System.Data
+Imports System.Collections
+#If Not CF Then
+Imports System.Runtime.Serialization
+#End If
+
+Imports <[RootNamespace]>
+Imports <[RootNamespace]>.HelperClasses
+Imports <[RootNamespace]>.DaoClasses
+Imports <[RootNamespace]>.EntityClasses
+Imports <[RootNamespace]>.FactoryClasses
+
+Imports SD.LLBLGen.Pro.ORMSupportClasses
+<[ UserCodeRegion "AdditionalNamespaces" ]>
+' __LLBLGENPRO_USER_CODE_REGION_START AdditionalNamespaces
+' __LLBLGENPRO_USER_CODE_REGION_END
+<[ EndUserCodeRegion ]>
+Namespace <[RootNamespace]>.TypedViewClasses
+	''' <summary>
+	''' Typed datatable for the view '<[CurrentTypedViewName]>'.<br/><br/>
+	''' <[Foreach CustomProperty TypedView]>
+	''' <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+	''' </summary>
+	''' <remarks>
+	''' It embeds a fill method which accepts a filter.
+	''' The code doesn't support any changing of data. Users who do that are on their own.
+	''' It also doesn't support any event throwing. This view should be used as a base for readonly databinding
+	''' or dataview construction.
+	''' </remarks>
+#If Not CF Then	
+	<Serializable(), System.ComponentModel.DesignerCategory("Code"), ToolboxItem(True), DesignTimeVisible(True)> _
+	Public Class <[CurrentTypedViewName]>TypedView 
+#Else
+	Public Class <[CurrentTypedViewName]>TypedView 
+#End If	
+		Inherits TypedViewBase(Of <[CurrentTypedViewName]>Row)
+		Implements ITypedView<[ UserCodeRegion "AdditionalInterfacesView" ]>
+		' __LLBLGENPRO_USER_CODE_REGION_START AdditionalInterfacesView
+		' __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>	
+	
+#Region "Class Member Declarations"
+<[Foreach TypedViewField CrLf]>		Private _column<[TypedViewFieldName]> As DataColumn<[NextForeach]>
+		<[ UserCodeRegion "AdditionalMembers" ]>
+		' __LLBLGENPRO_USER_CODE_REGION_START AdditionalMembers
+		' __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>
+		Private Shared _customProperties As Hashtable
+		Private Shared _fieldsCustomProperties As Hashtable
+#End Region
+
+#Region "Class Constants"
+		''' <summary>
+		''' The amount of fields in the resultset.
+		''' </summary>
+		Private Const AmountOfFields As Integer = <[AmountOfTypedViewFields]>
+#End Region
+		
+		''' <summary>
+		''' Static CTor for setting up custom property hashtables. Is executed before the first instance of this
+		''' class or derived classes is constructed. 
+		''' </summary>
+		Shared Sub New()
+			SetupCustomPropertyHashtables()
+		End Sub
+		
+
+		''' <summary>
+		''' CTor
+		''' </summary>
+		Public Sub New()
+			MyBase.New("<[CurrentTypedViewName]>")
+			InitClass()
+		End Sub
+
+
+#If Not CF Then		
+		''' <summary>
+		''' Protected constructor for deserialization. Empty, since there are no private members to be serialized also.
+		''' </summary>
+		''' <param name="info"></param>
+		''' <param name="context"></param>
+		Protected Sub New(info As SerializationInfo, context As StreamingContext)
+			MyBase.New(info, context)
+			InitMembers()
+		End Sub
+#End If		
+
+		''' <summary>
+		''' Fills itself with data. it builds a dynamic query and loads itself with that query. 
+		''' Will use no sort filter, no select filter, will allow duplicate rows and will not limit the amount of rows returned
+		''' </summary>
+		''' <returns>True if fill succeeded, False otherwise</returns>
+		Public Function Fill() As Boolean Implements ITypedView.Fill
+			Return Fill(0, Nothing, True, Nothing, Nothing, Nothing, 0, 0)
+		End Function
+
+
+		''' <summary>
+		''' Fills itself with data. it builds a dynamic query and loads itself with that query. 
+		''' Will not use a filter, will allow duplicate rows.
+		''' </summary>
+		''' <param name="maxNumberOfItemsToReturn">The maximum amount of rows to Return. specifying 0 means all rows are returned</param>
+		''' <param name="sortClauses">The order by specifications for the sorting of the resultset. When Nothing is specified, no sorting is applied.</param>
+		''' <returns>True if fill succeeded, False otherwise</returns>
+		Public Function Fill(maxNumberOfItemsToReturn As Long, sortClauses As ISortExpression) As Boolean Implements ITypedView.Fill
+			Return Fill(maxNumberOfItemsToReturn, sortClauses, True, Nothing, Nothing, Nothing, 0, 0)
+		End Function
+
+
+		''' <summary>
+		''' Fills itself with data. it builds a dynamic query and loads itself with that query. 
+		''' Will not use a filter.
+		''' </summary>
+		''' <param name="maxNumberOfItemsToReturn">The maximum amount of rows to Return. specifying 0 means all rows are returned</param>
+		''' <param name="sortClauses">The order by specifications for the sorting of the resultset. When Nothing is specified, no sorting is applied.</param>
+		''' <param name="allowDuplicates">Flag to allow duplicate rows (True) or not (False)</param>
+		''' <returns>True if fill succeeded, False otherwise</returns>
+		Public Function Fill(maxNumberOfItemsToReturn As Long, sortClauses As ISortExpression, allowDuplicates As Boolean) As Boolean Implements ITypedView.Fill
+			Return Fill(maxNumberOfItemsToReturn, sortClauses, allowDuplicates, Nothing, Nothing, Nothing, 0, 0)
+		End Function
+
+
+		''' <summary>
+		''' Fills itself with data. it builds a dynamic query and loads itself with that query, using the specified filter
+		''' </summary>
+		''' <param name="maxNumberOfItemsToReturn">The maximum amount of rows to Return. specifying 0 means all rows are returned</param>
+		''' <param name="sortClauses">The order by specifications for the sorting of the resultset. When Nothing is specified, no sorting is applied.</param>
+		''' <param name="allowDuplicates">Flag to allow duplicate rows (True) or not (False)</param>
+		''' <param name="selectFilter">Predicate which is used to filter the rows to insert in this Typed List instance</param>
+		''' <returns>True if fill succeeded, False otherwise</returns>
+		Public Function Fill(maxNumberOfItemsToReturn As Long, sortClauses As ISortExpression, allowDuplicates As Boolean, selectFilter As IPredicate) As Boolean Implements ITypedView.Fill
+			Return Fill(maxNumberOfItemsToReturn, sortClauses, allowDuplicates, selectFilter, Nothing, Nothing, 0, 0)
+		End Function
+
+
+		''' <summary>
+		''' Fills itself with data. it builds a dynamic query and loads itself with that query, using the specified filter
+		''' </summary>
+		''' <param name="maxNumberOfItemsToReturn">The maximum amount of rows to Return. specifying 0 means all rows are returned</param>
+		''' <param name="sortClauses">The order by specifications for the sorting of the resultset. When Nothing is specified, no sorting is applied.</param>
+		''' <param name="allowDuplicates">Flag to allow duplicate rows (True) or not (False)</param>
+		''' <param name="selectFilter">Predicate which is used to filter the rows to insert in this Typed List instance</param>
+		''' <param name="transactionToUse">The transaction object to use. Can be null. If specified, the connection object of the transaction is
+		''' used to fill the TypedView, which avoids deadlocks on SqlServer.</param>
+		''' <returns>True if fill succeeded, False otherwise</returns>
+		Public Function Fill(maxNumberOfItemsToReturn As Long, sortClauses As ISortExpression, allowDuplicates As Boolean, selectFilter As IPredicate, transactionToUse As ITransaction) As Boolean Implements ITypedView.Fill
+			Return Fill(maxNumberOfItemsToReturn, sortClauses, allowDuplicates, selectFilter, transactionToUse, Nothing, 0, 0)
+		End Function
+
+
+		''' <summary>
+		''' Fills itself with data. it builds a dynamic query and loads itself with that query, using the specified filter
+		''' </summary>
+		''' <param name="maxNumberOfItemsToReturn">The maximum amount of rows to Return. specifying 0 means all rows are returned</param>
+		''' <param name="sortClauses">The order by specifications for the sorting of the resultset. When Nothing is specified, no sorting is applied.</param>
+		''' <param name="allowDuplicates">Flag to allow duplicate rows (True) or not (False)</param>
+		''' <param name="selectFilter">Predicate which is used to filter the rows to insert in this Typed List instance</param>
+		''' <param name="transactionToUse">The transaction object to use. Can be null. If specified, the connection object of the transaction is
+		''' used to fill the TypedView, which avoids deadlocks on SqlServer.</param>
+		''' <param name="groupByClause">GroupByCollection with fields to group by on.</param>
+		''' <returns>True if fill succeeded, False otherwise</returns>
+		Public Function Fill(maxNumberOfItemsToReturn As Long, sortClauses As ISortExpression, allowDuplicates As Boolean, selectFilter As IPredicate, transactionToUse As ITransaction, groupByClause As IGroupByCollection) As Boolean Implements ITypedView.Fill
+			Return Fill(maxNumberOfItemsToReturn, sortClauses, allowDuplicates, selectFilter, transactionToUse, groupByClause, 0, 0)
+		End Function
+
+
+		''' <summary>
+		''' Fills itself with data. it builds a dynamic query and loads itself with that query, using the specified filter
+		''' </summary>
+		''' <param name="maxNumberOfItemsToReturn">The maximum amount of rows to Return. specifying 0 means all rows are returned</param>
+		''' <param name="sortClauses">The order by specifications for the sorting of the resultset. When Nothing is specified, no sorting is applied.</param>
+		''' <param name="allowDuplicates">Flag to allow duplicate rows (True) or not (False)</param>
+		''' <param name="selectFilter">Predicate which is used to filter the rows to insert in this Typed List instance</param>
+		''' <param name="transactionToUse">The transaction object to use. Can be null. If specified, the connection object of the transaction is
+		''' used to fill the TypedView, which avoids deadlocks on SqlServer.</param>
+		''' <param name="groupByClause">GroupByCollection with fields to group by on.</param>
+		''' <param name="pageNumber">The page number to retrieve.</param>
+		''' <param name="pageSize">The page size of the page to retrieve.</param>
+		''' <returns>True if fill succeeded, False otherwise</returns>
+		Overridable Public Function Fill(maxNumberOfItemsToReturn As Long, sortClauses As ISortExpression, allowDuplicates As Boolean, selectFilter As IPredicate, transactionToUse As ITransaction, groupByClause As IGroupByCollection, pageNumber As Integer, pageSize As Integer) As Boolean Implements ITypedView.Fill
+			' Build resultset
+			Dim fieldsInResultset As IEntityFields = GetFields()
+			<[ UserCodeRegion "AdditionalFields" ]>
+			' __LLBLGENPRO_USER_CODE_REGION_START AdditionalFields
+			' be sure To Call fieldsInResultset.Expand(number of New fields) first. 
+			' __LLBLGENPRO_USER_CODE_REGION_END
+			<[ EndUserCodeRegion ]>
+
+			Dim dao As TypedListDAO = DAOFactory.CreateTypedListDAO()
+			Return dao.GetMultiAsDataTable(fieldsInResultset, Me, maxNumberOfItemsToReturn, sortClauses, selectFilter, Nothing, allowDuplicates, groupByClause, transactionToUse, pageNumber, pageSize)
+		End Function
+				
+
+		''' <summary>Gets an array of all <[CurrentTypedViewName]>Row objects.</summary>
+		''' <returns>Array With <[CurrentTypedViewName]>Row objects</returns>
+		Public Shadows Function [Select]() As <[CurrentTypedViewName]>Row()
+			Return CType(MyBase.Select(), <[CurrentTypedViewName]>Row())
+		End Function
+
+
+		''' <summary>Gets an array of all <[CurrentTypedViewName]>Row objects that match the Filter criteria In order of primary key (Or lacking one, order of addition.) </summary>
+		''' <param name="filterExpression">The criteria To use To Filter the rows.</param>
+		''' <returns>Array With <[CurrentTypedViewName]>Row objects</returns>
+		Public Shadows Function [Select](filterExpression As String) As <[CurrentTypedViewName]>Row()
+			Return CType(MyBase.Select(filterExpression), <[CurrentTypedViewName]>Row())
+		End Function
+
+
+		''' <summary>Gets an array of all <[CurrentTypedViewName]>Row objects that match the Filter criteria, In the specified sort order</summary>
+		''' <param name="filterExpression">The Filter expression.</param>
+		''' <param name="sort">A String specifying the column And sort direction.</param>
+		''' <returns>Array With <[CurrentTypedViewName]>Row objects</returns>
+		Public Shadows Function [Select](filterExpression As String, sort As String) As <[CurrentTypedViewName]>Row()
+			Return CType(MyBase.Select(filterExpression, sort), <[CurrentTypedViewName]>Row())
+		End Function
+
+
+		''' <summary>Gets an array of all <[CurrentTypedViewName]>Row objects that match the Filter criteria, In the specified sort order that match the specified state</summary>
+		''' <param name="filterExpression">The Filter expression.</param>
+		''' <param name="sort">A String specifying the column And sort direction.</param>
+		''' <param name="recordStates">One of the <see cref="System.Data.DataViewRowState"/> values.</param>
+		''' <returns>Array With <[CurrentTypedViewName]>Row objects</returns>
+		Public Shadows Function [Select](filterExpression As String, sort As String, recordStates As DataViewRowState) As <[CurrentTypedViewName]>Row()
+			Return CType(MyBase.Select(filterExpression, sort, recordStates), <[CurrentTypedViewName]>Row())
+		End Function
+		
+		
+		''' <summary>Gets the fields of this typed view</summary>
+		''' <returns>IEntityFields Object</returns>
+		Public Overridable Function GetFields() As IEntityFields Implements ITypedView.GetFields
+			Return EntityFieldsFactory.CreateTypedViewEntityFieldsObject(TypedViewType.<[CurrentTypedViewName]>TypedView)
+		End Function
+
+		''' <summary>
+		''' Gets the amount of rows in the database for this typed view, not skipping duplicates
+		''' </summary>
+		''' <returns>the amount of objects found</returns>
+		Public Function GetDbCount() As Integer Implements ITypedView.GetDbCount
+			Return GetDbCount(True, Nothing, Nothing)
+		End Function
+		
+		
+		''' <summary>
+		''' Gets the amount of rows in the database for this typed view.
+		''' </summary>
+		''' <param name="allowDuplicates">Flag to allow duplicate rows (true) or not (false)</param>
+		''' <returns>the amount of objects found</returns>
+		Public Function GetDbCount(allowDuplicates As Boolean) As Integer Implements ITypedView.GetDbCount
+			Return GetDbCount(allowDuplicates, Nothing, Nothing)
+		End Function
+
+
+		''' <summary>
+		''' Gets the amount of rows in the database for this typed view.
+		''' </summary>
+		''' <param name="allowDuplicates">Flag to allow duplicate rows (true) or not (false)</param>
+		''' <param name="filter">The filter to apply for the count retrieval</param>
+		''' <returns>the amount of objects found</returns>
+		Public Function GetDbCount(allowDuplicates As Boolean, Filter As IPredicateExpression) As Integer Implements ITypedView.GetDbCount
+			Return GetDbCount(allowDuplicates, filter, Nothing)
+		End Function
+
+
+		''' <summary>
+		''' Gets the amount of rows In the database For this typed list.
+		''' </summary>
+		''' <param name="allowDuplicates">Flag To allow duplicate rows (True) Or Not (False)</param>
+		''' <param name="filter">The filter To apply For the count retrieval</param>
+		''' <param name="groupByClause">group by clause To embed In the query</param>
+		''' <returns>the number of rows In the Set defined by the passed In query elements</returns>
+		Public Overridable Function GetDbCount(allowDuplicates As Boolean, Filter As IPredicateExpression, groupByClause As GroupByCollection) As Integer Implements ITypedView.GetDbCount
+			Dim fieldsInResultset As IEntityFields = EntityFieldsFactory.CreateTypedViewEntityFieldsObject(TypedViewType.<[CurrentTypedViewName]>TypedView)
+			Dim dao As TypedListDAO = DAOFactory.CreateTypedListDAO()
+			Return dao.GetDbCount(fieldsInResultset, Nothing, filter, Nothing, groupByClause, allowDuplicates)
+		End Function
+
+		''' <summary>
+		''' Creates a new typed row during the build of the datatable during a Fill session by a dataadapter.
+		''' </summary>
+		''' <param name="rowBuilder">supplied row builder to pass to the typed row</param>
+		''' <returns>the new typed datarow</returns>
+		Protected Overrides Function NewRowFromBuilder(rowBuilder As DataRowBuilder) As DataRow
+			Return New <[CurrentTypedViewName]>Row(rowBuilder)
+		End Function
+
+
+		''' <summary>
+		''' Initialize the datastructures.
+		''' </summary>
+		Protected Overrides Overloads Sub InitClass()
+			TableName = "<[CurrentTypedViewName]>"	
+			<[Foreach TypedViewField CrLf]>
+			_column<[TypedViewFieldName]> = New DataColumn("<[TypedViewFieldName]>", GetType(<[TypeOfTypedViewField]>), Nothing, MappingType.Element)
+			_column<[TypedViewFieldName]>.ReadOnly = True
+			_column<[TypedViewFieldName]>.Caption = "<[ FieldCaption ]>"
+			Me.Columns.Add(_column<[TypedViewFieldName]>)<[NextForeach]>
+			<[ UserCodeRegion "InitClass" ]>
+			' __LLBLGENPRO_USER_CODE_REGION_START InitClass
+			' __LLBLGENPRO_USER_CODE_REGION_END
+			<[ EndUserCodeRegion ]>
+			OnInitialized()
+		End Sub
+
+
+		''' <summary>
+		''' Initializes the members, after a clone action.
+		''' </summary>
+		Private Sub InitMembers()
+<[Foreach TypedViewField CrLf]>			_column<[TypedViewFieldName]> = Me.Columns("<[TypedViewFieldName]>")<[NextForeach]>
+			<[ UserCodeRegion "InitMembers" ]>
+			' __LLBLGENPRO_USER_CODE_REGION_START InitMembers
+			' __LLBLGENPRO_USER_CODE_REGION_END
+			<[ EndUserCodeRegion ]>
+		End Sub
+
+
+		''' <summary>
+		''' Initializes the hashtables for the TypedView type and TypedView field custom properties. 
+		''' </summary>
+		Private Shared Sub SetupCustomPropertyHashtables()
+			_customProperties = New Hashtable()
+			_fieldsCustomProperties = New Hashtable()
+
+			' Add custom properties of this type
+<[Foreach CustomProperty TypedView CrLf]>			_customProperties.Add("<[CustomPropertyName]>", "<[CustomPropertyValue]>")<[NextForeach]>
+			' Add per Field a new Hashtable with its custom properties, indexed by the name of the field.
+			Dim fieldHashtable As Hashtable = Nothing
+			<[Foreach TypedViewField]>
+			fieldHashtable = New Hashtable()
+<[Foreach CustomProperty TypedViewField CrLf]>			fieldHashtable.Add("<[CustomPropertyName]>", "<[CustomPropertyValue]>")<[NextForeach]>
+			_fieldsCustomProperties.Add("<[TypedViewFieldName]>", fieldHashtable)
+			<[NextForeach]>
+		End Sub
+
+
+		''' <summary>
+		''' Return the type of the typed datarow
+		''' </summary>
+		''' <returns>returns the requested type</returns>
+		Protected Overrides Function GetRowType() As Type
+			Return GetType(<[CurrentTypedViewName]>Row)
+		End Function
+
+
+		''' <summary>
+		''' Clones this instance.
+		''' </summary>
+		''' <returns>A clone of this instance</returns>
+		Public Overrides Function Clone() As DataTable
+			Dim cloneToReturn As <[CurrentTypedViewName]>TypedView = CType(MyBase.Clone(), <[CurrentTypedViewName]>TypedView)
+			cloneToReturn.InitMembers()
+			Return cloneToReturn
+		End Function
+
+#If Not CF Then
+		''' <summary>
+		''' Creates a new instance of the DataTable class.
+		''' </summary>
+		''' <returns>a new instance of a datatable with this schema.</returns>
+		Protected Overrides Function CreateInstance() As DataTable
+			Return New <[CurrentTypedViewName]>TypedView()
+		End Function
+#End If
+
+#Region "Class Property Declarations"
+		''' <summary>
+		''' Returns the amount of rows in this typed view.
+		''' </summary>
+		<System.ComponentModel.Browsable(False)> _
+		Public ReadOnly Property Count As Integer Implements ITypedView.Count
+			Get 
+				Return Me.Rows.Count
+			End Get
+		End Property
+		
+		''' <summary>
+		''' The custom properties for this TypedView type.
+		''' </summary>
+		''' <remarks>The data returned from this property should be considered read-only: it is not thread safe to alter this data at runtime.</remarks>
+		Public Shared ReadOnly Property CustomProperties() As Hashtable
+			Get
+				Return _customProperties
+			End Get
+		End Property
+
+		''' <summary>
+		''' The custom properties for the type of this TypedView instance.
+		''' </summary>
+		''' <remarks>The data returned from this property should be considered read-only: it is not thread safe to alter this data at runtime.</remarks>
+		<System.ComponentModel.Browsable(False)> _
+		Public Overridable ReadOnly Property CustomPropertiesOfType() As Hashtable
+			Get
+				Return <[CurrentTypedViewName]>TypedView.CustomProperties
+			End Get
+		End Property
+
+		''' <summary>
+		''' The custom properties for the fields of this TypedView type. The returned Hashtable contains per fieldname a hashtable of name-value
+		''' pairs. 
+		''' </summary>
+		''' <remarks>The data returned from this property should be considered read-only: it is not thread safe to alter this data at runtime.</remarks>
+		Public Shared ReadOnly Property FieldsCustomProperties() As Hashtable
+			Get
+				Return _fieldsCustomProperties
+			End Get
+		End Property
+
+		''' <summary>
+		''' The custom properties for the fields of the type of this TypedView instance. The returned Hashtable contains per fieldname a hashtable of name-value
+		''' pairs. 
+		''' </summary>
+		''' <remarks>The data returned from this property should be considered read-only: it is not thread safe to alter this data at runtime.</remarks>
+		<System.ComponentModel.Browsable(False)> _
+		Public Overridable ReadOnly Property FieldsCustomPropertiesOfType() As Hashtable
+			Get
+				Return <[CurrentTypedViewName]>TypedView.FieldsCustomProperties
+			End Get
+		End Property
+
+		''' <summary>
+		''' Indexer of this strong typed view
+		''' </summary>
+		Default ReadOnly Public Property  Item(index As Integer) As <[CurrentTypedViewName]>Row
+			Get 
+				Return CType(Me.Rows(index), <[CurrentTypedViewName]>Row)
+			End Get
+		End Property
+
+	<[Foreach TypedViewField]>
+		''' <summary>
+		''' Returns the column Object belonging to the TypedView field <[TypedViewFieldName]>
+		''' </summary>
+		ReadOnly Friend Property <[TypedViewFieldName]>Column As DataColumn
+			Get 
+				Return _column<[TypedViewFieldName]> 
+			End Get
+		End Property
+    <[NextForeach]>
+		<[ UserCodeRegion "AdditionalColumnProperties" ]>
+		' __LLBLGENPRO_USER_CODE_REGION_START AdditionalColumnProperties
+		' __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>
+#End Region
+
+#Region "Custom Typed View code"
+	<[ UserCodeRegion "CustomTypedViewCode" ]>
+	' __LLBLGENPRO_USER_CODE_REGION_START CustomTypedViewCode
+	' __LLBLGENPRO_USER_CODE_REGION_END
+	<[ EndUserCodeRegion ]>
+#End Region
+
+#Region "Included Code"
+<# Custom_TypedViewTemplate #>
+#End Region
+	End Class
+
+
+	''' <summary>
+	''' Typed datarow for the typed datatable <[CurrentTypedViewName]>
+	''' </summary>
+	Public Class <[CurrentTypedViewName]>Row 
+		Inherits DataRow<[ UserCodeRegion "AdditionalInterfacesRow" ]>
+		' __LLBLGENPRO_USER_CODE_REGION_START AdditionalInterfacesRow
+		' __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>	
+
+
+#Region "Class Member Declarations"
+		Private _parent As <[CurrentTypedViewName]>TypedView
+#End Region
+
+		''' <summary>
+		''' CTor
+		''' </summary>
+		''' <param name="rowBuilder">Row builder Object to use when building this row</param>
+		Protected Friend Sub New(rowBuilder As DataRowBuilder)
+			MyBase.New(rowBuilder) 
+			_parent = CType(Me.Table, <[CurrentTypedViewName]>TypedView)
+		End Sub
+
+
+#Region "Class Property Declarations"
+	<[Foreach TypedViewField CrLf]>
+		''' <summary>
+		''' Gets / sets the value of the TypedView field <[TypedViewFieldName]><br/><br/>
+		''' <[Foreach CustomProperty TypedViewField]>
+		''' <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+		''' </summary>
+		''' <remarks>
+		''' Mapped on view field: "<[SourceObjectName]>"."<[SourceColumnName]>"<br/>
+		''' View field characteristics (type, precision, scale, length): <[SourceColumnDbType]>, <[SourceColumnPrecision]>, <[SourceColumnScale]>, <[SourceColumnMaxLength]>
+		''' </remarks>
+		Public Property [<[TypedViewFieldName]>]() As <[TypeOfTypedViewField]>
+			Get 
+				If Is<[TypedViewFieldName]>Null() Then
+					' return default value for this type.
+					Return CType(TypeDefaultValue.GetDefaultValue(GetType(<[TypeOfTypedViewField]>)), <[TypeOfTypedViewField]>)
+				Else
+					Return CType(Me(_parent.<[TypedViewFieldName]>Column), <[TypeOfTypedViewField]>)
+				End If
+			End Get
+			Set 
+				Me(_parent.<[TypedViewFieldName]>Column) = Value
+			End Set
+		End Property
+
+		''' <summary>
+		''' Returns True if the TypedView field <[TypedViewFieldName]> is NULL, False otherwise.
+		''' </summary>
+		Public Function Is<[TypedViewFieldName]>Null() As Boolean
+			Return IsNull(_parent.<[TypedViewFieldName]>Column)
+		End Function
+
+		''' <summary>
+		''' Sets the TypedView field <[TypedViewFieldName]> to NULL. Not recommended a typed view should be used
+		''' as a readonly Object.
+		''' </summary>
+    	Public Sub Set<[TypedViewFieldName]>Null() 
+			Me(_parent.<[TypedViewFieldName]>Column) = System.Convert.DBNull
+		End Sub
+
+	<[NextForeach]>
+#End Region
+
+#Region "Custom TypedView Row code"
+	<[ UserCodeRegion "CustomTypedViewRowCode" ]>
+	' __LLBLGENPRO_USER_CODE_REGION_START CustomTypedViewRowCode
+	' __LLBLGENPRO_USER_CODE_REGION_END
+	<[ EndUserCodeRegion ]>
+#End Region
+
+	End Class
+End Namespace

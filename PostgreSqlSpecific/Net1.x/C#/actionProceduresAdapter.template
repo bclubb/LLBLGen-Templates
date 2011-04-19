@@ -1,0 +1,76 @@
+﻿///////////////////////////////////////////////////////////////
+// This is generated code. 
+//////////////////////////////////////////////////////////////
+// Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+// Code is generated on: <[Time]>
+// Code is generated using templates: <[TemplateName]>
+// Templates vendor: Solutions Design.
+// Templates version: <[TemplateVersion]>
+//////////////////////////////////////////////////////////////
+using System;
+using System.Data;
+using Npgsql;
+using NpgsqlTypes;
+
+namespace <[RootNamespace]><[DbSpecificNamespaceSuffix]>
+{
+	/// <summary>
+	/// Class which contains the static logic to execute action stored procedures in the database.
+	/// </summary>
+	public <[If UsePartialClasses]>partial <[EndIf]>class ActionProcedures
+	{
+		/// <summary>
+		/// private CTor so no instance can be created.
+		/// </summary>
+		private ActionProcedures()
+		{
+		}
+
+	<[Foreach ActionStoredProcedureCall CrLf]>
+		/// <summary>
+		/// Delegate definition for stored procedure '<[ActualStoredProcedureName]>' to be used in combination of a UnitOfWork2 object.
+		/// </summary>
+		public delegate int <[CurrentSPCallName]>CallBack(<[Foreach InputParameter Comma]><[If IsNullable]><[If IsValueType]>object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]> <[CaseCamel CurrentParameterName]><[NextForeach]><[If HasInputAndOutputParameters]>, <[EndIf]><[Foreach OutputParameter Comma]>ref <[If IsNullable]><[If IsValueType]>object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]> <[CaseCamel CurrentParameterName]><[NextForeach]><[If HasParameter]>, <[EndIf]>DataAccessAdapter adapter);
+
+		/// <summary>
+		/// Calls stored procedure '<[ActualStoredProcedureName]>'. Can't have any cursors.<br/><br/>
+		/// <[Foreach CustomProperty ActionStoredProcedureCall]>
+		/// <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+		/// </summary>
+<[If HasParameter]><[Foreach Parameter CrLf]>		/// <param name="<[CaseCamel CurrentParameterName]>"><[CurrentParameterDirection]> parameter of stored procedure</param><[NextForeach]>
+<[EndIf]>		/// <returns>Amount of rows affected, if the database / routine doesn't surpress rowcounting.</returns>
+		public static int <[CurrentSPCallName]>(<[Foreach InputParameter Comma]><[If IsNullable]><[If IsValueType]>object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]> <[CaseCamel CurrentParameterName]><[NextForeach]><[If HasInputAndOutputParameters]>, <[EndIf]><[Foreach OutputParameter Comma]>ref <[If IsNullable]><[If IsValueType]>object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]> <[CaseCamel CurrentParameterName]><[NextForeach]>)
+		{
+			using(DataAccessAdapter adapter = new DataAccessAdapter()) 
+			{
+				return <[CurrentSPCallName]>(<[Foreach InputParameter Comma]><[CaseCamel CurrentParameterName]><[NextForeach]><[If HasInputAndOutputParameters]>, <[EndIf]><[Foreach OutputParameter Comma]>ref <[CaseCamel CurrentParameterName]><[NextForeach]><[If HasParameter]>, <[EndIf]> adapter);
+			}
+		}
+
+
+		/// <summary>
+		/// Calls stored procedure '<[ActualStoredProcedureName]>'. Can't have any cursors.<br/><br/>
+		/// <[Foreach CustomProperty ActionStoredProcedureCall]>
+		/// <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+		/// </summary>
+<[If HasParameter]><[Foreach Parameter CrLf]>		/// <param name="<[CaseCamel CurrentParameterName]>"><[CurrentParameterDirection]> parameter of stored procedure</param><[NextForeach]>
+<[EndIf]>		/// <param name="adapter">The DataAccessAdapter object to use for the call</param>
+		/// <returns>Amount of rows affected, if the database / routine doesn't surpress rowcounting.</returns>
+		public static int <[CurrentSPCallName]>(<[Foreach InputParameter Comma]><[If IsNullable]><[If IsValueType]>object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]> <[CaseCamel CurrentParameterName]><[NextForeach]><[If HasInputAndOutputParameters]>, <[EndIf]><[Foreach OutputParameter Comma]>ref <[If IsNullable]><[If IsValueType]>object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]> <[CaseCamel CurrentParameterName]><[NextForeach]><[If HasParameter]>, <[EndIf]>DataAccessAdapter adapter)
+		{
+			NpgsqlParameter[] parameters = new NpgsqlParameter[<[AmountOfParameters]>];
+<[Foreach Parameter CrLf]>			parameters[<[ParameterIndex]>] = new NpgsqlParameter("<[ActualParameterName]>", NpgsqlDbType.<[TypeOfActualParameter]>, <[ParameterSize]>, "", ParameterDirection.<[CurrentParameterDirection]>, true, <[ParameterPrecision]>, <[ParameterScale]>,  DataRowVersion.Current, <[CaseCamel CurrentParameterName]>);<[NextForeach]>
+			int toReturn = adapter.CallActionStoredProcedure("<[SourceSchemaName]>.<[ActualStoredProcedureName]>(<[Foreach Parameter Comma]>:<[ActualParameterName]><[NextForeach]>)", parameters);
+<[Foreach OutputParameter CrLf]>			if(parameters[<[ParameterIndex]>].Value!=System.DBNull.Value)
+			{
+				<[CaseCamel CurrentParameterName]> = (<[If IsNullable]><[If IsValueType]>object<[Else]><[TypeOfParameter]><[EndIf]><[Else]><[TypeOfParameter]><[EndIf]>)parameters[<[ParameterIndex]>].Value;
+			}<[NextForeach]>
+			return toReturn;
+		}
+	<[NextForeach]>
+
+		#region Included Code
+<# Custom_ActionProceduresAdapterTemplate #>
+		#endregion
+	}
+}

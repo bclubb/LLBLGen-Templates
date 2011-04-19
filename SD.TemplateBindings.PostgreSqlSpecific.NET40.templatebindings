@@ -1,0 +1,17 @@
+﻿<?xml version="1.0"?>
+<templateBindings xmlns="http://sd/llblgen/pro/templateBindingsDefinition.xsd" name="SD.TemplateBindings.PostgreSqlSpecific.NET40"
+				  description ="Template bindings for the templates which are specific for PostgreSql 7.4+ based databases using Npgsql. For .NET 4.0 based platforms"
+				  databaseDriverID="88EBFD8C-CBDD-4452-88AF-1C99E41A123F" precedenceLevel="10">
+	<supportedPlatforms>
+		<platform name=".NET 4.0"/>
+	</supportedPlatforms>
+
+	<language name="C#">
+		<templateBinding templateID="SD_VsNet2010Template" filename="PostgreSqlSpecific\Net4.0\C#\vsnet2010ProjectFile.template" />
+		<templateBinding templateID="SD_VsNet2010DBSpecificAdapterTemplate" filename="PostgreSqlSpecific\Net4.0\C#\vsnet2010DBSpecificProjectFileAdapter.template" />
+	</language>
+	<language name="VB.NET">
+		<templateBinding templateID="SD_VsNet2010Template" filename="PostgreSqlSpecific\Net4.0\VB.NET\vsnet2010ProjectFile.template" />
+		<templateBinding templateID="SD_VsNet2010DBSpecificAdapterTemplate" filename="PostgreSqlSpecific\Net4.0\VB.NET\vsnet2010DBSpecificProjectFileAdapter.template" />
+	</language>
+</templateBindings>

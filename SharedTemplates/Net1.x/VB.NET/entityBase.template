@@ -1,0 +1,165 @@
+﻿' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+' // This is generated code. 
+' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+' // Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+' // Code is generated on: <[Time]>
+' // Code is generated using templates: <[TemplateName]>
+' // Templates vendor: Solutions Design.
+' // Templates version: <[TemplateVersion]>
+' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+Imports System
+Imports System.ComponentModel
+Imports System.Collections
+Imports System.Runtime.Serialization
+Imports System.Data
+Imports System.Xml.Serialization
+Imports <[RootNamespace]>
+Imports <[RootNamespace]>.FactoryClasses
+Imports <[RootNamespace]>.DaoClasses
+Imports <[RootNamespace]>.RelationClasses
+Imports <[RootNamespace]>.HelperClasses
+Imports <[RootNamespace]>.CollectionClasses
+<[Foreach AdditionalNamespaces CrLf]>Imports <[CurrentAdditionalNamespace]><[NextForeach]>
+Imports SD.LLBLGen.Pro.ORMSupportClasses
+<[ UserCodeRegion "AdditionalNamespaces" ]>
+' __LLBLGENPRO_USER_CODE_REGION_START AdditionalNamespaces
+' __LLBLGENPRO_USER_CODE_REGION_END
+<[ EndUserCodeRegion ]>
+Namespace <[RootNamespace]>.EntityClasses
+	''' <summary>
+	''' Entity base class which represents the base class for the entity '<[CurrentEntityName]>'<br/><br/>
+	''' <[Foreach CustomProperty Entity]>
+	''' <[CustomPropertyName]>: <[CustomPropertyValue]><br/><[NextForeach]>
+	''' </summary>
+	<Serializable()> _
+	Public <[If Not IsSubType]>MustInherit<[EndIf]> Class <[CurrentEntityName]>EntityBase
+		Inherits <[ If IsSubType ]><[ SuperTypeName ]>Entity<[ Else ]>EntityBase<[ EndIf ]><[ UserCodeRegion "AdditionalInterfaces" ]>
+		' __LLBLGENPRO_USER_CODE_REGION_START AdditionalInterfaces
+		' __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>	
+
+#Region "Class Member Declarations"
+<[Foreach RelatedEntity OneToMany CrLf]><[If Not MappedFieldRelationIsHidden]>		Private WithEvents _<[CaseCamel MappedFieldNameRelation]> As <[RootNamespace]>.CollectionClasses.<[RelatedEntityName]>Collection
+		Private _alwaysFetch<[MappedFieldNameRelation]>, _alreadyFetched<[MappedFieldNameRelation]> As Boolean<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity ManyToMany CrLf]><[If Not MappedFieldRelationIsHidden]>		Private WithEvents _<[CaseCamel MappedFieldNameRelation]> As <[RootNamespace]>.CollectionClasses.<[RelatedEntityName]>Collection
+		Private _alwaysFetch<[MappedFieldNameRelation]>, _alreadyFetched<[MappedFieldNameRelation]> As Boolean<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity ManyToOne CrLf]><[If Not MappedFieldRelationIsHidden]>		Private WithEvents _<[CaseCamel MappedFieldNameRelation]> As <[RelatedEntityName]>Entity
+		Private _alwaysFetch<[MappedFieldNameRelation]>, _alreadyFetched<[MappedFieldNameRelation]>, _<[CaseCamel MappedFieldNameRelation]>ReturnsNewIfNotFound As Boolean<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity OneToOne CrLf]><[If Not MappedFieldRelationIsHidden]>		Private WithEvents _<[CaseCamel MappedFieldNameRelation]> As <[RelatedEntityName]>Entity
+		Private _alwaysFetch<[MappedFieldNameRelation]>, _alreadyFetched<[MappedFieldNameRelation]>, _<[CaseCamel MappedFieldNameRelation]>ReturnsNewIfNotFound As Boolean<[EndIf]><[NextForeach]>
+		<[ UserCodeRegion "PrivateMembers" ]>
+		' __LLBLGENPRO_USER_CODE_REGION_START PrivateMembers
+		' __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>
+#End Region
+
+#Region "Shared Members"
+		Private Shared _customProperties As Hashtable
+		Private Shared _fieldsCustomProperties As Hashtable
+
+		''' <summary>All names of fields mapped onto a relation. Usable For In-memory filtering</summary>
+		Public <[If IsSubType]>Shadows <[EndIf]> Class MemberNames
+			Private Sub New()
+			End Sub
+<[Foreach RelatedEntity ManyToOne IncludeInherited CrLf]><[If Not MappedFieldRelationIsHidden]>			''' <summary>Member name <[MappedFieldNameRelation]></summary>
+			Public Shared ReadOnly [<[MappedFieldNameRelation]>] As String = "<[MappedFieldNameRelation]>"<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity OneToMany IncludeInherited CrLf]><[If Not MappedFieldRelationIsHidden]>			''' <summary>Member name <[MappedFieldNameRelation]></summary>
+			Public Shared ReadOnly [<[MappedFieldNameRelation]>] As String  = "<[MappedFieldNameRelation]>"<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity ManyToMany IncludeInherited CrLf]><[If Not MappedFieldRelationIsHidden]>			''' <summary>Member name <[MappedFieldNameRelation]></summary>
+			Public Shared ReadOnly [<[MappedFieldNameRelation]>] As String  = "<[MappedFieldNameRelation]>"<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity OneToOne IncludeInherited CrLf]><[If Not MappedFieldRelationIsHidden]>			''' <summary>Member name <[MappedFieldNameRelation]></summary>
+			Public Shared ReadOnly [<[MappedFieldNameRelation]>] As String  = "<[MappedFieldNameRelation]>"<[EndIf]><[NextForeach]>
+		End Class
+#End Region
+
+#Region "DataBinding Change Event Handler Declarations"
+<[Foreach EntityField CrLf]><[If Not EntityFieldOverrides]>		''' <summary>Event which is thrown when <[EntityFieldName]> changes value. Databinding related.</summary>
+		Public Event <[EntityFieldName]>Changed As EventHandler<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntityField CrLf]>		''' <summary>Event which Is thrown when the value of the related field Me.<[ MappedFieldNameRelation ]>.<[ RelatedEntityFieldName ]> changed. Databinding related.</summary>
+		Public Event <[MappedFieldNameRelatedField]>Changed As EventHandler<[NextForeach]>
+#End Region
+
+		''' <summary>Static CTor for setting up custom property hashtables. Is executed before the first instance of this entity class or derived classes is constructed. </summary>
+		Shared Sub New()
+			SetupCustomPropertyHashtables()
+		End Sub
+
+		''' <summary>CTor</summary>
+		<[If IsAbstract]>Friend<[Else]>Public<[EndIf]> Sub New()
+			MyBase.New()
+<[If Not IsSubType]>			InitClassEmpty(Nothing)<[EndIf]>
+		End Sub
+
+	<[If HasPrimaryKey IncludeInherited]>
+		''' <summary>CTor</summary>
+<[Foreach PrimaryKeyEntityField IncludeInherited CrLf]>		''' <param name="<[CaseCamel EntityFieldName]>">PK value for <[CurrentEntityName]> which data should be fetched into this <[CurrentEntityName]> Object</param><[NextForeach]>
+		<[If IsAbstract]>Friend<[Else]>Public<[EndIf]> Sub New(<[Foreach PrimaryKeyEntityField IncludeInherited Comma]><[CaseCamel EntityFieldName]> As <[TypeOfField]><[NextForeach]>)
+<[If IsSubType]>			MyBase.New(<[Foreach PrimaryKeyEntityField IncludeInherited Comma]><[CaseCamel EntityFieldName]><[NextForeach]>)<[Else]>
+			InitClassFetch(<[Foreach PrimaryKeyEntityField IncludeInherited Comma]><[CaseCamel EntityFieldName]><[NextForeach]>, Nothing, Nothing)<[EndIf]>
+		End Sub
+
+
+		''' <summary>CTor</summary>
+<[Foreach PrimaryKeyEntityField IncludeInherited CrLf]>		''' <param name="<[CaseCamel EntityFieldName]>">PK value for <[CurrentEntityName]> which data should be fetched into this <[CurrentEntityName]> Object</param><[NextForeach]>
+		''' <param name="prefetchPathToUse">the PrefetchPath which defines the graph of objects to fetch as well</param>
+		<[If IsAbstract]>Friend<[Else]>Public<[EndIf]> Sub New(<[Foreach PrimaryKeyEntityField IncludeInherited Comma]><[CaseCamel EntityFieldName]> As <[TypeOfField]><[NextForeach]>, prefetchPathToUse As IPrefetchPath)
+<[If IsSubType]>			MyBase.New(<[Foreach PrimaryKeyEntityField IncludeInherited Comma]><[CaseCamel EntityFieldName]><[NextForeach]>, prefetchPathToUse)<[Else]>
+			InitClassFetch(<[Foreach PrimaryKeyEntityField IncludeInherited Comma]><[CaseCamel EntityFieldName]><[NextForeach]>, Nothing, prefetchPathToUse)<[EndIf]>
+		End Sub
+
+
+		''' <summary>CTor</summary>
+<[Foreach PrimaryKeyEntityField IncludeInherited CrLf]>		''' <param name="<[CaseCamel EntityFieldName]>">PK value for <[CurrentEntityName]> which data should be fetched into this <[CurrentEntityName]> Object</param><[NextForeach]>
+		''' <param name="validator">The custom validator Object for this <[CurrentEntityName]>Entity</param>
+		<[If IsAbstract]>Friend<[Else]>Public<[EndIf]> Sub New(<[Foreach PrimaryKeyEntityField IncludeInherited Comma]><[CaseCamel EntityFieldName]> As <[TypeOfField]><[NextForeach]>, validator As IValidator)
+<[If IsSubType]>			MyBase.New(<[Foreach PrimaryKeyEntityField IncludeInherited Comma]><[CaseCamel EntityFieldName]><[NextForeach]>, validator)<[Else]>
+			InitClassFetch(<[Foreach PrimaryKeyEntityField IncludeInherited Comma]><[CaseCamel EntityFieldName]><[NextForeach]>, validator, Nothing)<[EndIf]>
+		End Sub
+	<[EndIf]>
+
+		''' <summary>Protected CTor for deserialization</summary>
+		''' <param name="info"></param>
+		''' <param name="context"></param>
+		Protected Sub New(info As SerializationInfo, context As StreamingContext)
+			MyBase.New(info, context)
+<[Foreach RelatedEntity OneToMany CrLf]><[If Not MappedFieldRelationIsHidden]>			_<[CaseCamel MappedFieldNameRelation]> = CType(info.GetValue("_<[CaseCamel MappedFieldNameRelation]>", GetType(<[RootNamespace]>.CollectionClasses.<[RelatedEntityName]>Collection)), <[RootNamespace]>.CollectionClasses.<[RelatedEntityName]>Collection)
+			_alwaysFetch<[MappedFieldNameRelation]> = info.GetBoolean("_alwaysFetch<[MappedFieldNameRelation]>")
+			_alreadyFetched<[MappedFieldNameRelation]> = info.GetBoolean("_alreadyFetched<[MappedFieldNameRelation]>")<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity ManyToMany CrLf]><[If Not MappedFieldRelationIsHidden]>			_<[CaseCamel MappedFieldNameRelation]> = CType(info.GetValue("_<[CaseCamel MappedFieldNameRelation]>", GetType(<[RootNamespace]>.CollectionClasses.<[RelatedEntityName]>Collection)), <[RootNamespace]>.CollectionClasses.<[RelatedEntityName]>Collection)
+			_alwaysFetch<[MappedFieldNameRelation]> = info.GetBoolean("_alwaysFetch<[MappedFieldNameRelation]>")
+			_alreadyFetched<[MappedFieldNameRelation]> = info.GetBoolean("_alreadyFetched<[MappedFieldNameRelation]>")<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity ManyToOne CrLf]><[If Not MappedFieldRelationIsHidden]>			_<[CaseCamel MappedFieldNameRelation]> = CType(info.GetValue("_<[CaseCamel MappedFieldNameRelation]>", GetType(<[RelatedEntityName]>Entity)), <[RelatedEntityName]>Entity)
+			If Not _<[CaseCamel MappedFieldNameRelation]> Is Nothing Then
+				AddHandler _<[CaseCamel MappedFieldNameRelation]>.AfterSave, AddressOf OnEntityAfterSave
+			End If
+			_<[CaseCamel MappedFieldNameRelation]>ReturnsNewIfNotFound = info.GetBoolean("_<[CaseCamel MappedFieldNameRelation]>ReturnsNewIfNotFound")
+			_alwaysFetch<[MappedFieldNameRelation]> = info.GetBoolean("_alwaysFetch<[MappedFieldNameRelation]>")
+			_alreadyFetched<[MappedFieldNameRelation]> = info.GetBoolean("_alreadyFetched<[MappedFieldNameRelation]>")<[EndIf]><[NextForeach]>
+<[Foreach RelatedEntity OneToOne CrLf]><[If Not MappedFieldRelationIsHidden]>			_<[CaseCamel MappedFieldNameRelation]> = CType(info.GetValue("_<[CaseCamel MappedFieldNameRelation]>", GetType(<[RelatedEntityName]>Entity)), <[RelatedEntityName]>Entity)
+			If Not _<[CaseCamel MappedFieldNameRelation]> Is Nothing Then
+				AddHandler _<[CaseCamel MappedFieldNameRelation]>.AfterSave, AddressOf OnEntityAfterSave
+			End If
+			_<[CaseCamel MappedFieldNameRelation]>ReturnsNewIfNotFound = info.GetBoolean("_<[CaseCamel MappedFieldNameRelation]>ReturnsNewIfNotFound")
+			_alwaysFetch<[MappedFieldNameRelation]> = info.GetBoolean("_alwaysFetch<[MappedFieldNameRelation]>")
+			_alreadyFetched<[MappedFieldNameRelation]> = info.GetBoolean("_alreadyFetched<[MappedFieldNameRelation]>")<[EndIf]><[NextForeach]>
+<[ If Not IsSubType]>			MyBase.FixupDeserialization(FieldInfoProviderSingleton.GetInstance(), PersistenceInfoProviderSingleton.GetInstance())<[Else]><[If Not IsSuperType]>			MyBase.FixupDeserialization(FieldInfoProviderSingleton.GetInstance(), PersistenceInfoProviderSingleton.GetInstance())<[EndIf]><[EndIf]>
+			<[ UserCodeRegion "DeserializationConstructor" ]>
+			' __LLBLGENPRO_USER_CODE_REGION_START DeserializationConstructor
+			' __LLBLGENPRO_USER_CODE_REGION_END
+			<[ EndUserCodeRegion ]>
+		End Sub
+
+<# SD_EntityIncludeTemplate #>
+
+#Region "Custom Entity Code"
+		<[ UserCodeRegion "CustomEntityCode" ]>
+		' __LLBLGENPRO_USER_CODE_REGION_START CustomEntityCode
+		' __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>
+#End Region
+
+#Region "Included Code"
+<# Custom_EntityBaseTemplate #>
+#End Region
+	End Class
+End Namespace

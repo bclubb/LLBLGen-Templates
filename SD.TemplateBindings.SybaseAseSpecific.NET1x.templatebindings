@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<templateBindings xmlns="http://sd/llblgen/pro/templateBindingsDefinition.xsd" name="SD.TemplateBindings.SybaseAseSpecific.NET1x"
+				  description ="Template bindings for the templates which are specific for Sybase ASE databases. For .NET 1.x based platforms"
+				  databaseDriverID="A3076322-977C-4e28-BFF4-F25ED096D1DB" precedenceLevel="10">
+	<supportedPlatforms>
+		<platform name=".NET 1.1"/>
+	</supportedPlatforms>
+
+	<language name="C#">
+		<!-- DB Specific template bindings -->
+		<templateBinding templateID="SD_ActionProceduresAdapterTemplate" filename="SybaseAseSpecific\Net1.x\C#\actionProceduresAdapter.template" />
+		<templateBinding templateID="SD_ActionProceduresTemplate" filename="SybaseAseSpecific\Net1.x\C#\actionProcedures.template" />
+		<templateBinding templateID="SD_DataAccessAdapterTemplate" filename="SybaseAseSpecific\Net1.x\C#\daaAdapter.template" />
+		<templateBinding templateID="SD_DbUtilsTemplate" filename="SybaseAseSpecific\Net1.x\C#\dbUtils.template" />
+		<templateBinding templateID="SD_DbUtilsComPlusTemplate" filename="SybaseAseSpecific\Net1.x\C#\dbUtilsComPlus.template" />
+		<templateBinding templateID="SD_PersistenceInfoProviderTemplate" filename="SybaseAseSpecific\Net1.x\C#\persistenceInfoProvider.template" />
+		<templateBinding templateID="SD_PersistenceInfoProviderAdapterTemplate" filename="SybaseAseSpecific\Net1.x\C#\persistenceInfoProviderAdapter.template" />
+		<templateBinding templateID="SD_RetrievalProceduresAdapterTemplate" filename="SybaseAseSpecific\Net1.x\C#\retrievalProceduresAdapter.template" />
+		<templateBinding templateID="SD_RetrievalProceduresTemplate" filename="SybaseAseSpecific\Net1.x\C#\retrievalProcedures.template" />
+		<templateBinding templateID="SD_VsNet2003Template" filename="SybaseAseSpecific\Net1.x\C#\vsnet2003ProjectFile.template" />
+		<templateBinding templateID="SD_VsNet2003DBSpecificAdapterTemplate" filename="SybaseAseSpecific\Net1.x\C#\vsnet2003DBSpecificProjectFileAdapter.template" />
+		<!-- DB Specific include template bindings -->
+		<templateBinding templateID="SD_DAOIncludeTemplate" filename="SybaseAseSpecific\Net1.x\C#\daoInclude.template" />
+	</language>
+	<language name="VB.NET">
+		<!-- DB Specific template bindings -->
+		<templateBinding templateID="SD_ActionProceduresAdapterTemplate" filename="SybaseAseSpecific\Net1.x\VB.NET\actionProceduresAdapter.template" />
+		<templateBinding templateID="SD_ActionProceduresTemplate" filename="SybaseAseSpecific\Net1.x\VB.NET\actionProcedures.template" />
+		<templateBinding templateID="SD_DataAccessAdapterTemplate" filename="SybaseAseSpecific\Net1.x\VB.NET\daaAdapter.template" />
+		<templateBinding templateID="SD_DbUtilsTemplate" filename="SybaseAseSpecific\Net1.x\VB.NET\dbUtils.template" />
+		<templateBinding templateID="SD_DbUtilsComPlusTemplate" filename="SybaseAseSpecific\Net1.x\VB.NET\dbUtilsComPlus.template" />
+		<templateBinding templateID="SD_PersistenceInfoProviderTemplate" filename="SybaseAseSpecific\Net1.x\VB.NET\persistenceInfoProvider.template" />
+		<templateBinding templateID="SD_PersistenceInfoProviderAdapterTemplate" filename="SybaseAseSpecific\Net1.x\VB.NET\persistenceInfoProviderAdapter.template" />
+		<templateBinding templateID="SD_RetrievalProceduresAdapterTemplate" filename="SybaseAseSpecific\Net1.x\VB.NET\retrievalProceduresAdapter.template" />
+		<templateBinding templateID="SD_RetrievalProceduresTemplate" filename="SybaseAseSpecific\Net1.x\VB.NET\retrievalProcedures.template" />
+		<templateBinding templateID="SD_VsNet2003Template" filename="SybaseAseSpecific\Net1.x\VB.NET\vsnet2003ProjectFile.template" />
+		<templateBinding templateID="SD_VsNet2003DBSpecificAdapterTemplate" filename="SybaseAseSpecific\Net1.x\VB.NET\vsnet2003DBSpecificProjectFileAdapter.template" />
+		<!-- DB Specific include template bindings -->
+		<templateBinding templateID="SD_DAOIncludeTemplate" filename="SybaseAseSpecific\Net1.x\VB.NET\daoInclude.template" />
+	</language>
+</templateBindings>

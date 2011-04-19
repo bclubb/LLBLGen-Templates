@@ -1,0 +1,100 @@
+﻿' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+' // This is generated code. 
+' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+' // Code is generated using LLBLGen Pro version: <[LLBLGenVersion]>
+' // Code is generated on: <[Time]>
+' // Code is generated using templates: <[TemplateName]>
+' // Templates vendor: Solutions Design.
+' // Templates version: <[TemplateVersion]>
+' ////////////////////////////////////////////////////////////////////////////////////////////////////////
+Imports System
+Imports System.ComponentModel
+Imports System.Collections
+Imports System.Runtime.Serialization
+Imports <[RootNamespace]>.FactoryClasses
+Imports <[RootNamespace]>.CollectionClasses
+Imports <[RootNamespace]>.DaoClasses
+Imports <[RootNamespace]>.RelationClasses
+<[Foreach AdditionalNamespaces CrLf]>Imports <[CurrentAdditionalNamespace]><[NextForeach]>
+Imports SD.LLBLGen.Pro.ORMSupportClasses
+<[ UserCodeRegion "AdditionalNamespaces" ]>
+' __LLBLGENPRO_USER_CODE_REGION_START AdditionalNamespaces
+' __LLBLGENPRO_USER_CODE_REGION_END
+<[ EndUserCodeRegion ]>
+Namespace <[RootNamespace]>.EntityClasses
+	''' <summary>
+	''' Entity class which represents the entity '<[CurrentEntityName]>' <br/>
+	''' This class is used for Business Logic or for framework extension code. 
+	''' </summary>
+	<Serializable()> _
+	Public Class <[CurrentEntityName]>Entity 
+		Inherits <[CurrentEntityName]>EntityBase
+<[Foreach AdditionalInterfaces CrLf]>		Implements <[CurrentAdditionalInterface]><[NextForeach]><[ UserCodeRegion "AdditionalInterfaces" ]>
+		' __LLBLGENPRO_USER_CODE_REGION_START AdditionalInterfaces
+		' __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>	
+
+#Region "Constructors"		
+		''' <summary>
+		''' CTor
+		''' </summary>
+		Public Sub New
+			MyBase.New()
+		End Sub
+
+	<[If HasPrimaryKey IncludeInherited]>
+		''' <summary>
+		''' CTor
+		''' </summary>
+<[Foreach PrimaryKeyEntityField IncludeInherited CrLf]>		''' <param name="<[CaseCamel EntityFieldName]>">PK value for <[CurrentEntityName]> which data should be fetched into this <[CurrentEntityName]> Object</param><[NextForeach]>
+		Public Sub New(<[Foreach PrimaryKeyEntityField IncludeInherited Comma]><[CaseCamel EntityFieldName]> As <[TypeOfField]><[NextForeach]>)
+			MyBase.New(<[Foreach PrimaryKeyEntityField IncludeInherited Comma]><[CaseCamel EntityFieldName]><[NextForeach]>)
+		End Sub
+
+
+		''' <summary>
+		''' CTor
+		''' </summary>
+<[Foreach PrimaryKeyEntityField IncludeInherited CrLf]>		''' <param name="<[CaseCamel EntityFieldName]>">PK value for <[CurrentEntityName]> which data should be fetched into this <[CurrentEntityName]> Object</param><[NextForeach]>
+		''' <param name="prefetchPathToUse">the PrefetchPath which defines the graph of objects to fetch as well</param>
+		Public Sub New(<[Foreach PrimaryKeyEntityField IncludeInherited Comma]><[CaseCamel EntityFieldName]> As <[TypeOfField]><[NextForeach]>, prefetchPathToUse As IPrefetchPath)
+			MyBase.New(<[Foreach PrimaryKeyEntityField IncludeInherited Comma]><[CaseCamel EntityFieldName]><[NextForeach]>, prefetchPathToUse)
+		End Sub
+
+
+		''' <summary>
+		''' CTor
+		''' </summary>
+<[Foreach PrimaryKeyEntityField IncludeInherited CrLf]>		''' <param name="<[CaseCamel EntityFieldName]>">PK value for <[CurrentEntityName]> which data should be fetched into this <[CurrentEntityName]> Object</param><[NextForeach]>
+		''' <param name="validator">The custom validator Object for this <[CurrentEntityName]>Entity</param>
+		Public Sub New(<[Foreach PrimaryKeyEntityField IncludeInherited Comma]><[CaseCamel EntityFieldName]> As <[TypeOfField]><[NextForeach]>, validator As IValidator)
+			MyBase.New(<[Foreach PrimaryKeyEntityField IncludeInherited Comma]><[CaseCamel EntityFieldName]><[NextForeach]>, validator)
+		End Sub
+	<[EndIf]>
+		
+		''' <summary>
+		''' Private CTor for deserialization
+		''' </summary>
+		''' <param name="info"></param>
+		''' <param name="context"></param>
+		Protected Sub New(info As SerializationInfo, context As StreamingContext)
+			MyBase.New(info, context)
+			<[ UserCodeRegion "DeserializationConstructor" ]>
+			' __LLBLGENPRO_USER_CODE_REGION_START DeserializationConstructor
+			' __LLBLGENPRO_USER_CODE_REGION_END
+			<[ EndUserCodeRegion ]>			
+		End Sub
+#End Region
+
+#Region "Custom Entity Code"
+		<[ UserCodeRegion "CustomEntityCode" ]>
+		' __LLBLGENPRO_USER_CODE_REGION_START CustomEntityCode
+		' __LLBLGENPRO_USER_CODE_REGION_END
+		<[ EndUserCodeRegion ]>
+#End Region
+
+#Region "Included Code"
+<# Custom_EntityUsingEntityBaseTemplate #>
+#End Region
+	End Class
+End Namespace
